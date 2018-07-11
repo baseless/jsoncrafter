@@ -1,4 +1,5 @@
 ﻿using System;
+using JsonCrafter.Reflection;
 using JsonCrafter.Rules;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -8,10 +9,12 @@ namespace JsonCrafter.Conversion.Hal
     public class HalJsonConverter : JsonConverter, IConverter<HalJsonConverter>
     {
         private readonly IJsonRuleSet _ruleSet;
+        private readonly IJsonCrafterReflectionService _reflectionService;
 
         public HalJsonConverter(IJsonRuleSet ruleSet)
         {
             _ruleSet = ruleSet ?? throw new ArgumentNullException(nameof(ruleSet));
+            _reflectionService = new JsonCrafterReflectionService();
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -29,6 +32,8 @@ namespace JsonCrafter.Conversion.Hal
             {
                 token.WriteTo(writer);
             }
+
+            var c = _reflectionService.GetChildren(objectType);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

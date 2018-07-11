@@ -41,5 +41,12 @@ namespace JsonCrafter.Demo.Api.Controllers
         public DateTime CurrentTime { get; set; } = DateTime.Now;
 
         public ICollection<Test> TestTests { get; set; } = new List<Test>();
+
+        public Baba BMyBaba = new Baba();
+    }
+
+    public class Baba
+    {
+        public string BabaProperty { get; set; } = "BABA!!";
     }
 }
