@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\global.props" />
+  <PropertyGroup>
+    <Title>JsonCrafter - .NET Core Json HyperMedia processor library</Title>
+    <TargetFramework>$(PackageFramework)</TargetFramework>
+    <PackageId>JsonCrafter</PackageId>
+    <Version>1.0.0-alpha1</Version>
+    <Authors>Daniel Ryhle</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/baseless/jsoncrafter</PackageProjectUrl>
+    <Copyright>Copyright @$([System.DateTime]::Now.ToString(yyyy)) Daniel Ryhle</Copyright>
+    <PackageTags>Json Hypermedia API</PackageTags>
+    <Description>A .NET Core library for building Json HyperMedia output based on established standards like JsonAPI and Hal.</Description>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(AspNetCoreVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MediaTypes\JsonApi\" />
+  </ItemGroup>
+
+</Project>
