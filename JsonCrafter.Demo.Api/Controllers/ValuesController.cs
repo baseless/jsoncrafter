@@ -12,8 +12,10 @@ namespace JsonCrafter.Demo.Api.Controllers
         [HttpGet]
         public ActionResult<dynamic> Get()
         {
-            return new {Apa = "a"};
-            //return new Test();
+            //return new {Apa = "a"};
+            var t = new Test();
+            t.TestTests.Add(new Test());
+            return t;
             //return new string[] { "value1", "value2" };
         }
     }
@@ -23,5 +25,7 @@ namespace JsonCrafter.Demo.Api.Controllers
         public int Id { get; set; } = 1;
         public string Name { get; set; } = "MyName";
         public DateTime CurrentTime { get; set; } = DateTime.Now;
+
+        public ICollection<Test> TestTests { get; set; } = new List<Test>();
     }
 }

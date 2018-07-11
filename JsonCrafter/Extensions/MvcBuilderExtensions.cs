@@ -1,6 +1,7 @@
 ﻿using System;
-using JsonCrafter.Interfaces;
-using JsonCrafter.MediaTypes.Hal;
+using JsonCrafter.Conversion;
+using JsonCrafter.Conversion.Hal;
+using JsonCrafter.Rules;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -10,41 +11,36 @@ namespace JsonCrafter.Extensions
 {
     public static class MvcBuilderExtensions
     {
-        public static IMvcBuilder AddHyperMediaSerializationFormatters<TConfiguration>(this IMvcBuilder builder, JsonFormatterOptions options = null) where TConfiguration: class, IFormatterConfiguration
+        public static IMvcBuilder AddHyperMediaSerializationFormatters(this IMvcBuilder builder, IFormatterConfiguration configuration)
         {
-            if (builder == null)
+            if (builder == default(IMvcBuilder))
             {
                 throw new ArgumentNullException(nameof(builder));
             }
 
+            if (configuration == default(IFormatterConfiguration))
+            {
+                throw new ArgumentNullException(nameof(IFormatterConfiguration));
+            }
+             
             var services = builder.Services;
+            var ruleBuilder = new JsonRuleBuilder();
+            configuration.Configure(ruleBuilder);
 
-            services.TryAddEnumerable(ServiceDescriptor.Singleton<IFormatterConfiguration, TConfiguration>()); // Adds the global formatter-configuration.
-
-            options = options ?? new JsonFormatterOptions();
-
-            if (options.EnableHalSerialization)
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IJsonRuleSet>(ruleBuilder.Build())); // Adds the global rulesets.
+            
+            if (configuration.SupportedMediaTypes.Contains(JsonCrafterConstants.Hal.MediaTypeHeaderValue))
             {
                 services.AddHalFormatterServices();
             }
-
-            if (options.EnableJsonApiSerialization)
-            {
-                services.AddJsonApiFormatterServices();
-            }
-
+            
             return builder;
         }
 
         internal static void AddHalFormatterServices(this IServiceCollection services)
         {
-            services.TryAddEnumerable(ServiceDescriptor.Singleton<Interfaces.IFormatterParser<HalOutputFormatter>, HalParser>());
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IConverter<HalJsonConverter>, HalJsonConverter>());
             services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, HalOptionsSetup>());
-        }
-
-        internal static void AddJsonApiFormatterServices(this IServiceCollection services)
-        {
-            throw new NotImplementedException();
         }
     }
 }

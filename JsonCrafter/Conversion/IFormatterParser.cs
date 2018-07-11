@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using JsonCrafter.DTO;
+using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter.Interfaces
+namespace JsonCrafter.Conversion
 {
     public interface IFormatterParser<TFormatter>
     {

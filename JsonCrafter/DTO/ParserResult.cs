@@ -1,4 +1,4 @@
-﻿namespace JsonCrafter
+﻿namespace JsonCrafter.DTO
 {
     public class ParserResult
     {

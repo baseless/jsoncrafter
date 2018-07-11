@@ -25,10 +25,7 @@ namespace JsonCrafter.Demo.Api
                     o.ReturnHttpNotAcceptable = true;
                     o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 })
-                .AddHyperMediaSerializationFormatters<JsonFormatterConfiguration>(new JsonFormatterOptions // Bootstraps JsonCrafter output serialization
-                    {
-                        EnableHalSerialization = true // Enables 'application/hal+json' content-type support
-                    })
+                .AddHyperMediaSerializationFormatters(new JsonConfiguration())
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
         

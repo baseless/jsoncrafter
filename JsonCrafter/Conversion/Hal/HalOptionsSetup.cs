@@ -1,20 +1,21 @@
 ﻿using System;
-using JsonCrafter.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
 
-namespace JsonCrafter.MediaTypes.Hal
+namespace JsonCrafter.Conversion.Hal
 {
     public class HalOptionsSetup : IConfigureOptions<MvcOptions>
     {
         private readonly ILoggerFactory _loggerFactory;
-        private readonly IFormatterParser<HalOutputFormatter> _halParser;
+        private readonly JsonConverter _converter;
 
-        public HalOptionsSetup(ILoggerFactory loggerFactory, IFormatterParser<HalOutputFormatter> halParser)
+        public HalOptionsSetup(ILoggerFactory loggerFactory, IConverter<HalJsonConverter> converter)
         {
             _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
-            _halParser = halParser ?? throw new ArgumentNullException(nameof(halParser));
+            _converter = converter as JsonConverter ?? throw new ArgumentNullException(nameof(converter));
         }
 
         public void Configure(MvcOptions options)
@@ -25,7 +26,7 @@ namespace JsonCrafter.MediaTypes.Hal
                     JsonCrafterConstants.Hal.MediaTypeHeaderValue);
             }
             
-            options.OutputFormatters.Add(new HalOutputFormatter(_loggerFactory, _halParser));
+            options.OutputFormatters.Add(new JsonCrafterOutputFormatter(_loggerFactory, _converter, MediaTypeHeaderValue.Parse(JsonCrafterConstants.Hal.MediaTypeHeaderValue)));
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using JsonCrafter.Interfaces;
+using JsonCrafter.DTO;
 using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter
+namespace JsonCrafter.Conversion
 {
     public abstract class FormatterParserBase<TOutputFormatter> : IFormatterParser<TOutputFormatter>
     {
