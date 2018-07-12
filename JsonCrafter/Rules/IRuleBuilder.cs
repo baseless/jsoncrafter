@@ -5,7 +5,7 @@ namespace JsonCrafter.Rules
 {
     public interface IRuleBuilder
     {
-        IRuleCollection Build();
+        IAppendixCollection Build();
         IRuleSetTemplate<T> For<T>() where T : class, new();
     }
 }

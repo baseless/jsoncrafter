@@ -11,12 +11,10 @@ namespace JsonCrafter.Conversion
 {
     public class HyperMediaOutputFormatter : TextOutputFormatter
     {
-        private readonly ILoggerFactory _loggerFactory;
         private readonly JsonConverter _converter;
 
-        public HyperMediaOutputFormatter(ILoggerFactory loggerFactory, JsonConverter converter, MediaTypeHeaderValue headerValue)
+        public HyperMediaOutputFormatter(JsonConverter converter, MediaTypeHeaderValue headerValue)
         {
-            _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
             _converter = converter ?? throw new ArgumentNullException(nameof(converter));
 
             SupportedEncodings.Add(Encoding.UTF8);
@@ -26,7 +24,7 @@ namespace JsonCrafter.Conversion
 
         public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
-            var result = JsonConvert.SerializeObject(context.Object, Newtonsoft.Json.Formatting.None, _converter);
+            var result = JsonConvert.SerializeObject(context.Object, Formatting.None, _converter);
             return context.HttpContext.Response.WriteAsync(result);
         }
     }

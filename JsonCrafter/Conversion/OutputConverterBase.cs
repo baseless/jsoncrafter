@@ -1,25 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using JsonCrafter.Conversion.Hal;
 using JsonCrafter.Reflection;
-using JsonCrafter.Rules;
 using JsonCrafter.Rules.Parsed;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Conversion
 {
-    public abstract class OutputConverterBase : JsonConverter, IConverter<HalOutputConverter>
+    public abstract class OutputConverterBase<TConverter> : JsonConverter, IConverter<TConverter> where TConverter : JsonConverter
     {
-        protected readonly IRuleCollection Rules;
+        protected readonly IAppendixCollection AppendixCollection;
         protected readonly IJsonCrafterReflectionService ReflectionService;
+        private readonly ILogger<TConverter> _logger;
 
-        protected OutputConverterBase(IRuleCollection ruleSet)
+        protected OutputConverterBase(IAppendixCollection collection, ILogger<TConverter> logger)  // https://github.com/aspnet/Logging/issues/493
         {
-            Rules = ruleSet ?? throw new ArgumentNullException(nameof(ruleSet));
+            AppendixCollection = collection ?? throw new ArgumentNullException(nameof(collection));
             ReflectionService = new JsonCrafterReflectionService();
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) =>
@@ -36,8 +35,9 @@ namespace JsonCrafter.Conversion
             var objectType = value.GetType();
             
             var token = JToken.FromObject(value);
+            _logger.LogDebug("Processing json {type} response..", token.Type);
 
-            if(token.Type.Equals(JTokenType.Object) && token is JObject obj)
+            if (token.Type.Equals(JTokenType.Object) && token is JObject obj)
             {
                 FormatObject(objectType, obj, serializer);
             }
@@ -47,6 +47,10 @@ namespace JsonCrafter.Conversion
                 {
                     FormatObject(objectType, o, serializer);
                 }
+            }
+            else
+            {
+                _logger.LogWarning("Response was not recognozed as array or object, writing as pure json instead..");
             }
 
             token.WriteTo(writer);

@@ -28,7 +28,7 @@ namespace JsonCrafter.Extensions
             var ruleBuilder = new RuleBuilder();
             configuration.Configure(ruleBuilder);
 
-            services.TryAddEnumerable(ServiceDescriptor.Singleton<IRuleCollection>(ruleBuilder.Build())); // Adds the global rulesets.
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IAppendixCollection>(ruleBuilder.Build())); // Adds the global rulesets.
             
             if (configuration.SupportedMediaTypes.Contains(JsonCrafterConstants.Hal.MediaTypeHeaderValue))
             {

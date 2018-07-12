@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -9,12 +8,10 @@ namespace JsonCrafter.Conversion.Hal
 {
     public class HalOptionsSetup : IConfigureOptions<MvcOptions>
     {
-        private readonly ILoggerFactory _loggerFactory;
         private readonly JsonConverter _converter;
 
-        public HalOptionsSetup(ILoggerFactory loggerFactory, IConverter<HalOutputConverter> converter)
+        public HalOptionsSetup(IConverter<HalOutputConverter> converter)
         {
-            _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
             _converter = converter as JsonConverter ?? throw new ArgumentNullException(nameof(converter));
         }
 
@@ -26,7 +23,7 @@ namespace JsonCrafter.Conversion.Hal
                     JsonCrafterConstants.Hal.MediaTypeHeaderValue);
             }
             
-            options.OutputFormatters.Add(new HyperMediaOutputFormatter(_loggerFactory, _converter, MediaTypeHeaderValue.Parse(JsonCrafterConstants.Hal.MediaTypeHeaderValue)));
+            options.OutputFormatters.Add(new HyperMediaOutputFormatter(_converter, MediaTypeHeaderValue.Parse(JsonCrafterConstants.Hal.MediaTypeHeaderValue)));
         }
     }
 }

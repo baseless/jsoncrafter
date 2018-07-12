@@ -14,9 +14,9 @@ namespace JsonCrafter.Rules
             _rules = new Dictionary<Type, IRuleSetTemplate>();
         }
 
-        public IRuleCollection Build()
+        public IAppendixCollection Build()
         {
-            return new RuleCollection();
+            return new AppendixCollection();
         }
 
         public IRuleSetTemplate<T> For<T>() where T : class, new()
