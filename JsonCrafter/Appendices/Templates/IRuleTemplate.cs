@@ -1,4 +1,4 @@
-﻿namespace JsonCrafter.Templates
+﻿namespace JsonCrafter.Appendices.Templates
 {
     public interface IRuleTemplate
     {

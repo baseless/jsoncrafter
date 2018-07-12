@@ -1,4 +1,4 @@
-﻿using JsonCrafter.Templates;
+﻿using JsonCrafter.Appendices.Templates;
 
 namespace JsonCrafter.Appendices
 {

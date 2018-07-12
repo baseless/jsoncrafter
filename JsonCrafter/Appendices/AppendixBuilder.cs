@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using JsonCrafter.Templates;
+using JsonCrafter.Appendices.Templates;
 
 namespace JsonCrafter.Appendices
 {

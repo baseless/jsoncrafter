@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace JsonCrafter.Templates
+namespace JsonCrafter.Appendices.Templates
 {
     public sealed class RuleSetTemplate<T> : IRuleSetTemplate<T> where T: class, new()
     {

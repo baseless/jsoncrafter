@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace JsonCrafter.Templates
+namespace JsonCrafter.Appendices.Templates
 {
     public interface IRuleSetTemplate
     {
