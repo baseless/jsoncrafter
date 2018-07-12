@@ -1,7 +1,7 @@
 ﻿using System;
 using JsonCrafter.Appendices;
-using JsonCrafter.Conversion;
-using JsonCrafter.Conversion.Hal;
+using JsonCrafter.Formatting;
+using JsonCrafter.Formatting.Hal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 

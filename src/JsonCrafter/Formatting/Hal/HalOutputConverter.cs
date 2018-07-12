@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter.Conversion.Hal
+namespace JsonCrafter.Formatting.Hal
 {
     public class HalOutputConverter : OutputConverterBase<HalOutputConverter>
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using JsonCrafter.Appendices;
-using JsonCrafter.Conversion;
+using JsonCrafter.Formatting;
 
 namespace JsonCrafter
 {

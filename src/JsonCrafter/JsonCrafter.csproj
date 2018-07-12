@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Conversion\JsonApi\" />
+    <Folder Include="Formatting\JsonApi\" />
   </ItemGroup>
 
 </Project>

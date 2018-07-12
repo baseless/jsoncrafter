@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter.Conversion
+namespace JsonCrafter.Formatting
 {
     public abstract class OutputConverterBase<TConverter> : JsonConverter, IConverter<TConverter> where TConverter : JsonConverter
     {

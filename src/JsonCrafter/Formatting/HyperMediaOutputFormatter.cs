@@ -3,11 +3,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 
-namespace JsonCrafter.Conversion
+namespace JsonCrafter.Formatting
 {
     public class HyperMediaOutputFormatter : TextOutputFormatter
     {
@@ -24,7 +23,7 @@ namespace JsonCrafter.Conversion
 
         public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
-            var result = JsonConvert.SerializeObject(context.Object, Formatting.None, _converter);
+            var result = JsonConvert.SerializeObject(context.Object, Newtonsoft.Json.Formatting.None, _converter);
             return context.HttpContext.Response.WriteAsync(result);
         }
     }

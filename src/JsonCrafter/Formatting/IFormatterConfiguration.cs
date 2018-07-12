@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using JsonCrafter.Appendices;
 
-namespace JsonCrafter.Conversion
+namespace JsonCrafter.Formatting
 {
     public interface IFormatterConfiguration
     {
