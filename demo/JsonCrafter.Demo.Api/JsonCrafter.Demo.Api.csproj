@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-  <Import Project="..\global.props" />
+  <Import Project="..\..\build\global.props" />
   <PropertyGroup>
     <TargetFramework>$(PackageFramework)</TargetFramework>
   </PropertyGroup>
@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JsonCrafter\JsonCrafter.csproj" />
+    <ProjectReference Include="..\..\src\JsonCrafter\JsonCrafter.csproj" />
   </ItemGroup>
 
 </Project>

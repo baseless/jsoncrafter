@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\global.props" />
+  <Import Project="..\..\build\global.props" />
   <PropertyGroup>
     <Title>JsonCrafter - .NET Core Json HyperMedia processor library</Title>
     <TargetFramework>$(PackageFramework)</TargetFramework>
