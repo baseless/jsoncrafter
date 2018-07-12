@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace JsonCrafter.Rules.Templates
+namespace JsonCrafter.Templates
 {
-    public class RuleSetTemplate<T> : IRuleSetTemplate<T> where T: class, new()
+    public sealed class RuleSetTemplate<T> : IRuleSetTemplate<T> where T: class, new()
     {
         private readonly ICollection<JsonResource> _resources;
 

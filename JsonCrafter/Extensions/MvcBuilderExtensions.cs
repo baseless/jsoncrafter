@@ -1,8 +1,7 @@
 ﻿using System;
+using JsonCrafter.Appendices;
 using JsonCrafter.Conversion;
 using JsonCrafter.Conversion.Hal;
-using JsonCrafter.Rules;
-using JsonCrafter.Rules.Parsed;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -25,7 +24,7 @@ namespace JsonCrafter.Extensions
             }
              
             var services = builder.Services;
-            var ruleBuilder = new RuleBuilder();
+            var ruleBuilder = new AppendixBuilder();
             configuration.Configure(ruleBuilder);
 
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IAppendixCollection>(ruleBuilder.Build())); // Adds the global rulesets.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace JsonCrafter.Rules.Templates
+namespace JsonCrafter.Templates
 {
     public interface IRuleSetTemplate
     {

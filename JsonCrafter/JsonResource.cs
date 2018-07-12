@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace JsonCrafter.Rules
+namespace JsonCrafter
 {
     public enum JsonResourceType
     {
@@ -9,7 +9,7 @@ namespace JsonCrafter.Rules
         Link
     }
 
-    public class JsonResource
+    public sealed class JsonResource
     {
         public JsonResourceType Type { get; set; }
         public string Key { get; set; }

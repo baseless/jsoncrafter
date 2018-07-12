@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using JsonCrafter.Rules.Parsed;
-using JsonCrafter.Rules.Templates;
+using JsonCrafter.Templates;
 
-namespace JsonCrafter.Rules
+namespace JsonCrafter.Appendices
 {
-    public class RuleBuilder : IRuleBuilder
+    public sealed class AppendixBuilder : IAppendixBuilder
     {
         private readonly IDictionary<Type, IRuleSetTemplate> _rules;
 
-        public RuleBuilder()
+        public AppendixBuilder()
         {
             _rules = new Dictionary<Type, IRuleSetTemplate>();
         }

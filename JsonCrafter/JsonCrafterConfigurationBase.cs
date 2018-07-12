@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using JsonCrafter.Appendices;
 using JsonCrafter.Conversion;
-using JsonCrafter.Rules;
 
 namespace JsonCrafter
 {
@@ -14,6 +14,6 @@ namespace JsonCrafter
             SupportedMediaTypes = supportedMediaTypes?.ToImmutableArray() ?? new ImmutableArray<string> { JsonCrafterConstants.Hal.MediaTypeHeaderValue }; // Defaults to HAL
         }
 
-        public abstract void Configure(IRuleBuilder builder);
+        public abstract void Configure(IAppendixBuilder builder);
     }
 }

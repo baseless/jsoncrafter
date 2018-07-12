@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
+using JsonCrafter.Appendices;
 using JsonCrafter.Reflection;
-using JsonCrafter.Rules.Parsed;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

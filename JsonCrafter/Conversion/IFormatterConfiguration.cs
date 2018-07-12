@@ -1,5 +1,5 @@
 ﻿using System.Collections.Immutable;
-using JsonCrafter.Rules;
+using JsonCrafter.Appendices;
 
 namespace JsonCrafter.Conversion
 {
@@ -7,6 +7,6 @@ namespace JsonCrafter.Conversion
     {
         ImmutableArray<string> SupportedMediaTypes { get; }
 
-        void Configure(IRuleBuilder builder);
+        void Configure(IAppendixBuilder builder);
     }
 }

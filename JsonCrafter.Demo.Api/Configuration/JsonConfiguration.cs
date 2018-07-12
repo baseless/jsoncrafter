@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using JsonCrafter.Appendices;
 using JsonCrafter.Demo.Api.Model;
-using JsonCrafter.Rules;
 
 namespace JsonCrafter.Demo.Api.Configuration
 {
@@ -12,7 +12,7 @@ namespace JsonCrafter.Demo.Api.Configuration
             
         }
 
-        public override void Configure(IRuleBuilder builder)
+        public override void Configure(IAppendixBuilder builder)
         {
             builder.For<User>().LinkToSelf("http://users/{0}", o => o.Id.ToString());
         }
