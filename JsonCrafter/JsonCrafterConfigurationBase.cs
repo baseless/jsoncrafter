@@ -14,6 +14,6 @@ namespace JsonCrafter
             SupportedMediaTypes = supportedMediaTypes?.ToImmutableArray() ?? new ImmutableArray<string> { JsonCrafterConstants.Hal.MediaTypeHeaderValue }; // Defaults to HAL
         }
 
-        public abstract void Configure(IJsonRuleBuilder builder);
+        public abstract void Configure(IRuleBuilder builder);
     }
 }

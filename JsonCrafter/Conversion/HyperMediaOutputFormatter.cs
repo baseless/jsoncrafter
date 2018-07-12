@@ -9,12 +9,12 @@ using Newtonsoft.Json;
 
 namespace JsonCrafter.Conversion
 {
-    public class JsonCrafterOutputFormatter : TextOutputFormatter
+    public class HyperMediaOutputFormatter : TextOutputFormatter
     {
         private readonly ILoggerFactory _loggerFactory;
         private readonly JsonConverter _converter;
 
-        public JsonCrafterOutputFormatter(ILoggerFactory loggerFactory, JsonConverter converter, MediaTypeHeaderValue headerValue)
+        public HyperMediaOutputFormatter(ILoggerFactory loggerFactory, JsonConverter converter, MediaTypeHeaderValue headerValue)
         {
             _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
             _converter = converter ?? throw new ArgumentNullException(nameof(converter));

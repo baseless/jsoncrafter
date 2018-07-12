@@ -12,7 +12,7 @@ namespace JsonCrafter.Demo.Api.Configuration
             
         }
 
-        public override void Configure(IJsonRuleBuilder builder)
+        public override void Configure(IRuleBuilder builder)
         {
             builder.For<User>().LinkToSelf("http://users/{0}", o => o.Id.ToString());
         }

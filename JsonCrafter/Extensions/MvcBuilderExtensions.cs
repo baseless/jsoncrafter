@@ -2,6 +2,7 @@
 using JsonCrafter.Conversion;
 using JsonCrafter.Conversion.Hal;
 using JsonCrafter.Rules;
+using JsonCrafter.Rules.Parsed;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -24,10 +25,10 @@ namespace JsonCrafter.Extensions
             }
              
             var services = builder.Services;
-            var ruleBuilder = new JsonRuleBuilder();
+            var ruleBuilder = new RuleBuilder();
             configuration.Configure(ruleBuilder);
 
-            services.TryAddEnumerable(ServiceDescriptor.Singleton<IJsonRuleSet>(ruleBuilder.Build())); // Adds the global rulesets.
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IRuleCollection>(ruleBuilder.Build())); // Adds the global rulesets.
             
             if (configuration.SupportedMediaTypes.Contains(JsonCrafterConstants.Hal.MediaTypeHeaderValue))
             {
@@ -39,7 +40,7 @@ namespace JsonCrafter.Extensions
 
         internal static void AddHalFormatterServices(this IServiceCollection services)
         {
-            services.TryAddEnumerable(ServiceDescriptor.Singleton<IConverter<HalJsonConverter>, HalJsonConverter>());
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IConverter<HalOutputConverter>, HalOutputConverter>());
             services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, HalOptionsSetup>());
         }
     }

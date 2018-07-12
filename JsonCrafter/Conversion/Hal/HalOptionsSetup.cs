@@ -12,7 +12,7 @@ namespace JsonCrafter.Conversion.Hal
         private readonly ILoggerFactory _loggerFactory;
         private readonly JsonConverter _converter;
 
-        public HalOptionsSetup(ILoggerFactory loggerFactory, IConverter<HalJsonConverter> converter)
+        public HalOptionsSetup(ILoggerFactory loggerFactory, IConverter<HalOutputConverter> converter)
         {
             _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
             _converter = converter as JsonConverter ?? throw new ArgumentNullException(nameof(converter));
@@ -26,7 +26,7 @@ namespace JsonCrafter.Conversion.Hal
                     JsonCrafterConstants.Hal.MediaTypeHeaderValue);
             }
             
-            options.OutputFormatters.Add(new JsonCrafterOutputFormatter(_loggerFactory, _converter, MediaTypeHeaderValue.Parse(JsonCrafterConstants.Hal.MediaTypeHeaderValue)));
+            options.OutputFormatters.Add(new HyperMediaOutputFormatter(_loggerFactory, _converter, MediaTypeHeaderValue.Parse(JsonCrafterConstants.Hal.MediaTypeHeaderValue)));
         }
     }
 }

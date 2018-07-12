@@ -7,6 +7,6 @@ namespace JsonCrafter.Conversion
     {
         ImmutableArray<string> SupportedMediaTypes { get; }
 
-        void Configure(IJsonRuleBuilder builder);
+        void Configure(IRuleBuilder builder);
     }
 }

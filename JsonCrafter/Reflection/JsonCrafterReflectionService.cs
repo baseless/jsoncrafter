@@ -21,8 +21,7 @@ namespace JsonCrafter.Reflection
                 .SelectMany(i => Assembly.GetExecutingAssembly().GetTypes()
                     .Where(t => t.IsClass && type.IsAssignableFrom(t) && t != type)
                     .Select(t => t.Name));
-            var all = string.Join(",", children.ToArray());
-
+            
             return null;
         }
     }
