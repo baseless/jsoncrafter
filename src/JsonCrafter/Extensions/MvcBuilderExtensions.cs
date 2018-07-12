@@ -2,10 +2,8 @@
 using JsonCrafter.Appendices;
 using JsonCrafter.Conversion;
 using JsonCrafter.Conversion.Hal;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 
 namespace JsonCrafter.Extensions
 {
@@ -35,12 +33,6 @@ namespace JsonCrafter.Extensions
             }
             
             return builder;
-        }
-
-        internal static void AddHalFormatterServices(this IServiceCollection services)
-        {
-            services.TryAddEnumerable(ServiceDescriptor.Singleton<IConverter<HalOutputConverter>, HalOutputConverter>());
-            services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, HalOptionsSetup>());
         }
     }
 }
