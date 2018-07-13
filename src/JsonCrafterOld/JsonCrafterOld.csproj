@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <Import Project="..\..\build\global.props" />
-
   <PropertyGroup>
     <Title>JsonCrafter - .NET Core Json HyperMedia processor library</Title>
     <TargetFramework>$(PackageFramework)</TargetFramework>
@@ -19,11 +17,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(AspNetCoreVersion)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\JsonCrafter.Conversion\JsonCrafter.Conversion.csproj" />
-    <ProjectReference Include="..\JsonCrafter.Core\JsonCrafter.Core.csproj" />
   </ItemGroup>
 
 </Project>

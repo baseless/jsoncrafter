@@ -25,7 +25,7 @@ namespace JsonCrafter.Demo.Api
                     o.ReturnHttpNotAcceptable = true;
                     o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 })
-                .AddHyperMediaSerializationFormatters(new JsonConfiguration())
+                .AddJsonCrafterFormatters(new HyperMediaConfiguration())
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
         

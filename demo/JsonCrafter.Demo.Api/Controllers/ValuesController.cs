@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JsonCrafter.Demo.Api.Controllers
@@ -12,12 +13,12 @@ namespace JsonCrafter.Demo.Api.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<dynamic> Get()
+        public ActionResult<Test[]> Get()
         {
             //return new {Apa = "a"};
             //var t = new Test();
             //t.TestTests.Add(new Test());
-            return TestObj;
+            return TestObj.TestTests.ToArray();
             //return new string[] { "value1", "value2" };
         }
 
@@ -25,7 +26,7 @@ namespace JsonCrafter.Demo.Api.Controllers
         {
             var t = new Test();
 
-            for (int i = 0; i < 2000; i++)
+            for (int i = 0; i < 200; i++)
             {
                 t.TestTests.Add(new Test { Name = "ChildTest" + i });
             }
