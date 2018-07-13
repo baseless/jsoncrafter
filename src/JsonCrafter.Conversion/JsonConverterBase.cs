@@ -1,18 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using JsonCrafter.Core.Handlers;
-using Microsoft.CodeAnalysis;
+using JsonCrafter.Conversion.Shared;
+using JsonCrafter.Core;
+using JsonCrafter.Core.Contracts;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Conversion
 {
     public abstract class JsonConverterBase : IJsonConverter
     {
-        protected readonly ITypeHandler TypeHandler;
+        protected readonly ITokenConverter TokenConverter;
+        protected readonly IContractResolver Resolver;
 
-        protected JsonConverterBase(ITypeHandler typeHandler)
+        protected JsonConverterBase(ITokenConverter tokenConverter, IContractResolver resolver)
         {
-            TypeHandler = typeHandler;
+            TokenConverter = tokenConverter ?? throw new ArgumentNullException(nameof(tokenConverter));
+            Resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
         }
 
         public abstract string FormatName { get; }
@@ -20,7 +24,6 @@ namespace JsonCrafter.Conversion
 
         public JToken Convert(object obj)
         {
-            var type = obj.GetType();
             JToken result;
             
             if (obj is IEnumerable enumerable)
@@ -29,7 +32,7 @@ namespace JsonCrafter.Conversion
             }
             else
             {
-                result = ConvertObject(obj);
+                result = ConvertObject(obj, Resolver.Resolve(obj.GetType()));
             }
 
             return result;
@@ -41,13 +44,13 @@ namespace JsonCrafter.Conversion
 
             foreach (var obj in enumerable)
             {
-                tokens.Add(ConvertObject(obj));
+                tokens.Add(ConvertObject(obj, Resolver.Resolve(obj.GetType())));
             }
 
             return PostProcessEnumerable(tokens);
         }
         
-        protected abstract JToken ConvertObject(object obj);
+        protected abstract JToken ConvertObject(object obj, ITypeContract resolver);
 
         protected abstract JToken PostProcessEnumerable(IEnumerable<JToken> tokens);
 

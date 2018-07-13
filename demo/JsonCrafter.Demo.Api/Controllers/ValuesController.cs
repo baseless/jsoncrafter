@@ -37,6 +37,7 @@ namespace JsonCrafter.Demo.Api.Controllers
     
     public class Test
     {
+        public string MIFFO = "hrtehtre";
         public int Id { get; set; } = 1;
         public string Name { get; set; } = "MyName";
         public DateTime CurrentTime { get; set; } = DateTime.Now;

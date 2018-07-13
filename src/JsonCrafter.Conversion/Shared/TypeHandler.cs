@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace JsonCrafter.Core.Handlers
+namespace JsonCrafter.Conversion.Shared
 {
     public class TypeHandler : ITypeHandler
     {

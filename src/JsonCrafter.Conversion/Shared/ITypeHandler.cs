@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JsonCrafter.Core.Handlers
+namespace JsonCrafter.Conversion.Shared
 {
     public interface ITypeHandler
     {

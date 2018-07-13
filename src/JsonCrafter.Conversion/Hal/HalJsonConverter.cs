@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
-using JsonCrafter.Core.Handlers;
+using System.Linq;
+using JsonCrafter.Conversion.Shared;
+using JsonCrafter.Core;
+using JsonCrafter.Core.Contracts;
+using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Conversion.Hal
@@ -9,12 +13,15 @@ namespace JsonCrafter.Conversion.Hal
         public override string FormatName => "hal+json";
         public override string MediaTypeHeaderValue => "application/hal+json";
 
-        public HalJsonConverter(ITypeHandler typeHandler) : base(typeHandler)
+        public HalJsonConverter(ITokenConverter tokenConverter, IContractResolver resolver) : base(tokenConverter, resolver)
         {
         }
 
-        protected override JToken ConvertObject(object obj)
+        protected override JToken ConvertObject(object obj, ITypeContract contract)
         {
+            var f = contract.Fields.First();
+            var val = f.Value.ContractedFieldInfo.GetValue(obj);
+
             return JToken.FromObject(obj);
         }
 

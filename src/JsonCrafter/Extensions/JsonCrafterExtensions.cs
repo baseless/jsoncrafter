@@ -1,11 +1,13 @@
 ﻿using System;
 using JsonCrafter.Conversion.Hal;
+using JsonCrafter.Conversion.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using JsonCrafter.Core.Configuration;
-using JsonCrafter.Core.Handlers;
+using JsonCrafter.Core.Contracts;
+using TypeHandler = JsonCrafter.Core.TypeHelpers.TypeHandler;
 
 namespace JsonCrafter.Extensions
 {
@@ -25,7 +27,9 @@ namespace JsonCrafter.Extensions
 
             var services = builder.Services;
 
-            services.TryAddEnumerable(ServiceDescriptor.Transient<ITypeHandler, TypeHandler>());
+            //services.TryAddEnumerable(ServiceDescriptor.Transient<ITypeHandler, TypeHandler>());
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<ITokenConverter, TokenConverter>());
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IContractResolver, ContractResolver>());
 
             services.AddHalFormatter();
 
