@@ -8,8 +8,7 @@ namespace JsonCrafter.Core.Contracts
     {
         IImmutableList<IMemberContract> Members { get; }
         Type ContractedType { get; }
-
-        ITypeBuilder Template { get; }
+        ITypeTemplate Template { get; }
         bool HasTemplate { get; }
     }
 }

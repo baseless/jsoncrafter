@@ -18,7 +18,7 @@ namespace JsonCrafter
         public JsonCrafterOutputFormatter(TConverter converter)
         {
             _converter = converter ?? throw new NotImplementedException(nameof(converter));
-
+            //todo: enable selection of encoding and json name casing strategies (camel, snake, kebab)
             SupportedEncodings.Add(Encoding.UTF8);
             SupportedEncodings.Add(Encoding.Unicode);
             SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse(converter.MediaTypeHeaderValue));

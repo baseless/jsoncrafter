@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JsonCrafter.Conversion.Shared;
+using JsonCrafter.Core.Configuration;
 using JsonCrafter.Core.Contracts;
 using JsonCrafter.Core.Contracts.Resolvers;
 using Newtonsoft.Json.Linq;
@@ -27,6 +28,12 @@ namespace JsonCrafter.Conversion.Hal
         private static JToken BuildToken(object obj, ITypeContract contract)
         {
             var root = JObject.Parse("{}");
+
+            if (true || contract.Template != null) // todo: process template information for the type
+            {
+                var halAppendix = new JProperty("_links", JObject.Parse("{ 'self': 'http://tests/1' }"));
+                root.Add(halAppendix);
+            }
 
             foreach (var member in contract.Members)
             {
