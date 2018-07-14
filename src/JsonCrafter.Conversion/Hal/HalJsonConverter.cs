@@ -20,9 +20,7 @@ namespace JsonCrafter.Conversion.Hal
         {
             var f = contract.Members.FirstOrDefault();
             var val = f?.GetValueFromObject(obj);
-
-            //return JToken.FromObject(obj);
-
+            
             return BuildToken(obj, contract);
         }
 

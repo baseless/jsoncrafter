@@ -1,5 +1,5 @@
 ﻿using JsonCrafter.Core.Configuration;
-using JsonCrafter.Demo.Api.Model;
+using JsonCrafter.Demo.Api.Controllers;
 
 namespace JsonCrafter.Demo.Api.Configuration
 {
@@ -9,7 +9,9 @@ namespace JsonCrafter.Demo.Api.Configuration
         {
             builder.EnableMediaType(MediaType.Hal);
 
-            builder.For<User>();
+            builder.For<Test>()
+                .HasLinkToSelf("http://baba/users/{0}", t => t.Id)
+                .HasRelatedResource(r => r.TestTests);
         }
     }
 }

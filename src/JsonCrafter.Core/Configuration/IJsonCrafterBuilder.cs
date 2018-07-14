@@ -3,6 +3,6 @@
     public interface IJsonCrafterBuilder
     {
         void EnableMediaType(MediaType type);
-        ITypeContractTemplate For<T>() where T : class;
+        ITypeBuilder<T> For<T>() where T : class;
     }
 }

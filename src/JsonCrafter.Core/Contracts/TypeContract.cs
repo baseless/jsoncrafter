@@ -9,13 +9,13 @@ namespace JsonCrafter.Core.Contracts
     {
         public IImmutableList<IMemberContract> Members { get; }
         public Type ContractedType { get; }
-        public ITypeContractTemplate Template { get; }
+        public ITypeBuilder Template { get; }
         public bool HasTemplate { get; }
 
-        public TypeContract(Type type, ITypeContractTemplate template, IEnumerable<IMemberContract> members = default(IEnumerable<IMemberContract>))
+        public TypeContract(Type type, ITypeBuilder template, IEnumerable<IMemberContract> members = default(IEnumerable<IMemberContract>))
         {
             Template = template;
-            HasTemplate = template != default(ITypeContractTemplate);
+            HasTemplate = template != default(ITypeBuilder);
             if(type == null || !type.IsClass || type.IsAbstract)
             {
                 throw new NotSupportedException("TypeContract only supports non-abstract classes.");
