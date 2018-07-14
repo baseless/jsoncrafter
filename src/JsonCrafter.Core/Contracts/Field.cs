@@ -3,9 +3,9 @@ using System.Reflection;
 
 namespace JsonCrafter.Core.Contracts
 {
-    public sealed class FieldContract : MemberContractBase<FieldInfo>
+    public sealed class Field : MemberContractBase<FieldInfo>
     {
-        public FieldContract(string fieldName, FieldInfo fieldInfo, bool isResource = false) : base(fieldName, fieldInfo, isResource, fieldInfo.FieldType)
+        public Field(string fieldName, FieldInfo fieldInfo, bool isResource = false) : base(fieldName, fieldInfo, isResource, fieldInfo.FieldType)
         {
             var type = fieldInfo.ReflectedType;
         }

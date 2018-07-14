@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using JsonCrafter.Conversion.Shared;
 using JsonCrafter.Core;
+using JsonCrafter.Core.Configuration.Interfaces;
 using JsonCrafter.Core.Contracts;
-using JsonCrafter.Core.Contracts.Resolvers;
+using JsonCrafter.Core.Contracts.Interfaces;
 using JsonCrafter.Core.Helpers;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Conversion
@@ -13,13 +14,15 @@ namespace JsonCrafter.Conversion
     /// <summary>
     /// Base class for C# Object to JToken conversion.
     /// </summary>
-    public abstract class JsonConverterBase : IJsonConverter
+    public abstract class JsonConverterBase<TConverter> : IJsonConverter where TConverter: IJsonConverter
     {
-        protected readonly IContractResolver Resolver;
+        protected readonly IContractResolver<TConverter> Resolver;
+        protected readonly ILogger<TConverter> Logger;
 
-        protected JsonConverterBase(IContractResolver resolver)
+        protected JsonConverterBase(IContractResolver<TConverter> resolver, ILogger<TConverter> logger)
         {
             Resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
+            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public abstract string FormatName { get; }
@@ -47,8 +50,8 @@ namespace JsonCrafter.Conversion
             else
             {
                 var contract = Resolver.Resolve(type);
-                var rootObject = contract.Template.GetRoot(obj);
-                return PostProcessResult(ConvertBase(rootObject, obj, contract, true));
+                var jsonObject = contract.Template.GetRoot(obj);
+                return PostProcessResult(ConvertBase(jsonObject, obj, contract, true));
             }
         }
 
@@ -67,7 +70,15 @@ namespace JsonCrafter.Conversion
         //    return PostProcessRootCollection(tokens);
         //}
 
-        protected abstract JToken ConvertBase(JObject parent, object obj, ITypeContract contract, bool isRoot = false);
+        /// <summary>
+        /// The underlying Converter method, responsible for converting a C# object into a JToken.
+        /// </summary>
+        /// <param name="jsonObject">The json object that the C# object will be mapped into</param>
+        /// <param name="obj">The C# object instance that are being converted.</param>
+        /// <param name="contract">The objects TypeContract</param>
+        /// <param name="isRoot">If the objectBase is the root element of the response</param>
+        /// <returns></returns>
+        protected abstract JToken ConvertBase(JObject jsonObject, object obj, IContract contract, bool isRoot = false);
 
         protected abstract JToken PostProcessRootCollection(IEnumerable<JToken> tokens);
 

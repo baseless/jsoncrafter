@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using JsonCrafter.Core.Contracts;
-using JsonCrafter.Core.Contracts.Resolvers;
+using JsonCrafter.Conversion.Hal.Interfaces;
+using JsonCrafter.Core.Contracts.Interfaces;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Conversion.Hal
 {
-    public sealed class HalJsonConverter : JsonConverterBase, IHalJsonConverter
+    public sealed class HalJsonConverter : JsonConverterBase<IHalJsonConverter>, IHalJsonConverter
     {
         public override string FormatName => "hal+json";
         public override string MediaTypeHeaderValue => "application/hal+json";
 
-        public HalJsonConverter(IContractResolver resolver) : base(resolver) // todo: inject templatebuilder? (potentially make this class insensitive to mediatype)
+        public HalJsonConverter(IContractResolver<IHalJsonConverter> resolver, ILogger<HalJsonConverter> logger) : base(resolver, logger) // todo: inject templatebuilder? (potentially make this class insensitive to mediatype)
         {
         }
         
-        protected override JToken ConvertBase(JObject parent, object obj, ITypeContract contract, bool isRoot = false)
+        protected override JToken ConvertBase(JObject jsonObject, object obj, IContract contract, bool isRoot = false)
         {
             foreach (var member in contract.Members)
             {
                 if (member.IsResource)
                 {
-                    var resourceBase = contract.Template.GetResourceObject(member, contract);
+                    var resourceBase = contract.Template.GetResourceBase(member, contract);
                     if (member.IsCollection)
                     {
                         // todo: create resources and traverse recursively
@@ -34,14 +35,14 @@ namespace JsonCrafter.Conversion.Hal
 
                 if (member.IsValue)
                 {
-                    parent.Add(new JProperty(member.Name, member.GetValueFromObject(obj)));
+                    jsonObject.Add(new JProperty(member.Name, member.GetValueFromObject(obj)));
                     continue;
                 }
 
-                parent.Add(new JProperty(member.Name, JToken.FromObject(member.GetValueFromObject(obj))));
+                jsonObject.Add(new JProperty(member.Name, JToken.FromObject(member.GetValueFromObject(obj))));
             }
 
-            return parent;
+            return jsonObject;
         }
 
         protected override JToken PostProcessResult(JToken token)

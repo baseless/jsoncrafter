@@ -1,14 +1,13 @@
 ﻿using System;
 using JsonCrafter.Conversion.Hal;
-using JsonCrafter.Conversion.Shared;
+using JsonCrafter.Conversion.Hal.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using JsonCrafter.Core.Configuration;
+using JsonCrafter.Core.Configuration.Interfaces;
 using JsonCrafter.Core.Contracts;
-using JsonCrafter.Core.Contracts.Resolvers;
-using JsonCrafter.Core.Helpers;
+using JsonCrafter.Core.Contracts.Interfaces;
 using TypeHandler = JsonCrafter.Core.Helpers.TypeHelper;
 
 namespace JsonCrafter.Extensions
@@ -28,11 +27,7 @@ namespace JsonCrafter.Extensions
             }
 
             var services = builder.Services;
-
-            //services.TryAddEnumerable(ServiceDescriptor.Transient<ITypeHandler, TypeHandler>());
-            services.TryAddEnumerable(ServiceDescriptor.Singleton<ITokenConverter, TokenConverter>());
-            services.TryAddEnumerable(ServiceDescriptor.Singleton<IContractResolver, ContractResolver>());
-
+            
             services.AddHalFormatter();
 
             return builder;
@@ -40,7 +35,8 @@ namespace JsonCrafter.Extensions
 
         private static void AddHalFormatter(this IServiceCollection services)
         {
-            services.TryAddEnumerable(ServiceDescriptor.Singleton<IHalJsonConverter, HalJsonConverter>());
+            services.TryAddEnumerable(ServiceDescriptor.Transient<IContractResolver<IHalJsonConverter>, ContractResolver<IHalJsonConverter>>());
+            services.TryAddEnumerable(ServiceDescriptor.Transient<IHalJsonConverter, HalJsonConverter>());
             services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonCrafterOptionsSetup<IHalJsonConverter>>());
         }
 

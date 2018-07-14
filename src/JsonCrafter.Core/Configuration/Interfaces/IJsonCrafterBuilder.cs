@@ -1,4 +1,4 @@
-﻿namespace JsonCrafter.Core.Configuration
+﻿namespace JsonCrafter.Core.Configuration.Interfaces
 {
     public interface IJsonCrafterBuilder
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JsonCrafter.Core.Configuration
+namespace JsonCrafter.Core.Configuration.Interfaces
 {
     public interface ITypeBuilder<out T> where T: class
     {

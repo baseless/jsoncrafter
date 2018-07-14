@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using JsonCrafter.Core.Configuration;
+using JsonCrafter.Core.Configuration.Interfaces;
+using JsonCrafter.Core.Contracts.Interfaces;
 
 namespace JsonCrafter.Core.Contracts
 {
-    public class TypeContract : ITypeContract
+    public class Contract : IContract
     {
-        public IImmutableList<IMemberContract> Members { get; }
+        public IImmutableList<IMember> Members { get; }
         public Type ContractedType { get; }
         public ITypeTemplate Template { get; }
         public bool HasTemplate { get; }
 
-        public TypeContract(Type type, ITypeTemplate template, IEnumerable<IMemberContract> members = default(IEnumerable<IMemberContract>))
+        public Contract(Type type, ITypeTemplate template, IEnumerable<IMember> members = default(IEnumerable<IMember>))
         {
             Template = template;
             HasTemplate = template != default(ITypeTemplate);
@@ -22,7 +23,7 @@ namespace JsonCrafter.Core.Contracts
             }
 
             ContractedType = type;
-            Members = members?.ToImmutableList() ?? new List<IMemberContract>().ToImmutableList();
+            Members = members?.ToImmutableList() ?? new List<IMember>().ToImmutableList();
         }
     }
 }

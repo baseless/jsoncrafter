@@ -1,6 +1,6 @@
-﻿namespace JsonCrafter.Core.Contracts
+﻿namespace JsonCrafter.Core.Contracts.Interfaces
 {
-    public interface IMemberContract
+    public interface IMember
     {
         bool IsResource { get; }
         bool IsValue { get; }

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Reflection;
+using JsonCrafter.Core.Contracts.Interfaces;
 using JsonCrafter.Core.Helpers;
 
 namespace JsonCrafter.Core.Contracts
 {
-    public abstract class MemberContractBase<TInfo> : IMemberContract where TInfo: MemberInfo
+    public abstract class MemberContractBase<TInfo> : IMember where TInfo: MemberInfo
     {
         protected TInfo Info { get; }
         public bool IsResource { get; }

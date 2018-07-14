@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Immutable;
-using JsonCrafter.Core.Configuration;
+using JsonCrafter.Core.Configuration.Interfaces;
 
-namespace JsonCrafter.Core.Contracts
+namespace JsonCrafter.Core.Contracts.Interfaces
 {
-    public interface ITypeContract
+    public interface IContract
     {
         /// <summary>
         /// List of all public properties, fields, objects and collections contained by the type.
         /// </summary>
-        IImmutableList<IMemberContract> Members { get; }
+        IImmutableList<IMember> Members { get; }
         /// <summary>
         /// The C# type on which the contract is built.
         /// </summary>

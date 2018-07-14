@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter.Conversion
+namespace JsonCrafter.Core.Configuration.Interfaces
 {
     public interface IJsonConverter
     {

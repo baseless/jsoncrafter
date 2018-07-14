@@ -1,4 +1,5 @@
 ﻿using JsonCrafter.Core.Configuration;
+using JsonCrafter.Core.Configuration.Interfaces;
 using JsonCrafter.Demo.Api.Controllers;
 
 namespace JsonCrafter.Demo.Api.Configuration
