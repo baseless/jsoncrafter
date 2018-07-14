@@ -7,7 +7,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using JsonCrafter.Core.Configuration;
 using JsonCrafter.Core.Contracts;
-using TypeHandler = JsonCrafter.Core.TypeHelpers.TypeHandler;
+using JsonCrafter.Core.Helpers;
+using TypeHandler = JsonCrafter.Core.Helpers.TypeHelper;
 
 namespace JsonCrafter.Extensions
 {
@@ -29,6 +30,7 @@ namespace JsonCrafter.Extensions
 
             //services.TryAddEnumerable(ServiceDescriptor.Transient<ITypeHandler, TypeHandler>());
             services.TryAddEnumerable(ServiceDescriptor.Singleton<ITokenConverter, TokenConverter>());
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<ITypeHelper, TypeHelper>());
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IContractResolver, ContractResolver>());
 
             services.AddHalFormatter();

@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JsonCrafter.Conversion.Shared;
-using JsonCrafter.Core;
 using JsonCrafter.Core.Contracts;
-using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Conversion.Hal
@@ -19,8 +17,8 @@ namespace JsonCrafter.Conversion.Hal
 
         protected override JToken ConvertObject(object obj, ITypeContract contract)
         {
-            var f = contract.Fields.First();
-            var val = f.Value.ContractedFieldInfo.GetValue(obj);
+            var f = contract.Members.FirstOrDefault();
+            var val = f?.GetValueFromObject(obj);
 
             return JToken.FromObject(obj);
         }

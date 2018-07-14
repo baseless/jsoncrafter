@@ -2,5 +2,6 @@
 {
     public interface IJsonCrafterConfiguration
     {
+        void Configure(IJsonCrafterBuilder builder);
     }
 }

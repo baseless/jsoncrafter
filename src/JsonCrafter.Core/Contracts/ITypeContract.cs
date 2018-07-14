@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Immutable;
-using JsonCrafter.Core.Contracts;
+using JsonCrafter.Core.Configuration;
 
-namespace JsonCrafter.Core
+namespace JsonCrafter.Core.Contracts
 {
-    /// <summary>
-    /// Represents a C# Type, soon-to-be Json Object.
-    /// ADoes not have a name (since if it is a child it get its name from the parent TypeContract).
-    /// </summary>
     public interface ITypeContract
     {
-        IImmutableDictionary<string, IFieldContract> Fields { get; }
+        IImmutableList<IMemberContract> Members { get; }
         Type ContractedType { get; }
+
+        ITypeContractTemplate Template { get; }
+        bool HasTemplate { get; }
     }
 }

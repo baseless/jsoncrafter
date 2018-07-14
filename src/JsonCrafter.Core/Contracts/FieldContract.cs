@@ -3,15 +3,23 @@ using System.Reflection;
 
 namespace JsonCrafter.Core.Contracts
 {
-    public sealed class FieldContract : IFieldContract
+    public sealed class FieldContract : IMemberContract
     {
-        public FieldContract(string nameInClass, FieldInfo field)
+        public FieldContract(string fieldName, FieldInfo fieldInfo, bool isResource = false)
         {
-            Name = nameInClass ?? throw new ArgumentNullException(nameof(nameInClass));
-            ContractedFieldInfo = field ?? throw new ArgumentNullException(nameof(field));
+            IsResource = isResource;
+            Name = fieldName ?? throw new ArgumentNullException(nameof(fieldName));
+            Info = fieldInfo ?? throw new ArgumentNullException(nameof(fieldInfo));
+        }
+        
+        public bool IsResource { get; }
+
+        public object GetValueFromObject(object obj)
+        {
+            return Info.GetValue(obj);
         }
 
         public string Name { get; }
-        public FieldInfo ContractedFieldInfo { get; }
+        internal readonly FieldInfo Info;
     }
 }
