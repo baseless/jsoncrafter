@@ -10,22 +10,26 @@ using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Conversion
 {
+    /// <summary>
+    /// Base class for C# Object to JToken conversion.
+    /// </summary>
     public abstract class JsonConverterBase : IJsonConverter
     {
-        protected readonly ITokenConverter TokenConverter;
         protected readonly IContractResolver Resolver;
-        protected readonly ITemplateBuilder TemplateBuilder;
 
-        protected JsonConverterBase(ITokenConverter tokenConverter, IContractResolver resolver, ITemplateBuilder templateBuilder)
+        protected JsonConverterBase(IContractResolver resolver)
         {
-            TokenConverter = tokenConverter ?? throw new ArgumentNullException(nameof(tokenConverter));
             Resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
-            TemplateBuilder = templateBuilder ?? throw new ArgumentNullException(nameof(templateBuilder));
         }
 
         public abstract string FormatName { get; }
         public abstract string MediaTypeHeaderValue { get; }
 
+        /// <summary>
+        /// Initializes the conversion chain using the recieved object.
+        /// </summary>
+        /// <param name="obj">The C# object that is about to be presented as a result to the consumer.</param>
+        /// <returns></returns>
         public JToken Convert(object obj)
         {
             var type = obj.GetType();
@@ -38,32 +42,32 @@ namespace JsonCrafter.Conversion
             if (obj is IEnumerable enumerable)
             {
                 throw new JsonCrafterException("Enumerable root objects are currently not supported"); // todo: REMOVE after support build for collections
-                //return ConvertRootCollection(enumerable);
+                //return PostProcessResult(ConvertRootCollection(enumerable));
             }
             else
             {
                 var contract = Resolver.Resolve(type);
-                var rootObject = TemplateBuilder.BuildRoot(obj, contract);
-                return ConvertBase(rootObject, obj, contract, true);
+                var rootObject = contract.Template.GetRoot(obj);
+                return PostProcessResult(ConvertBase(rootObject, obj, contract, true));
             }
         }
 
-        private JToken ConvertRootCollection(IEnumerable enumerable) // todo: build and support collections as root elements
-        {
-            var tokens = new HashSet<JToken>();
+        //private JToken ConvertRootCollection(IEnumerable enumerable) // todo: build and support collections as root elements
+        //{
+        //    var tokens = new HashSet<JToken>();
 
-            //foreach (var obj in enumerable)
-            //{
-            //    var type = obj.GetType();
-            //    var contract = Resolver.Resolve(type);
-            //    var rootObject = TemplateBuilder.BuildRoot(obj, contract);
-            //    tokens.Add(ConvertBase(rootObject, obj, Resolver.Resolve(type)));
-            //}
+        //    foreach (var obj in enumerable)
+        //    {
+        //        var type = obj.GetType();
+        //        var contract = Resolver.Resolve(type);
+        //        var rootObject = TemplateBuilder.BuildRoot(obj, contract);
+        //        tokens.Add(ConvertBase(rootObject, obj, Resolver.Resolve(type)));
+        //    }
 
-            return PostProcessRootCollection(tokens);
-        }
+        //    return PostProcessRootCollection(tokens);
+        //}
 
-        protected abstract JToken ConvertBase(JObject parent, object obj, ITypeContract resolver, bool isRoot = false);
+        protected abstract JToken ConvertBase(JObject parent, object obj, ITypeContract contract, bool isRoot = false);
 
         protected abstract JToken PostProcessRootCollection(IEnumerable<JToken> tokens);
 
