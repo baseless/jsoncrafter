@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using JsonCrafter.Conversion.Hal;
 using JsonCrafter.Conversion.Hal.Interfaces;
-using JsonCrafter.Core.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -15,29 +13,31 @@ namespace JsonCrafter.Extensions
 {
     public static class JsonCrafterExtensions
     {
-        public static IMvcBuilder AddJsonCrafterFormatters(this IMvcBuilder builder, IJsonCrafterConfiguration configuration)
+        public static IMvcBuilder AddJsonCrafterFormatters(this IMvcBuilder mvcBuilder, Action<IConfigurationBuilder> configBuilder)
         {
-            if (builder == default(IMvcBuilder))
+            if (mvcBuilder == default(IMvcBuilder))
             {
-                throw new ArgumentNullException(nameof(builder));
+                throw new ArgumentNullException(nameof(mvcBuilder));
             }
-
-            if (configuration == default(IJsonCrafterConfiguration))
-            {
-                throw new ArgumentNullException(nameof(configuration));
-            }
-
-            var services = builder.Services;
             
-            services.AddHalFormatter();
+            if (configBuilder == default(Action<IConfigurationBuilder>))
+            {
+                throw new ArgumentNullException(nameof(configBuilder));
+            }
 
-            return builder;
+            var services = mvcBuilder.Services;
+            
+            services.AddHalFormatter(configBuilder);
+
+            return mvcBuilder;
         }
 
-        private static void AddHalFormatter(this IServiceCollection services)
+        private static void AddHalFormatter(this IServiceCollection services, Action<IConfigurationBuilder> configBuilder)
         {
-            // todo: construct the contractresolver using a builder
-            services.TryAddEnumerable(ServiceDescriptor.Singleton<IContractResolver<IHalJsonConverter>>(new ContractResolver<IHalJsonConverter>(new Dictionary<Type, ITypeTemplate>(), new TypeTemplate())));
+            var templateBuilder = new HalTemplateBuilder();
+            configBuilder.Invoke(templateBuilder);
+            
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IContractResolver<IHalJsonConverter>>(new ContractResolver<IHalJsonConverter>(templateBuilder.BuildTypeTemplates(), templateBuilder.BuildeDefaultTemplate())));
             services.TryAddEnumerable(ServiceDescriptor.Transient<IHalJsonConverter, HalJsonConverter>());
             services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonCrafterOptionsSetup<IHalJsonConverter>>());
         }

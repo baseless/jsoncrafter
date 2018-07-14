@@ -1,4 +1,5 @@
-﻿using JsonCrafter.Demo.Api.Configuration;
+﻿using JsonCrafter.Core.Configuration;
+using JsonCrafter.Demo.Api.Controllers;
 using JsonCrafter.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,7 +26,12 @@ namespace JsonCrafter.Demo.Api
                     o.ReturnHttpNotAcceptable = true;
                     o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 })
-                .AddJsonCrafterFormatters(new HyperMediaConfiguration())
+                .AddJsonCrafterFormatters(builder =>
+                {
+                    builder.EnableMediaType(MediaType.Hal);
+                    builder.For<GetValuesOutputModel>();
+                    builder.For<Test>();
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
         
