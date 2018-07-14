@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using JsonCrafter.Conversion.Hal;
 using JsonCrafter.Conversion.Hal.Interfaces;
+using JsonCrafter.Core.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -8,7 +10,6 @@ using Microsoft.Extensions.Options;
 using JsonCrafter.Core.Configuration.Interfaces;
 using JsonCrafter.Core.Contracts;
 using JsonCrafter.Core.Contracts.Interfaces;
-using TypeHandler = JsonCrafter.Core.Helpers.TypeHelper;
 
 namespace JsonCrafter.Extensions
 {
@@ -35,7 +36,8 @@ namespace JsonCrafter.Extensions
 
         private static void AddHalFormatter(this IServiceCollection services)
         {
-            services.TryAddEnumerable(ServiceDescriptor.Transient<IContractResolver<IHalJsonConverter>, ContractResolver<IHalJsonConverter>>());
+            // todo: construct the contractresolver using a builder
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IContractResolver<IHalJsonConverter>>(new ContractResolver<IHalJsonConverter>(new Dictionary<Type, ITypeTemplate>(), new TypeTemplate())));
             services.TryAddEnumerable(ServiceDescriptor.Transient<IHalJsonConverter, HalJsonConverter>());
             services.TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<MvcOptions>, JsonCrafterOptionsSetup<IHalJsonConverter>>());
         }

@@ -42,10 +42,10 @@ namespace JsonCrafter.Core.Contracts
                 throw new ArgumentNullException(nameof(type));
             }
 
-            return Contracts.GetOrAdd(type, t => CreateContract(t)); // todo: build in option if non-existing contracts should case throw or be created without template on-the-fly.
+            return Contracts.GetOrAdd(type, t => CreateContract(t, DefaultTemplate)); // todo: build in option if non-existing contracts should case throw or be created without template on-the-fly.
         }
 
-        internal IContract CreateContract(Type type, ITypeTemplate template = default(ITypeTemplate))
+        internal IContract CreateContract(Type type, ITypeTemplate template)
         {
             var members = TypeHelper.GetMembers(type);
             var contracts = CreateMemberContracts(type, members);
