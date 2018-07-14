@@ -6,26 +6,57 @@ using System.Reflection;
 
 namespace JsonCrafter.Core.Helpers
 {
-    public class TypeHelper : ITypeHelper
+    public static class TypeHelper
     {
         private static BindingFlags _nonStaticPublicFlags = BindingFlags.Public | BindingFlags.Instance;
 
-        public bool IsEnumerable(Type type)
+        public static bool IsValue(Type type)
         {
-            return typeof(IEnumerable).IsAssignableFrom(type);
+            return IsString(type) || IsPrimitive(type);
         }
 
-        public FieldInfo[] GetPublicFields(Type type)
+        public static bool IsPrimitive(Type type)
         {
-            return type.GetFields(_nonStaticPublicFlags);
+            return type.IsPrimitive;
         }
 
-        public PropertyInfo[] GetPublicProperties(Type type)
+        public static bool IsCollection(Type type)
         {
-            return type.GetProperties(_nonStaticPublicFlags);
+            return !IsString(type) && (type.IsArray || typeof(IEnumerable).IsAssignableFrom(type));
         }
 
-        public IEnumerable<MemberInfo> GetMembers(Type type)
+        public static bool IsBoolean(Type type)
+        {
+            return Type.GetTypeCode(type).Equals(TypeCode.Boolean);
+        }
+
+        public static bool IsString(Type type)
+        {
+            return Type.GetTypeCode(type).Equals(TypeCode.String);
+        }
+
+        public static bool IsNumeric(Type type)
+        {
+            switch (Type.GetTypeCode(type))
+            {
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                case TypeCode.UInt64:
+                case TypeCode.Int16:
+                case TypeCode.Int32:
+                case TypeCode.Int64:
+                case TypeCode.Decimal:
+                case TypeCode.Double:
+                case TypeCode.Single:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public static  IEnumerable<MemberInfo> GetMembers(Type type)
         {
             return type.GetMembers(_nonStaticPublicFlags)
                 .Where(m => m.MemberType.Equals(MemberTypes.Field) || m.MemberType.Equals(MemberTypes.Property));

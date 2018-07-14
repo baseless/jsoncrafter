@@ -1,25 +1,16 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace JsonCrafter.Core.Contracts
 {
-    public class PropertyContract : IMemberContract
+    public class PropertyContract : MemberContractBase<PropertyInfo>
     {
-        public PropertyContract(string propName, PropertyInfo propInfo, bool isResource = false)
+        public PropertyContract(string propName, PropertyInfo propInfo, bool isResource = false) : base(propName, propInfo, isResource, propInfo.PropertyType)
         {
-            IsResource = isResource;
-            Name = propName ?? throw new ArgumentNullException(nameof(propName));
-            Info = propInfo ?? throw new ArgumentNullException(nameof(propInfo));
         }
-        
-        public bool IsResource { get; }
 
-        public object GetValueFromObject(object obj)
+        public override object GetValueFromObject(object obj)
         {
             return Info.GetValue(obj);
         }
-
-        public string Name { get; }
-        internal PropertyInfo Info { get; }
     }
 }

@@ -2,11 +2,12 @@
 using System.Linq;
 using JsonCrafter.Conversion.Shared;
 using JsonCrafter.Core.Contracts;
+using JsonCrafter.Core.Contracts.Resolvers;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Conversion.Hal
 {
-    public class HalJsonConverter : JsonConverterBase, IHalJsonConverter
+    public sealed class HalJsonConverter : JsonConverterBase, IHalJsonConverter
     {
         public override string FormatName => "hal+json";
         public override string MediaTypeHeaderValue => "application/hal+json";
@@ -14,13 +15,38 @@ namespace JsonCrafter.Conversion.Hal
         public HalJsonConverter(ITokenConverter tokenConverter, IContractResolver resolver) : base(tokenConverter, resolver)
         {
         }
-
+        
         protected override JToken ConvertObject(object obj, ITypeContract contract)
         {
             var f = contract.Members.FirstOrDefault();
             var val = f?.GetValueFromObject(obj);
 
-            return JToken.FromObject(obj);
+            //return JToken.FromObject(obj);
+
+            return BuildToken(obj, contract);
+        }
+
+        private static JToken BuildToken(object obj, ITypeContract contract)
+        {
+            var root = JObject.Parse("{}");
+
+            foreach (var member in contract.Members)
+            {
+                if (member.IsResource)
+                {
+
+                }
+
+                if (member.IsValue)
+                {
+                    root.Add(new JProperty(member.Name, member.GetValueFromObject(obj)));
+                    continue;
+                }
+
+                root.Add(new JProperty(member.Name, JToken.FromObject(member.GetValueFromObject(obj))));
+            }
+
+            return root;
         }
 
         protected override JToken PostProcessEnumerable(IEnumerable<JToken> tokens)

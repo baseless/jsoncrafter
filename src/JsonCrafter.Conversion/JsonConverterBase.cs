@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using JsonCrafter.Conversion.Shared;
 using JsonCrafter.Core;
 using JsonCrafter.Core.Contracts;
+using JsonCrafter.Core.Contracts.Resolvers;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Conversion
@@ -24,6 +27,13 @@ namespace JsonCrafter.Conversion
 
         public JToken Convert(object obj)
         {
+            var watch = new Stopwatch();
+            watch.Start();
+            var res = JsonConvert.SerializeObject(obj);
+            watch.Stop();
+            var newtonSoftElapsed = watch.ElapsedMilliseconds;
+            watch.Reset();
+            watch.Start();
             JToken result;
             
             if (obj is IEnumerable enumerable)
@@ -34,7 +44,10 @@ namespace JsonCrafter.Conversion
             {
                 result = ConvertObject(obj, Resolver.Resolve(obj.GetType()));
             }
-
+            watch.Stop();
+            var jsonCrafterElapsed = watch.ElapsedMilliseconds;
+            Debug.WriteLine($"!!!!!!! {nameof(newtonSoftElapsed)} took {newtonSoftElapsed} ms");
+            Debug.WriteLine($"!!!!!!! {nameof(jsonCrafterElapsed)} took {jsonCrafterElapsed} ms");
             return result;
         }
 

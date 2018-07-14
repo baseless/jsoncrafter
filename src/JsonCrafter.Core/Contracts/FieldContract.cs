@@ -1,25 +1,19 @@
-﻿using System;
+﻿using System.Collections;
 using System.Reflection;
 
 namespace JsonCrafter.Core.Contracts
 {
-    public sealed class FieldContract : IMemberContract
+    public sealed class FieldContract : MemberContractBase<FieldInfo>
     {
-        public FieldContract(string fieldName, FieldInfo fieldInfo, bool isResource = false)
+        public FieldContract(string fieldName, FieldInfo fieldInfo, bool isResource = false) : base(fieldName, fieldInfo, isResource, fieldInfo.FieldType)
         {
-            IsResource = isResource;
-            Name = fieldName ?? throw new ArgumentNullException(nameof(fieldName));
-            Info = fieldInfo ?? throw new ArgumentNullException(nameof(fieldInfo));
+            var type = fieldInfo.ReflectedType;
         }
         
-        public bool IsResource { get; }
-
-        public object GetValueFromObject(object obj)
+        public override object GetValueFromObject(object obj)
         {
             return Info.GetValue(obj);
         }
-
-        public string Name { get; }
-        internal readonly FieldInfo Info;
+        
     }
 }

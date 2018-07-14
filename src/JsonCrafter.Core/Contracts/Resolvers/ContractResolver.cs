@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using JsonCrafter.Core.Configuration;
+using JsonCrafter.Core.Contracts.Resolvers;
 using JsonCrafter.Core.Helpers;
 
 namespace JsonCrafter.Core.Contracts
@@ -12,11 +12,8 @@ namespace JsonCrafter.Core.Contracts
     {
         private static readonly ConcurrentDictionary<Type, ITypeContract> Contracts = new ConcurrentDictionary<Type, ITypeContract>();
 
-        private readonly ITypeHelper _typeHelper;
-
-        public ContractResolver(ITypeHelper typeHelper)
+        public ContractResolver()
         {
-            _typeHelper = typeHelper ?? throw new ArgumentNullException(nameof(typeHelper));
         }
 
         public void Build(Type type, ITypeContractTemplate template)
@@ -46,7 +43,7 @@ namespace JsonCrafter.Core.Contracts
 
         internal ITypeContract CreateContract(Type type, ITypeContractTemplate template = default(ITypeContractTemplate))
         {
-            var members = _typeHelper.GetMembers(type);
+            var members = TypeHelper.GetMembers(type);
             var contracts = CreateMemberContracts(type, members);
 
             return new TypeContract(type, template, contracts);

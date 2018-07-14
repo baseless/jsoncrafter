@@ -1,7 +1,7 @@
 ﻿using System;
 using JsonCrafter.Core.Configuration;
 
-namespace JsonCrafter.Core.Contracts
+namespace JsonCrafter.Core.Contracts.Resolvers
 {
     public interface IContractResolver
     {
