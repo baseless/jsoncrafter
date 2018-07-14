@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JsonCrafter.Demo.Api.Controllers
@@ -12,34 +11,37 @@ namespace JsonCrafter.Demo.Api.Controllers
         // GET api/values
         [HttpGet]
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public ActionResult<Test[]> Get()
+        public ActionResult<GetValuesOutputModel> Get()
         {
-            return CreateTest().TestTests.ToArray();
+            var model = new GetValuesOutputModel();
+            AddItems(model);
+            return model;
         }
 
-        public static Test CreateTest()
+        public static void AddItems(GetValuesOutputModel model)
         {
-            var t = new Test();
-
             for (int i = 0; i < 400; i++)
             {
-                t.TestTests.Add(new Test { Name = "ChildTest" + i });
+                model.Tests.Add(new Test { Name = "ChildTest" + i });
             }
-
-            return t;
         }
     }
-    
+
+    public class GetValuesOutputModel
+    {
+        public IList<Test> Tests { get; set; } = new List<Test>();
+    }
+
     public class Test
     {
-        public string MIFFO = "hrtehtre";
+        public string Miffo = "hrtehtre";
         public int Id { get; set; } = 1;
         public string Name { get; set; } = "MyName";
         public DateTime CurrentTime { get; set; } = DateTime.Now;
 
         public ICollection<Test> TestTests { get; set; } = new List<Test>();
 
-        public Baba BMyBaba = new Baba();
+        public Baba MyBaba = new Baba();
     }
 
     public class Baba

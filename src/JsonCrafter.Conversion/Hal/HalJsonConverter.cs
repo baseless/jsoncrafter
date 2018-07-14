@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using JsonCrafter.Conversion.Shared;
-using JsonCrafter.Core.Configuration;
 using JsonCrafter.Core.Contracts;
 using JsonCrafter.Core.Contracts.Resolvers;
 using Newtonsoft.Json.Linq;
@@ -13,48 +11,44 @@ namespace JsonCrafter.Conversion.Hal
         public override string FormatName => "hal+json";
         public override string MediaTypeHeaderValue => "application/hal+json";
 
-        public HalJsonConverter(ITokenConverter tokenConverter, IContractResolver resolver) : base(tokenConverter, resolver)
+        public HalJsonConverter(ITokenConverter tokenConverter, IContractResolver resolver) : base(tokenConverter, resolver, new HalTemplateBuilder()) // todo: inject templatebuilder? (potentially make this class insensitive to mediatype)
         {
         }
         
-        protected override JToken ConvertObject(object obj, ITypeContract contract)
+        protected override JToken ConvertBase(JObject parent, object obj, ITypeContract contract, bool isRoot = false)
         {
-            var f = contract.Members.FirstOrDefault();
-            var val = f?.GetValueFromObject(obj);
-            
-            return BuildToken(obj, contract);
+            BuildObject(parent, obj, contract, isRoot);
+            return parent;
         }
 
-        private static JToken BuildToken(object obj, ITypeContract contract)
+        private void BuildObject(JObject objectBase, object obj, ITypeContract contract, bool isRoot)
         {
-            var root = JObject.Parse("{}");
-
-            if (true || contract.Template != null) // todo: process template information for the type
-            {
-                var halAppendix = new JProperty("_links", JObject.Parse("{ 'self': 'http://tests/1' }"));
-                root.Add(halAppendix);
-            }
-
             foreach (var member in contract.Members)
             {
                 if (member.IsResource)
                 {
-
+                    var resourceBase = TemplateBuilder.BuildResource(member, contract);
+                    if (member.IsCollection)
+                    {
+                        // todo: create resources and traverse recursively
+                    }
+                    else
+                    {
+                        // todo: create resources and traverse recursively
+                    }
                 }
 
                 if (member.IsValue)
                 {
-                    root.Add(new JProperty(member.Name, member.GetValueFromObject(obj)));
+                    objectBase.Add(new JProperty(member.Name, member.GetValueFromObject(obj)));
                     continue;
                 }
 
-                root.Add(new JProperty(member.Name, JToken.FromObject(member.GetValueFromObject(obj))));
+                objectBase.Add(new JProperty(member.Name, JToken.FromObject(member.GetValueFromObject(obj))));
             }
-
-            return root;
         }
 
-        protected override JToken PostProcessEnumerable(IEnumerable<JToken> tokens)
+        protected override JToken PostProcessRootCollection(IEnumerable<JToken> tokens)
         {
             var rootToken = new JObject { new JProperty("data", tokens) };
             return rootToken;

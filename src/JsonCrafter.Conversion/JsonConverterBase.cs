@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using JsonCrafter.Conversion.Shared;
 using JsonCrafter.Core;
 using JsonCrafter.Core.Contracts;
 using JsonCrafter.Core.Contracts.Resolvers;
-using Newtonsoft.Json;
+using JsonCrafter.Core.Helpers;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Conversion
@@ -15,11 +14,13 @@ namespace JsonCrafter.Conversion
     {
         protected readonly ITokenConverter TokenConverter;
         protected readonly IContractResolver Resolver;
+        protected readonly ITemplateBuilder TemplateBuilder;
 
-        protected JsonConverterBase(ITokenConverter tokenConverter, IContractResolver resolver)
+        protected JsonConverterBase(ITokenConverter tokenConverter, IContractResolver resolver, ITemplateBuilder templateBuilder)
         {
             TokenConverter = tokenConverter ?? throw new ArgumentNullException(nameof(tokenConverter));
             Resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
+            TemplateBuilder = templateBuilder ?? throw new ArgumentNullException(nameof(templateBuilder));
         }
 
         public abstract string FormatName { get; }
@@ -27,45 +28,44 @@ namespace JsonCrafter.Conversion
 
         public JToken Convert(object obj)
         {
-            var watch = new Stopwatch();
-            watch.Start();
-            var res = JsonConvert.SerializeObject(obj);
-            watch.Stop();
-            var newtonSoftElapsed = watch.ElapsedMilliseconds;
-            watch.Reset();
-            watch.Start();
-            JToken result;
-            
+            var type = obj.GetType();
+
+            if (TypeHelper.IsValue(type))
+            {
+                throw new JsonCrafterException("Strings and primitive types are not valid root elements.");
+            }
+
             if (obj is IEnumerable enumerable)
             {
-                result = ConvertEnumerable(enumerable);
+                throw new JsonCrafterException("Enumerable root objects are currently not supported"); // todo: REMOVE after support build for collections
+                //return ConvertRootCollection(enumerable);
             }
             else
             {
-                result = ConvertObject(obj, Resolver.Resolve(obj.GetType()));
+                var contract = Resolver.Resolve(type);
+                var rootObject = TemplateBuilder.BuildRoot(obj, contract);
+                return ConvertBase(rootObject, obj, contract, true);
             }
-            watch.Stop();
-            var jsonCrafterElapsed = watch.ElapsedMilliseconds;
-            Debug.WriteLine($"!!!!!!! {nameof(newtonSoftElapsed)} took {newtonSoftElapsed} ms");
-            Debug.WriteLine($"!!!!!!! {nameof(jsonCrafterElapsed)} took {jsonCrafterElapsed} ms");
-            return result;
         }
 
-        private JToken ConvertEnumerable(IEnumerable enumerable)
+        private JToken ConvertRootCollection(IEnumerable enumerable) // todo: build and support collections as root elements
         {
             var tokens = new HashSet<JToken>();
 
-            foreach (var obj in enumerable)
-            {
-                tokens.Add(ConvertObject(obj, Resolver.Resolve(obj.GetType())));
-            }
+            //foreach (var obj in enumerable)
+            //{
+            //    var type = obj.GetType();
+            //    var contract = Resolver.Resolve(type);
+            //    var rootObject = TemplateBuilder.BuildRoot(obj, contract);
+            //    tokens.Add(ConvertBase(rootObject, obj, Resolver.Resolve(type)));
+            //}
 
-            return PostProcessEnumerable(tokens);
+            return PostProcessRootCollection(tokens);
         }
-        
-        protected abstract JToken ConvertObject(object obj, ITypeContract resolver);
 
-        protected abstract JToken PostProcessEnumerable(IEnumerable<JToken> tokens);
+        protected abstract JToken ConvertBase(JObject parent, object obj, ITypeContract resolver, bool isRoot = false);
+
+        protected abstract JToken PostProcessRootCollection(IEnumerable<JToken> tokens);
 
         protected abstract JToken PostProcessResult(JToken token);
     }
