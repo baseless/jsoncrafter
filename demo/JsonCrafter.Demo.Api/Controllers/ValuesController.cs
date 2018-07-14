@@ -9,24 +9,19 @@ namespace JsonCrafter.Demo.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        public static Test TestObj = CreateTest();
-
         // GET api/values
         [HttpGet]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public ActionResult<Test[]> Get()
         {
-            //return new {Apa = "a"};
-            //var t = new Test();
-            //t.TestTests.Add(new Test());
-            return TestObj.TestTests.ToArray();
-            //return new string[] { "value1", "value2" };
+            return CreateTest().TestTests.ToArray();
         }
 
         public static Test CreateTest()
         {
             var t = new Test();
 
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 400; i++)
             {
                 t.TestTests.Add(new Test { Name = "ChildTest" + i });
             }
