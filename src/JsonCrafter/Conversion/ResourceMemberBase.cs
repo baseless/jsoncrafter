@@ -8,7 +8,7 @@ namespace JsonCrafter.Conversion
     public abstract class ResourceMemberBase<TInfo> : IResourceMember where TInfo: MemberInfo
     {
         protected TInfo Info { get; }
-        public bool IsResource { get; }
+        public bool IsRelatedResource { get; }
         public bool IsValue { get; }
         public bool IsCollection { get; }
 
@@ -17,7 +17,7 @@ namespace JsonCrafter.Conversion
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Info = info ?? throw new ArgumentNullException(nameof(info));
 
-            IsResource = isResource;
+            IsRelatedResource = isResource;
             IsValue = TypeHelper.IsValue(targetType);
             IsCollection = TypeHelper.IsCollection(targetType);
         }

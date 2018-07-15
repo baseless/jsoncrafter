@@ -1,9 +1,12 @@
-﻿namespace JsonCrafter.Configuration.Interfaces
+﻿using System;
+using System.Linq.Expressions;
+
+namespace JsonCrafter.Configuration.Interfaces
 {
-    public interface IResourceConfiguration<out TResource> where TResource : class
+    public interface IResourceConfiguration<TResource> where TResource : class
     {
         //ITypeBuilder<T> HasTemplate(string url, string templateIdentifier);
-        //ITypeBuilder<T> HasRelatedResource(Func<T, object> resource);
+        IResourceConfiguration<TResource> ContainsResource(Expression<Func<TResource, object>> resource);
 
         //ITypeBuilder<T> HasLinkToSelf(string url, params string[] values);
         //ITypeBuilder<T> HasLinkToSelf(string url, params Func<T, object>[] values);

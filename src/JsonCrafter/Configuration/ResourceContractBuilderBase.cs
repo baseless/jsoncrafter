@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using JsonCrafter.Configuration.Interfaces;
 using JsonCrafter.Settings;
 
@@ -21,7 +22,7 @@ namespace JsonCrafter.Configuration
         {
             EnabledMediaTypes.Add(type);
         }
-
+        
         public IResourceConfiguration<TResource> For<TResource>() where TResource : class // todo: Should resource without link to self be allowed? ever? based on mediatype?
         {
             var type = typeof(TResource);
@@ -32,12 +33,12 @@ namespace JsonCrafter.Configuration
             return newBuilder;
         }
 
-        public IResourceConfiguration<TResource> For<TResource>(string url, params Func<TResource, string>[] values) where TResource : class
+        public IResourceConfiguration<TResource> For<TResource>(string url, params Expression<Func<TResource, object>>[] values) where TResource : class
         {
             var type = typeof(TResource);
             EnsureResourceHasNotBeenAdded<TResource>(type);
-            
-            var newBuilder = new ResourceBuilder<TResource>(url, values.ToArray());
+            EnsureObjectsAreValues(values);
+            var newBuilder = new ResourceBuilder<TResource>(url, values);
             Builders[type] = newBuilder;
             return newBuilder;
         }
@@ -48,6 +49,11 @@ namespace JsonCrafter.Configuration
             {
                 throw new JsonCrafterException($"Template for '{type.FullName}' has already been configured. Ensure you only call 'For<{type.Name}>()' once in your configuration.");
             }
+        }
+
+        private static void EnsureObjectsAreValues<TResource>(Expression<Func<TResource, object>>[] values) where TResource : class
+        {
+            // todo: implement
         }
     }
 }

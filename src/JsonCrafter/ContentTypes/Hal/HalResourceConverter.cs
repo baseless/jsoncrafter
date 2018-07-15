@@ -22,7 +22,7 @@ namespace JsonCrafter.ContentTypes.Hal
         {
             foreach (var member in contract.Members)
             {
-                if (member.IsResource)
+                if (member.IsRelatedResource)
                 {
                     var resourceBase = contract.Template.NewResource(member, contract);
                     if (member.IsCollection)

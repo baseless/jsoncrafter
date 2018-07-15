@@ -20,7 +20,7 @@ namespace JsonCrafter.Conversion
         /// </summary>
         private readonly IResourceTemplate _defaultTemplate;
 
-        public ResourceContractResolver(IDictionary<Type, IResourceTemplate> contractRequests, IResourceTemplate defaultTemplate)
+        public ResourceContractResolver(IDictionary<Type, IResourceTemplate> contractRequests, IResourceTemplate defaultTemplate, ICollection<Type> resourceTypes)
         {
             _defaultTemplate = defaultTemplate ?? throw new ArgumentNullException(nameof(defaultTemplate));
 
@@ -31,7 +31,11 @@ namespace JsonCrafter.Conversion
 
             foreach (var request in contractRequests)
             {
-                _contracts.AddOrUpdate(request.Key, CreateContract(request.Key, request.Value), (k, v) => CreateContract(k, request.Value));
+                _contracts.AddOrUpdate(
+                    request.Key, 
+                    CreateContract(request.Key, request.Value, resourceTypes), 
+                    (k, v) => throw new JsonCrafterException($"Encounterd duplicates when constructing Resolver (tried to create contract for {request.Key.FullName})")
+                );
             }
         }
         
@@ -41,33 +45,34 @@ namespace JsonCrafter.Conversion
             {
                 throw new ArgumentNullException(nameof(type));
             }
-
-            return _contracts.GetOrAdd(type, t => CreateContract(t, _defaultTemplate)); // todo: build in option if non-existing contracts should case throw or be created without template on-the-fly.
+            
+            return _contracts.GetOrAdd(type, t => CreateContract(t, _defaultTemplate));
         }
 
-        internal IResourceContract CreateContract(Type type, IResourceTemplate template)
+        internal IResourceContract CreateContract(Type type, IResourceTemplate template, ICollection<Type> resourceTypes = null)
         {
             var members = TypeHelper.GetMembers(type);
-            var contracts = CreateMemberContracts(type, members);
+            var contracts = CreateMemberContracts(type, members, resourceTypes);
 
             return new ResourceContract(type, template, contracts);
         }
 
-        internal IEnumerable<IResourceMember> CreateMemberContracts(Type type, IEnumerable<MemberInfo> members)
+        internal IEnumerable<IResourceMember> CreateMemberContracts(Type type, IEnumerable<MemberInfo> members, ICollection<Type> resourceTypes)
         {
             var result = new List<IResourceMember>();
-
             foreach (var member in members)
             {
                 if (member.MemberType.Equals(MemberTypes.Field) && member is FieldInfo field)
                 {
-                    result.Add(new ResourceField(field.Name, field));
+                    var isRelatedResource = resourceTypes != null && resourceTypes.Contains(field.FieldType);
+                    result.Add(new ResourceField(field.Name, field, isRelatedResource));
                     continue;
                 }
 
                 if (member.MemberType.Equals(MemberTypes.Property) && member is PropertyInfo prop)
                 {
-                    result.Add(new ResourceProperty(prop.Name, prop));
+                    var isRelatedResource = resourceTypes != null && resourceTypes.Contains(prop.PropertyType);
+                    result.Add(new ResourceProperty(prop.Name, prop, isRelatedResource));
                     continue;
                 }
                 

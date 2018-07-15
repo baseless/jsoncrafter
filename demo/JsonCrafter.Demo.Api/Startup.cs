@@ -28,7 +28,7 @@ namespace JsonCrafter.Demo.Api
                 .AddJsonCrafterFormatters((builder) =>
                 {
                     builder.EnableMediaType(JsonCrafterMediaType.Hal);
-                    builder.For<GetValuesOutputModel>("http://fluffa.se/models/{0}", t => t.Tests.ToString());
+                    builder.For<GetValuesOutputModel>("http://fluffa.se/models/{0}", t => t.Tests.ToString()).ContainsResource(r => r.Tests);
                     builder.For<Test>("/v1/fefewgfef/{0}", o => o.Id.ToString());
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

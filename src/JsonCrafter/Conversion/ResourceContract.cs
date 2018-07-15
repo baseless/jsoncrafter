@@ -17,9 +17,9 @@ namespace JsonCrafter.Conversion
         {
             Template = template;
             HasTemplate = template != default(IResourceTemplate);
-            if(type == null || !type.IsClass || type.IsAbstract)
+            if(type == null || !type.IsClass)
             {
-                throw new NotSupportedException("TypeContract only supports non-abstract classes.");
+                throw new NotSupportedException("TypeContract only supports classes.");
             }
 
             ContractedType = type;

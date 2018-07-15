@@ -2,7 +2,7 @@
 {
     public interface IResourceMember
     {
-        bool IsResource { get; }
+        bool IsRelatedResource { get; }
         bool IsValue { get; }
         bool IsCollection { get; }
         object GetValueFromObject(object obj);
