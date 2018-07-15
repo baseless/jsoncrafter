@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace JsonCrafterOld.Core
+﻿namespace JsonCrafterOld.Core
 {
-    public class JsonCrafterException : Exception
+    public class JsonCrafterException : System.Exception
     {
         public JsonCrafterException(string message) : base(message)
         {

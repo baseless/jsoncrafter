@@ -24,7 +24,7 @@ namespace JsonCrafterOld.Serialization.Hal
             {
                 if (member.IsRelatedResource)
                 {
-                    var resourceBase = contract.Template.NewResource(member, contract);
+                    //var resourceBase = contract.Template.NewResource(member, contract);
                     if (member.IsCollection)
                     {
                         // todo: create resources and traverse recursively
