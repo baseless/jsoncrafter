@@ -26,11 +26,11 @@ namespace JsonCrafter.Demo.Api
                     o.ReturnHttpNotAcceptable = true;
                     o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 })
-                .AddJsonCrafterFormatters(builder =>
+                .AddJsonCrafterFormatters((builder, url) =>
                 {
                     builder.EnableMediaType(MediaType.Hal);
-                    builder.For<GetValuesOutputModel>();
-                    builder.For<Test>();
+                    builder.For<GetValuesOutputModel>(url.Action(nameof(ValuesController.Get), "Values", new { Boogle = "{0}" }), t => t.Tests.ToString());
+                    builder.For<Test>(url.Action(nameof(ValuesController.Get), "Values"));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
