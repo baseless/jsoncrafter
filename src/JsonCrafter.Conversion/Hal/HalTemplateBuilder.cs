@@ -17,12 +17,20 @@ namespace JsonCrafter.Conversion.Hal
             return new Dictionary<Type, ITypeTemplate>();
         }
         
-        public ITypeBuilder<T> For<T>() where T : class
+        public ITypeBuilder<TResource> For<TResource>() where TResource : class
         {
-            return new TypeBuilder<T>();
+            var type = typeof(TResource);
+            if (Builders.TryGetValue(type, out var typeBuilder) && typeBuilder != default(ITypeTemplateBuilder) && typeBuilder is ITypeBuilder<TResource> castBuilder)
+            {
+                    return castBuilder;
+            }
+
+            var newBuilder = new TypeBuilder<TResource>();
+            Builders[type] = newBuilder;
+            return newBuilder;
         }
 
-        public class TypeBuilder<T> : ITypeBuilder<T> where T : class
+        public class TypeBuilder<T> : ITypeBuilder<T>, ITypeTemplateBuilder where T : class
         {
             public ITypeBuilder<T> HasTemplate(string url, string templateIdentifier)
             {

@@ -6,6 +6,6 @@ namespace JsonCrafter.Core.Configuration.Interfaces
     public interface IConfigurationBuilder
     {
         void EnableMediaType(MediaType type);
-        ITypeBuilder<T> For<T>() where T : class;
+        ITypeBuilder<TResource> For<TResource>() where TResource : class;
     }
 }
