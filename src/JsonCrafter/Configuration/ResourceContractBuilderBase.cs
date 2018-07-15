@@ -22,17 +22,32 @@ namespace JsonCrafter.Configuration
             EnabledMediaTypes.Add(type);
         }
 
+        public IResourceConfiguration<TResource> For<TResource>() where TResource : class // todo: Should resource without link to self be allowed? ever? based on mediatype?
+        {
+            var type = typeof(TResource);
+            EnsureResourceHasNotBeenAdded<TResource>(type);
+
+            var newBuilder = new ResourceBuilder<TResource>();
+            Builders[type] = newBuilder;
+            return newBuilder;
+        }
+
         public IResourceConfiguration<TResource> For<TResource>(string url, params Func<TResource, string>[] values) where TResource : class
         {
             var type = typeof(TResource);
-            if (Builders.TryGetValue(type, out var typeBuilder) && typeBuilder != default(IResourceBuilder) && typeBuilder is IResourceConfiguration<TResource> castBuilder)
-            {
-                throw new JsonCrafterException($"Template for '{type.FullName}' has already been configured. Ensure you only call 'For<{type.Name}>()' once in your configuration.");
-            }
+            EnsureResourceHasNotBeenAdded<TResource>(type);
             
             var newBuilder = new ResourceBuilder<TResource>(url, values.ToArray());
             Builders[type] = newBuilder;
             return newBuilder;
+        }
+
+        private void EnsureResourceHasNotBeenAdded<TResource>(Type type) where TResource : class
+        {
+            if (Builders.TryGetValue(type, out var typeBuilder) && typeBuilder is IResourceConfiguration<TResource>)
+            {
+                throw new JsonCrafterException($"Template for '{type.FullName}' has already been configured. Ensure you only call 'For<{type.Name}>()' once in your configuration.");
+            }
         }
     }
 }

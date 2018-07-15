@@ -18,7 +18,13 @@ namespace JsonCrafter.ContentTypes.Hal
         public IResourceContractResolver Build()
         {
             BuilderAction.Invoke(this);
-            return new ResourceContractResolver(new Dictionary<Type, IResourceTemplate>(), new HalResourceTemplate()); // todo: implement
+
+            var defaultTemplate = new HalResourceTemplate();
+            var constructedTemplates = new Dictionary<Type, IResourceTemplate>();
+
+            // todo: create templates
+
+            return new ResourceContractResolver(constructedTemplates, defaultTemplate);
         }
     }
 }

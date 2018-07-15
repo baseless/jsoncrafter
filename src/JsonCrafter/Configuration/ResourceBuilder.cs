@@ -10,6 +10,11 @@ namespace JsonCrafter.Configuration
     {
         public readonly ICollection<IResourceAppendix> Appendixes = new HashSet<IResourceAppendix>();
 
+        public ResourceBuilder()
+        {
+            
+        }
+
         public ResourceBuilder(string url, params Func<TResource, string>[] values)
         {
             PathHelper.EnsurePathIsValid<TResource>(url);
