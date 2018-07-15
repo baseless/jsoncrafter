@@ -2,8 +2,8 @@
 
 namespace JsonCrafter.Configuration.Interfaces
 {
-    public interface IResourceBuilder
+    public interface IResourceMemberBuilder
     {
-        ICollection<IResourceEntry> Items { get; }
+        ICollection<IResourceMemberEntry> Items { get; }
     }
 }

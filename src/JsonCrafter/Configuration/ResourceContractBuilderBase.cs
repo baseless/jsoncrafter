@@ -9,7 +9,7 @@ namespace JsonCrafter.Configuration
 {
     public abstract class ResourceContractBuilderBase : IResourceContractBuilder, IJsonCrafterBuilder
     {
-        protected IDictionary<Type, IResourceBuilder> Builders { get; } = new Dictionary<Type, IResourceBuilder>();
+        protected IDictionary<Type, IResourceMemberBuilder> Builders { get; } = new Dictionary<Type, IResourceMemberBuilder>();
         protected ICollection<JsonCrafterMediaType> EnabledMediaTypes { get; } = new HashSet<JsonCrafterMediaType>();
         protected readonly IJsonCrafterBuilderAction BuilderAction;
 
@@ -28,7 +28,7 @@ namespace JsonCrafter.Configuration
             var type = typeof(TResource);
             EnsureResourceHasNotBeenAdded<TResource>(type);
 
-            var newBuilder = new ResourceBuilder<TResource>();
+            var newBuilder = new ResourceMemberBuilder<TResource>();
             Builders[type] = newBuilder;
             return newBuilder;
         }
@@ -38,7 +38,7 @@ namespace JsonCrafter.Configuration
             var type = typeof(TResource);
             EnsureResourceHasNotBeenAdded<TResource>(type);
             EnsureObjectsAreValues(values);
-            var newBuilder = new ResourceBuilder<TResource>(url, values);
+            var newBuilder = new ResourceMemberBuilder<TResource>(url, values);
             Builders[type] = newBuilder;
             return newBuilder;
         }

@@ -6,9 +6,9 @@ using JsonCrafter.Settings;
 
 namespace JsonCrafter.Configuration
 {
-    public class ResourceEntry<TResource> : IResourceEntry
+    public class ResourceMemberEntry<TResource> : IResourceMemberEntry
     {
-        public ResourceEntry(Type memberType, ResourceEntryType entryType, string url, ICollection<Expression<Func<TResource, object>>> values)
+        public ResourceMemberEntry(Type memberType, ResourceEntryType entryType, string url, ICollection<Expression<Func<TResource, object>>> values)
         {
             EntryType = entryType;
             MemberType = memberType ?? typeof(TResource);

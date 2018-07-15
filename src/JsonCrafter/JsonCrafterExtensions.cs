@@ -1,8 +1,10 @@
 ﻿using System;
 using JsonCrafter.Configuration;
+using JsonCrafter.Configuration.Hal;
+using JsonCrafter.Configuration.Hal.Interfaces;
 using JsonCrafter.Configuration.Interfaces;
-using JsonCrafter.ContentTypes.Hal;
-using JsonCrafter.ContentTypes.Hal.Interfaces;
+using JsonCrafter.Conversion.Hal;
+using JsonCrafter.Conversion.Hal.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

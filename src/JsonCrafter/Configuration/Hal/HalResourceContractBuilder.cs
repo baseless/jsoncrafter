@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using JsonCrafter.Configuration;
+using JsonCrafter.Configuration.Hal.Interfaces;
 using JsonCrafter.Configuration.Interfaces;
-using JsonCrafter.ContentTypes.Hal.Interfaces;
 using JsonCrafter.Conversion;
+using JsonCrafter.Conversion.Hal;
 using JsonCrafter.Conversion.Interfaces;
-using JsonCrafter.Settings;
 using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter.ContentTypes.Hal
+namespace JsonCrafter.Configuration.Hal
 {
     public class HalResourceContractBuilder : ResourceContractBuilderBase, IHalResourceContractBuilder
     {
@@ -45,21 +43,21 @@ namespace JsonCrafter.ContentTypes.Hal
             );
         }
 
-        private static JObject BuildRoot(Type type, IResourceBuilder builder)
+        private static JObject BuildRoot(Type type, IResourceMemberBuilder builder)
         {
             var obj = JObject.Parse("{ 'halJsonVersion': '0.0.1-alpha1' }");
 
             return obj;
         }
 
-        private static JObject BuildObject(Type type, IResourceBuilder builder)
+        private static JObject BuildObject(Type type, IResourceMemberBuilder builder)
         {
             var obj = new JObject();
 
             return obj;
         }
 
-        private static JObject BuildRelatedResourceBase(Type type, IResourceBuilder builder)
+        private static JObject BuildRelatedResourceBase(Type type, IResourceMemberBuilder builder)
         {
             var obj = new JObject();
 

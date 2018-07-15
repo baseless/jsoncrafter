@@ -1,6 +1,6 @@
 ﻿using JsonCrafter.Conversion.Interfaces;
 
-namespace JsonCrafter.ContentTypes.Hal.Interfaces
+namespace JsonCrafter.Conversion.Hal.Interfaces
 {
     public interface IHalResourceConverter : IResourceConverter
     {
