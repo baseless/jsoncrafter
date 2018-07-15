@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace JsonCrafter.ContentTypes
+namespace JsonCrafter.Conversion
 {
     public sealed class ResourceField : ResourceMemberBase<FieldInfo>
     {

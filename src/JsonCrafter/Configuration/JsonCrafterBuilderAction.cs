@@ -1,18 +1,17 @@
 ﻿using System;
 using JsonCrafter.Configuration.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 
 namespace JsonCrafter.Configuration
 {
     public class JsonCrafterBuilderAction : IJsonCrafterBuilderAction
     {
-        private readonly Action<IJsonCrafterConfigurationBuilder, IUrlHelper> _configBuilder;
+        private readonly Action<IJsonCrafterConfigurationBuilder> _configBuilder;
 
-        public JsonCrafterBuilderAction(Action<IJsonCrafterConfigurationBuilder, IUrlHelper> configBuilder)
+        public JsonCrafterBuilderAction(Action<IJsonCrafterConfigurationBuilder> configBuilder)
         {
             _configBuilder = configBuilder ?? throw new ArgumentNullException(nameof(configBuilder));
         }
 
-        public void Invoke(IJsonCrafterConfigurationBuilder builder, IUrlHelper urlHelper) => _configBuilder.Invoke(builder, urlHelper);
+        public void Invoke(IJsonCrafterConfigurationBuilder builder) => _configBuilder.Invoke(builder);
     }
 }

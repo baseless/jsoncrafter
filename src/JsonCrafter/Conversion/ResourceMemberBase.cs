@@ -3,7 +3,7 @@ using System.Reflection;
 using JsonCrafter.Conversion.Interfaces;
 using JsonCrafter.Helpers;
 
-namespace JsonCrafter.ContentTypes
+namespace JsonCrafter.Conversion
 {
     public abstract class ResourceMemberBase<TInfo> : IResourceMember where TInfo: MemberInfo
     {

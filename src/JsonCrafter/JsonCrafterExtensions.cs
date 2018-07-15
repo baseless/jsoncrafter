@@ -3,7 +3,6 @@ using JsonCrafter.Configuration;
 using JsonCrafter.Configuration.Interfaces;
 using JsonCrafter.ContentTypes.Hal;
 using JsonCrafter.ContentTypes.Hal.Interfaces;
-using JsonCrafter.Conversion.Hal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +13,7 @@ namespace JsonCrafter
 {
     public static class JsonCrafterExtensions
     {
-        public static IMvcBuilder AddJsonCrafterFormatters(this IMvcBuilder mvcBuilder, Action<IJsonCrafterConfigurationBuilder, IUrlHelper> configBuilder)
+        public static IMvcBuilder AddJsonCrafterFormatters(this IMvcBuilder mvcBuilder, Action<IJsonCrafterConfigurationBuilder> configBuilder)
         {
             if (mvcBuilder == default(IMvcBuilder))
             {

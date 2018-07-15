@@ -6,7 +6,7 @@ using JsonCrafter.Configuration.Interfaces;
 using JsonCrafter.Conversion.Interfaces;
 using JsonCrafter.Helpers;
 
-namespace JsonCrafter.ContentTypes
+namespace JsonCrafter.Conversion
 {
     public class ResourceContractResolver : IResourceContractResolver
     {

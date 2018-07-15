@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using JsonCrafter.Configuration.Interfaces;
 using JsonCrafter.Conversion.Interfaces;
 
-namespace JsonCrafter.ContentTypes
+namespace JsonCrafter.Conversion
 {
     public class ResourceContract : IResourceContract
     {

@@ -3,7 +3,7 @@ using JsonCrafter.Conversion.Interfaces;
 using JsonCrafter.Settings;
 using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter.Conversion.Hal
+namespace JsonCrafter.ContentTypes.Hal
 {
     public class HalResourceTemplate : IResourceTemplate
     {
