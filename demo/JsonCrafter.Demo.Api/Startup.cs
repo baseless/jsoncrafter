@@ -1,6 +1,6 @@
-﻿using JsonCrafter.Configuration;
+﻿using JsonCrafter.Bootstrapping.Extensions;
+using JsonCrafter.Configuration;
 using JsonCrafter.Demo.Api.Controllers;
-using JsonCrafter.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
