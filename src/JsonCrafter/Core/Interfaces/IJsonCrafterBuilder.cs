@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
+using JsonCrafter.Configuration.Interfaces;
 using JsonCrafter.Settings;
 
-namespace JsonCrafter.Configuration.Interfaces
+namespace JsonCrafter.Core.Interfaces
 {
     public interface IJsonCrafterBuilder
     {

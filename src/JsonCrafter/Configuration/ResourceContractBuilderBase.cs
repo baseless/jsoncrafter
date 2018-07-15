@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using JsonCrafter.Configuration.Interfaces;
+using JsonCrafter.Core;
+using JsonCrafter.Core.Interfaces;
 using JsonCrafter.Settings;
 
 namespace JsonCrafter.Configuration

@@ -1,7 +1,7 @@
 ﻿using System;
-using JsonCrafter.Configuration.Interfaces;
+using JsonCrafter.Core.Interfaces;
 
-namespace JsonCrafter.Configuration
+namespace JsonCrafter.Core
 {
     public class JsonCrafterBuilderAction : IJsonCrafterBuilderAction
     {

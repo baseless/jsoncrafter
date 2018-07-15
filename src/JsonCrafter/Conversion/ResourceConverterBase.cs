@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using JsonCrafter.Conversion.Interfaces;
+using JsonCrafter.Core;
 using JsonCrafter.Helpers;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;

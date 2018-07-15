@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using JsonCrafter.Configuration.Interfaces;
 using JsonCrafter.Conversion.Interfaces;
+using JsonCrafter.Core;
 using JsonCrafter.Helpers;
 
 namespace JsonCrafter.Conversion

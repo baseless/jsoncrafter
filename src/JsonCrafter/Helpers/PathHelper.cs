@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text.RegularExpressions;
+using JsonCrafter.Core;
 
 namespace JsonCrafter.Helpers
 {

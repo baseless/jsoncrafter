@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace JsonCrafter.Configuration.Interfaces
+﻿namespace JsonCrafter.Core.Interfaces
 {
     public interface IJsonCrafterBuilderAction
     {

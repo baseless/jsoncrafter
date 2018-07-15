@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JsonCrafter
+namespace JsonCrafter.Core
 {
     public class JsonCrafterException : Exception
     {

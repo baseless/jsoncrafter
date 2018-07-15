@@ -3,7 +3,7 @@ using JsonCrafter.Conversion.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace JsonCrafter
+namespace JsonCrafter.Core
 {
     public class JsonCrafterOptionsSetup<TConverter> : IConfigureOptions<MvcOptions> where TConverter: class, IResourceConverter
     {

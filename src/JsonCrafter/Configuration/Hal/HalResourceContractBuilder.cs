@@ -5,6 +5,7 @@ using JsonCrafter.Configuration.Interfaces;
 using JsonCrafter.Conversion;
 using JsonCrafter.Conversion.Hal;
 using JsonCrafter.Conversion.Interfaces;
+using JsonCrafter.Core.Interfaces;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Configuration.Hal
