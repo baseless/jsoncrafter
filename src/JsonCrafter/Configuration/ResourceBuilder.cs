@@ -1,7 +1,7 @@
 ﻿using System;
 using JsonCrafter.Configuration.Interfaces;
 
-namespace JsonCrafter
+namespace JsonCrafter.Configuration
 {
     public class ResourceBuilder<TResource> : IResourceConfiguration<TResource>, IResourceBuilder where TResource : class
     {
