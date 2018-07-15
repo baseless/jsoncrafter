@@ -9,21 +9,16 @@
     <Version>1.0.0-alpha1</Version>
     <Authors>Daniel Ryhle</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/baseless/jsoncrafter</PackageProjectUrl>
     <Copyright>Copyright @$([System.DateTime]::Now.ToString(yyyy)) Daniel Ryhle</Copyright>
-    <PackageTags>Json Hypermedia net-core WebApi HATEOAS</PackageTags>
+    <PackageTags>Json Hypermedia API</PackageTags>
     <Description>A .NET Core library for building Json HyperMedia output based on established standards like JsonAPI and Hal.</Description>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(AspNetCoreVersion)" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\JsonCrafter.Core\JsonCrafter.Shared.csproj" />
-    <ProjectReference Include="..\JsonCrafter.Serialization\JsonCrafter.Serialization.csproj" />
   </ItemGroup>
 
 </Project>

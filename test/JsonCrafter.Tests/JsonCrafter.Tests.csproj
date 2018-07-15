@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\build\global.props" />
+
+  <Import Project="..\..\solution.props" />
+
   <PropertyGroup>
     <TargetFramework>$(PackageFramework)</TargetFramework>
     <IsPackable>false</IsPackable>

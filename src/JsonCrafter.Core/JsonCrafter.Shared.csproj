@@ -1,11 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <Import Project="..\..\solution.props" />
+
   <PropertyGroup>
     <TargetFramework>$(PackageFramework)</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\JsonCrafter\JsonCrafter.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(AspNetCoreVersion)" />
   </ItemGroup>
 
 </Project>
