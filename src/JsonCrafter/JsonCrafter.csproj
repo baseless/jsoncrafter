@@ -21,8 +21,4 @@
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(AspNetCoreVersion)" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Construction\JsonApi\" />
-  </ItemGroup>
-
 </Project>

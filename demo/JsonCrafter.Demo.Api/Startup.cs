@@ -1,6 +1,5 @@
-﻿using JsonCrafter.Bootstrapping.Extensions;
-using JsonCrafter.Configuration;
-using JsonCrafter.Demo.Api.Controllers;
+﻿using JsonCrafter.Demo.Api.Controllers;
+using JsonCrafter.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +27,7 @@ namespace JsonCrafter.Demo.Api
                 })
                 .AddJsonCrafterFormatters((builder, url) =>
                 {
-                    builder.EnableMediaType(MediaType.Hal);
+                    builder.EnableMediaType(JsonCrafterMediaType.Hal);
                     builder.For<GetValuesOutputModel>(url.Action(nameof(ValuesController.Get), "Values", new { Boogle = "{0}" }), t => t.Tests.ToString());
                     builder.For<Test>(url.Action(nameof(ValuesController.Get), "Values"));
                 })

@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using JsonCrafter.Settings;
 
 namespace JsonCrafter.Helpers
 {
     public static class TypeHelper
     {
-        private static BindingFlags _nonStaticPublicFlags = BindingFlags.Public | BindingFlags.Instance;
-
         public static bool IsValue(Type type)
         {
             return IsString(type) || IsPrimitive(type);
@@ -58,7 +57,7 @@ namespace JsonCrafter.Helpers
 
         public static  IEnumerable<MemberInfo> GetMembers(Type type)
         {
-            return type.GetMembers(_nonStaticPublicFlags)
+            return type.GetMembers(JsonCrafterConstants.Reflection.NonStaticPublicFlags)
                 .Where(m => m.MemberType.Equals(MemberTypes.Field) || m.MemberType.Equals(MemberTypes.Property));
         }
     }
