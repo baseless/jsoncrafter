@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using JsonCrafter.ContentTypes.Hal.Interfaces;
 using JsonCrafter.Conversion.Interfaces;
+using JsonCrafter.Settings;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
@@ -9,8 +10,8 @@ namespace JsonCrafter.Conversion.Hal
 {
     public sealed class HalResourceConverter : ResourceConverterBase<ILogger<HalResourceConverter>>, IHalResourceConverter
     {
-        public override string FormatName => "hal+json";
-        public override string MediaTypeHeaderValue => "application/hal+json";
+        public override string FormatName => JsonCrafterConstants.Hal.FormatName;
+        public override string MediaTypeHeaderValue => JsonCrafterConstants.Hal.MediaTypeHeaderValue;
 
         public HalResourceConverter(IHalResourceContractBuilder builder, ILogger<HalResourceConverter> logger) : base(builder.Build(), logger)
         {
@@ -22,7 +23,7 @@ namespace JsonCrafter.Conversion.Hal
             {
                 if (member.IsResource)
                 {
-                    var resourceBase = contract.Template.GetResourceBase(member, contract);
+                    var resourceBase = contract.Template.NewResource(member, contract);
                     if (member.IsCollection)
                     {
                         // todo: create resources and traverse recursively

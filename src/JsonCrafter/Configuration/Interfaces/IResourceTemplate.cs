@@ -5,8 +5,8 @@ namespace JsonCrafter.Configuration.Interfaces
 {
     public interface IResourceTemplate
     {
-        JObject GetResourceBase(IResourceMember member, IResourceContract contract);
-        JObject GetRoot(object obj);
-        JObject GetObject(object obj);
+        JObject NewResource(IResourceMember member, IResourceContract contract);
+        JObject NewRoot(object obj);
+        JObject NewObject(object obj);
     }
 }

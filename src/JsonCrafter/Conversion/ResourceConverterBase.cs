@@ -47,7 +47,7 @@ namespace JsonCrafter.Conversion
             else
             {
                 var contract = Resolver.Resolve(type);
-                var jsonObject = contract.Template.GetRoot(obj);
+                var jsonObject = contract.Template.NewRoot(obj);
                 return PostProcessResult(ConvertBase(jsonObject, obj, contract, true));
             }
         }
