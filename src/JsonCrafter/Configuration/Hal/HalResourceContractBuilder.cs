@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using JsonCrafter.Configuration.Hal.Interfaces;
 using JsonCrafter.Configuration.Interfaces;
-using JsonCrafter.Conversion;
-using JsonCrafter.Conversion.Hal;
-using JsonCrafter.Conversion.Interfaces;
 using JsonCrafter.Core.Interfaces;
+using JsonCrafter.Serialization;
+using JsonCrafter.Serialization.Hal;
+using JsonCrafter.Serialization.Interfaces;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Configuration.Hal

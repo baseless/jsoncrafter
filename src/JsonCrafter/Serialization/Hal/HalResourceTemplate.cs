@@ -1,9 +1,9 @@
 ﻿using System;
 using JsonCrafter.Configuration.Interfaces;
-using JsonCrafter.Conversion.Interfaces;
+using JsonCrafter.Serialization.Interfaces;
 using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter.Conversion.Hal
+namespace JsonCrafter.Serialization.Hal
 {
     public class HalResourceTemplate : IResourceTemplate
     {

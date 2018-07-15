@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using JsonCrafter.Configuration.Interfaces;
-using JsonCrafter.Conversion.Interfaces;
+using JsonCrafter.Serialization.Interfaces;
 
-namespace JsonCrafter.Conversion
+namespace JsonCrafter.Serialization
 {
     public class ResourceContract : IResourceContract
     {

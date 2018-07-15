@@ -1,5 +1,5 @@
 ﻿using System;
-using JsonCrafter.Conversion.Interfaces;
+using JsonCrafter.Serialization.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 

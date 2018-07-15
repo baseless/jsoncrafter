@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using JsonCrafter.Configuration.Hal.Interfaces;
-using JsonCrafter.Conversion.Hal.Interfaces;
-using JsonCrafter.Conversion.Interfaces;
+using JsonCrafter.Serialization.Hal.Interfaces;
+using JsonCrafter.Serialization.Interfaces;
 using JsonCrafter.Settings;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter.Conversion.Hal
+namespace JsonCrafter.Serialization.Hal
 {
     public sealed class HalResourceConverter : ResourceConverterBase<ILogger<HalResourceConverter>>, IHalResourceConverter
     {

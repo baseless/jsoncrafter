@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JsonCrafter.Conversion.Interfaces
+namespace JsonCrafter.Serialization.Interfaces
 {
     public interface IResourceContractResolver
     {

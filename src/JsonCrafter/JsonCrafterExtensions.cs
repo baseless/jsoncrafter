@@ -1,17 +1,18 @@
 ﻿using System;
 using JsonCrafter.Configuration.Hal;
 using JsonCrafter.Configuration.Hal.Interfaces;
-using JsonCrafter.Conversion.Hal;
-using JsonCrafter.Conversion.Hal.Interfaces;
 using JsonCrafter.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using JsonCrafter.Core;
+using JsonCrafter.Serialization.Hal;
+using JsonCrafter.Serialization.Hal.Interfaces;
 
-namespace JsonCrafter.Core
+namespace JsonCrafter
 {
-    public static class JsonCrafterExtensions
+    public static class JsonCrafterExtensions // todo: CHECK HOW HANDLE ENTITIES BEHIND ENTITIES. /users/{0}/posts{1}. suggestion: use httpcontext to parse routes?
     {
         public static IMvcBuilder AddJsonCrafterFormatters(this IMvcBuilder mvcBuilder, Action<IJsonCrafterBuilder> configBuilder)
         {

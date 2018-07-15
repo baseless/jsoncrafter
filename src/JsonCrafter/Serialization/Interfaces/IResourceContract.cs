@@ -2,8 +2,7 @@
 using System.Collections.Immutable;
 using JsonCrafter.Configuration.Interfaces;
 
-
-namespace JsonCrafter.Conversion.Interfaces
+namespace JsonCrafter.Serialization.Interfaces
 {
     public interface IResourceContract
     {

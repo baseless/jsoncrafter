@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter.Conversion.Interfaces
+namespace JsonCrafter.Serialization.Interfaces
 {
     public interface IResourceConverter
     {

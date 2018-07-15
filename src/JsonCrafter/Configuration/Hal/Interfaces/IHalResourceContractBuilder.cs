@@ -1,5 +1,5 @@
 ﻿using JsonCrafter.Configuration.Interfaces;
-using JsonCrafter.Conversion.Interfaces;
+using JsonCrafter.Serialization.Interfaces;
 
 namespace JsonCrafter.Configuration.Hal.Interfaces
 {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using JsonCrafter.Conversion.Interfaces;
 using JsonCrafter.Core;
 using JsonCrafter.Helpers;
+using JsonCrafter.Serialization.Interfaces;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter.Conversion
+namespace JsonCrafter.Serialization
 {
     /// <summary>
     /// Base class for C# Object to JToken conversion.

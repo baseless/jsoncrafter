@@ -3,11 +3,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using JsonCrafter.Configuration.Interfaces;
-using JsonCrafter.Conversion.Interfaces;
 using JsonCrafter.Core;
 using JsonCrafter.Helpers;
+using JsonCrafter.Serialization.Interfaces;
 
-namespace JsonCrafter.Conversion
+namespace JsonCrafter.Serialization
 {
     public class ResourceContractResolver : IResourceContractResolver
     {

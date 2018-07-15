@@ -1,4 +1,4 @@
-﻿using JsonCrafter.Conversion.Interfaces;
+﻿using JsonCrafter.Serialization.Interfaces;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Configuration.Interfaces

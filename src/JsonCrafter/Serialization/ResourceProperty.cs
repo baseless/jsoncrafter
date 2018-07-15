@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace JsonCrafter.Conversion
+namespace JsonCrafter.Serialization
 {
     public class ResourceProperty : ResourceMemberBase<PropertyInfo>
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using JsonCrafter.Conversion.Interfaces;
 using JsonCrafter.Helpers;
+using JsonCrafter.Serialization.Interfaces;
 
-namespace JsonCrafter.Conversion
+namespace JsonCrafter.Serialization
 {
     public abstract class ResourceMemberBase<TInfo> : IResourceMember where TInfo: MemberInfo
     {
