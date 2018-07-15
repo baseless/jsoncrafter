@@ -1,13 +1,13 @@
 ﻿using System;
-using JsonCrafter.Conversion.Hal;
-using JsonCrafter.Conversion.Hal.Interfaces;
+using JsonCrafter.Configuration.Interfaces;
+using JsonCrafter.Contracts;
+using JsonCrafter.Contracts.Interfaces;
+using JsonCrafter.MediaTypes.Hal;
+using JsonCrafter.MediaTypes.Hal.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using JsonCrafter.Core.Configuration.Interfaces;
-using JsonCrafter.Core.Contracts;
-using JsonCrafter.Core.Contracts.Interfaces;
 
 namespace JsonCrafter.Extensions
 {

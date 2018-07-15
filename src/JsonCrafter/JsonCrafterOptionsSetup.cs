@@ -1,16 +1,15 @@
 ﻿using System;
-using JsonCrafter.Conversion;
-using JsonCrafter.Core.Configuration.Interfaces;
+using JsonCrafter.Configuration.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace JsonCrafter
 {
-    public class JsonCrafterOptionsSetup<TConverter> : IConfigureOptions<MvcOptions> where TConverter: class, IJsonConverter
+    internal class JsonCrafterOptionsSetup<TConverter> : IConfigureOptions<MvcOptions> where TConverter: class, IJsonConverter
     {
         private readonly TConverter _converter;
 
-        public JsonCrafterOptionsSetup(TConverter converter)
+        internal JsonCrafterOptionsSetup(TConverter converter)
         {
             _converter = converter ?? throw new NotImplementedException(nameof(converter));
         }

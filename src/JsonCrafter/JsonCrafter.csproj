@@ -21,9 +21,4 @@
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(AspNetCoreVersion)" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\JsonCrafter.Conversion\JsonCrafter.Conversion.csproj" />
-    <ProjectReference Include="..\JsonCrafter.Core\JsonCrafter.Core.csproj" />
-  </ItemGroup>
-
 </Project>

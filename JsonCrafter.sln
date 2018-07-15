@@ -22,10 +22,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonCrafter.Demo.Api", "dem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonCrafter", "src\JsonCrafter\JsonCrafter.csproj", "{8BBC9679-8D40-48BC-9038-C6E70301DEAC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonCrafter.Core", "src\JsonCrafter.Core\JsonCrafter.Core.csproj", "{5B33897D-4083-47F7-A586-0E61DA4E7181}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonCrafter.Conversion", "src\JsonCrafter.Conversion\JsonCrafter.Conversion.csproj", "{FB562666-4398-4FD6-8834-16F31606C2D2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,14 +40,6 @@ Global
 		{8BBC9679-8D40-48BC-9038-C6E70301DEAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BBC9679-8D40-48BC-9038-C6E70301DEAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BBC9679-8D40-48BC-9038-C6E70301DEAC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B33897D-4083-47F7-A586-0E61DA4E7181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B33897D-4083-47F7-A586-0E61DA4E7181}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B33897D-4083-47F7-A586-0E61DA4E7181}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B33897D-4083-47F7-A586-0E61DA4E7181}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB562666-4398-4FD6-8834-16F31606C2D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB562666-4398-4FD6-8834-16F31606C2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB562666-4398-4FD6-8834-16F31606C2D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB562666-4398-4FD6-8834-16F31606C2D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,8 +48,6 @@ Global
 		{DF0F0702-AE49-4D73-AB4D-066CCE3A8874} = {FD9B8B51-8EF3-4926-9199-06F88584895C}
 		{CE970ED3-FC03-4DF4-A18D-7FB78D1870EF} = {AE379FDC-A52F-4107-8A07-6A06D3E8B63E}
 		{8BBC9679-8D40-48BC-9038-C6E70301DEAC} = {3EF9786A-2764-49C5-861E-9D94790A1DD2}
-		{5B33897D-4083-47F7-A586-0E61DA4E7181} = {3EF9786A-2764-49C5-861E-9D94790A1DD2}
-		{FB562666-4398-4FD6-8834-16F31606C2D2} = {3EF9786A-2764-49C5-861E-9D94790A1DD2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {50076A3F-05BC-455B-A88F-469CCC760024}

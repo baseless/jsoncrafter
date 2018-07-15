@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using JsonCrafter.Conversion;
-using JsonCrafter.Core.Configuration.Interfaces;
+using JsonCrafter.Configuration.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter
 {
-    public class JsonCrafterOutputFormatter<TConverter> : TextOutputFormatter where TConverter : class, IJsonConverter
+    internal class JsonCrafterOutputFormatter<TConverter> : TextOutputFormatter where TConverter : class, IJsonConverter
     {
         private readonly TConverter _converter;
 
-        public JsonCrafterOutputFormatter(TConverter converter)
+        internal JsonCrafterOutputFormatter(TConverter converter)
         {
             _converter = converter ?? throw new NotImplementedException(nameof(converter));
             //todo: enable selection of encoding and json name casing strategies (camel, snake, kebab)
