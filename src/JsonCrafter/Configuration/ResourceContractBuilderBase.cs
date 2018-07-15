@@ -6,7 +6,7 @@ using JsonCrafter.Settings;
 
 namespace JsonCrafter.Configuration
 {
-    public abstract class ResourceContractBuilderBase
+    public abstract class ResourceContractBuilderBase : IResourceContractBuilder, IJsonCrafterBuilder
     {
         protected IDictionary<Type, IResourceBuilder> Builders { get; } = new Dictionary<Type, IResourceBuilder>();
         protected ICollection<JsonCrafterMediaType> EnabledMediaTypes { get; } = new HashSet<JsonCrafterMediaType>();
@@ -27,15 +27,10 @@ namespace JsonCrafter.Configuration
             var type = typeof(TResource);
             if (Builders.TryGetValue(type, out var typeBuilder) && typeBuilder != default(IResourceBuilder) && typeBuilder is IResourceConfiguration<TResource> castBuilder)
             {
-                throw new JsonCrafterException($"Template for '{type.FullName}' has already been configured. Ensure you only call 'For<{type.Namespace}>()' once in your configuration.");
+                throw new JsonCrafterException($"Template for '{type.FullName}' has already been configured. Ensure you only call 'For<{type.Name}>()' once in your configuration.");
             }
-
-            if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out var uri))
-            {
-                throw new JsonCrafterException($"Template could not be created for type '{type.FullName}' (reason: '{url}' is not a valid url).");
-            }
-
-            var newBuilder = new ResourceBuilder<TResource>(uri, values.ToArray());
+            
+            var newBuilder = new ResourceBuilder<TResource>(url, values.ToArray());
             Builders[type] = newBuilder;
             return newBuilder;
         }

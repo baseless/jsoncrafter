@@ -4,6 +4,6 @@ namespace JsonCrafter.Configuration.Interfaces
 {
     public interface IJsonCrafterBuilderAction
     {
-        void Invoke(IJsonCrafterConfigurationBuilder builder);
+        void Invoke(IJsonCrafterBuilder builder);
     }
 }

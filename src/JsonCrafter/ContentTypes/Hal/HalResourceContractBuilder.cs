@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using JsonCrafter.Configuration;
 using JsonCrafter.Configuration.Interfaces;
 using JsonCrafter.ContentTypes.Hal.Interfaces;
@@ -11,8 +10,6 @@ namespace JsonCrafter.ContentTypes.Hal
 {
     public class HalResourceContractBuilder : ResourceContractBuilderBase, IHalResourceContractBuilder
     {
-        
-
         public HalResourceContractBuilder(IJsonCrafterBuilderAction builderAction) : base(builderAction)
         {
             
@@ -20,6 +17,7 @@ namespace JsonCrafter.ContentTypes.Hal
 
         public IResourceContractResolver Build()
         {
+            BuilderAction.Invoke(this);
             return new ResourceContractResolver(new Dictionary<Type, IResourceTemplate>(), new HalResourceTemplate()); // todo: implement
         }
     }

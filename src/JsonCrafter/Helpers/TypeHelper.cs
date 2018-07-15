@@ -7,34 +7,34 @@ using JsonCrafter.Settings;
 
 namespace JsonCrafter.Helpers
 {
-    public static class TypeHelper
+    internal static class TypeHelper
     {
-        public static bool IsValue(Type type)
+        internal static bool IsValue(Type type)
         {
             return IsString(type) || IsPrimitive(type);
         }
 
-        public static bool IsPrimitive(Type type)
+        internal static bool IsPrimitive(Type type)
         {
             return type.IsPrimitive;
         }
 
-        public static bool IsCollection(Type type)
+        internal static bool IsCollection(Type type)
         {
             return !IsString(type) && (type.IsArray || typeof(IEnumerable).IsAssignableFrom(type));
         }
 
-        public static bool IsBoolean(Type type)
+        internal static bool IsBoolean(Type type)
         {
             return Type.GetTypeCode(type).Equals(TypeCode.Boolean);
         }
 
-        public static bool IsString(Type type)
+        internal static bool IsString(Type type)
         {
             return Type.GetTypeCode(type).Equals(TypeCode.String);
         }
 
-        public static bool IsNumeric(Type type)
+        internal static bool IsNumeric(Type type)
         {
             switch (Type.GetTypeCode(type))
             {
@@ -55,7 +55,7 @@ namespace JsonCrafter.Helpers
             }
         }
 
-        public static  IEnumerable<MemberInfo> GetMembers(Type type)
+        internal static  IEnumerable<MemberInfo> GetMembers(Type type)
         {
             return type.GetMembers(JsonCrafterConstants.Reflection.NonStaticPublicFlags)
                 .Where(m => m.MemberType.Equals(MemberTypes.Field) || m.MemberType.Equals(MemberTypes.Property));

@@ -29,6 +29,7 @@ namespace JsonCrafter.Demo.Api.Controllers
 
     public class GetValuesOutputModel
     {
+        public Guid ModelId { get; set; } = Guid.NewGuid();
         public IList<Test> Tests { get; set; } = new List<Test>();
     }
 

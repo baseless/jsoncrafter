@@ -5,13 +5,13 @@ namespace JsonCrafter.Configuration
 {
     public class JsonCrafterBuilderAction : IJsonCrafterBuilderAction
     {
-        private readonly Action<IJsonCrafterConfigurationBuilder> _configBuilder;
+        private readonly Action<IJsonCrafterBuilder> _configBuilder;
 
-        public JsonCrafterBuilderAction(Action<IJsonCrafterConfigurationBuilder> configBuilder)
+        public JsonCrafterBuilderAction(Action<IJsonCrafterBuilder> configBuilder)
         {
             _configBuilder = configBuilder ?? throw new ArgumentNullException(nameof(configBuilder));
         }
 
-        public void Invoke(IJsonCrafterConfigurationBuilder builder) => _configBuilder.Invoke(builder);
+        public void Invoke(IJsonCrafterBuilder builder) => _configBuilder.Invoke(builder);
     }
 }

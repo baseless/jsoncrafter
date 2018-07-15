@@ -25,11 +25,11 @@ namespace JsonCrafter.Demo.Api
                     o.ReturnHttpNotAcceptable = true;
                     o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 })
-                .AddJsonCrafterFormatters((builder, url) =>
+                .AddJsonCrafterFormatters((builder) =>
                 {
                     builder.EnableMediaType(JsonCrafterMediaType.Hal);
-                    builder.For<GetValuesOutputModel>(url.Action(nameof(ValuesController.Get), "Values", new { Boogle = "{0}" }), t => t.Tests.ToString());
-                    builder.For<Test>(url.Action(nameof(ValuesController.Get), "Values"));
+                    builder.For<GetValuesOutputModel>("http://fluffa.se/models/{0}", t => t.Tests.ToString());
+                    builder.For<Test>("/v1/fefewgfef/{0}", o => o.Id.ToString());
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
