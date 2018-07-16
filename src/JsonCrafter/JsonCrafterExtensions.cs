@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq.Expressions;
 using JsonCrafter.Initialization;
 using JsonCrafter.Serialization.Build;
 using JsonCrafter.Serialization.Configuration;
@@ -19,8 +18,6 @@ namespace JsonCrafter
             Ensure.IsSet(configurator);
 
             var services = mvcBuilder.Services;
-            services.AddHttpContextAccessor(); // todo: VERIFY: do endproduct need this?
-            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>(); // todo: VERIFY: do endproduct need this?
             services.AddEnabledJsonCrafterAssets(configurator);
             return mvcBuilder;
         }

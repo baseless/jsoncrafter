@@ -4,9 +4,12 @@ using System.Linq;
 using JsonCrafter.Serialization.Build;
 using JsonCrafter.Serialization.Build.Hal;
 using JsonCrafter.Serialization.Configuration;
+using JsonCrafter.Serialization.Converters.Hal;
 using JsonCrafter.Shared.Enums;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace JsonCrafter.Initialization
 {
@@ -32,8 +35,9 @@ namespace JsonCrafter.Initialization
         
         private static void AddHalFormatter(this IServiceCollection services)
         {
-            services.AddSingleton<IHalResolverFactory, HalResolverFactory>();
-            services.AddTransient<IJsonCrafterResolverFactory, HalResolverFactory>();
+            services.AddTransient<IHalResolverFactory, HalResolverFactory>();
+            services.AddTransient<IHalConverter, HalConverter>();
+            services.AddTransient<IConfigureOptions<MvcOptions>, JsonCrafterOptionsSetup<IHalConverter>>();
         }
     }
 }
