@@ -3,9 +3,9 @@ using JsonCrafter.Shared.Enums;
 
 namespace JsonCrafter.Build
 {
-    public interface IResourceMemberEntry
+    public interface IResourceSetting
     {
-        ResourceEntryType EntryType { get; }
+        ResourceSettingsType SettingsType { get; }
         Type MemberType { get; }
     }
 }

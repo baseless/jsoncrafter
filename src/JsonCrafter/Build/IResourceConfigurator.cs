@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
+using JsonCrafter.Configuration;
+using JsonCrafter.Shared;
+using Microsoft.AspNetCore.Mvc;
 
 namespace JsonCrafter.Build
 {
@@ -12,5 +15,7 @@ namespace JsonCrafter.Build
         //ITypeBuilder<T> HasLinkToSelf(string url, params Func<T, object>[] values);
         //ITypeBuilder<T> HasLink(string name, string templateId, string url, params Func<T, object>[] values);
         //ITypeBuilder<T> HasLink(string name, string templateId, string url, params string[] values);
+
+        IResourceConfigurator<TNew> For<TNew>(Expression<Func<IUrlHelper, string>> url, params Expression<Func<TNew, object>>[] values) where TNew : class;
     }
 }
