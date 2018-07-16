@@ -28,10 +28,10 @@ namespace JsonCrafter.Demo.Api
                 .AddJsonCrafter((builder) =>
                 {
                     builder.EnableMediaType(JsonCrafterMediaType.Hal);
-                    builder.For<GetValuesOutputModel>(
-                        c => c.Action(nameof(ValuesController.Get), "Values", new {id = "{id}"}), t => t.ModelId);
-                    //.ContainsResource(r => r.Tests);
-                    //builder.For<Test>("/v1/fefewgfef/{0}", o => o.Id.ToString());
+                    //    builder.For<GetValuesOutputModel>(
+                    //        "/v1/users/{0}", t => t.ModelId));
+                    //    //.ContainsResource(r => r.Tests);
+                    //    builder.For<Test>("/v1/fefewgfef/{0}", o => o.Id);
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

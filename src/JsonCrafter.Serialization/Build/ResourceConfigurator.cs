@@ -27,7 +27,7 @@ namespace JsonCrafter.Serialization.Build
             throw new NotImplementedException();
         }
 
-        public IResourceConfigurator<TNew> For<TNew>(Expression<Func<IUrlHelper, string>> url, params Expression<Func<TNew, object>>[] values) where TNew : class 
-            => _parent.For(url, values);
+        public IResourceConfigurator<TNew> For<TNew>(string url, params Expression<Func<TNew, Type>>[] parameterTypes) where TNew : class 
+            => _parent.For(url, parameterTypes);
     }
 }

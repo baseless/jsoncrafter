@@ -18,7 +18,10 @@ namespace JsonCrafter.Serialization.Build.Hal
         [MethodImpl(MethodImplOptions.Synchronized)] // todo: needed?
         public IResourceContractResolver Create()
         {
-            return null;
+            // 1. Validate all resource setting based on hal rules
+            // 2. Build all related
+            // 3. Build and return resolver
+            return new ResourceContractResolver();
         }
     }
 }

@@ -18,10 +18,8 @@ namespace JsonCrafter.Initialization
 
         internal static void AddEnabledJsonCrafterAssets(this IServiceCollection services, Action<IJsonCrafterConfigurator> configurator)
         {
-            // Add global dependencis
             services.TryAddSingleton<IJsonCrafterConfiguratorAction>(new JsonCrafterConfiguratorAction(configurator));
-
-            // Process applicable configurationsettings
+            
             var config = new JsonCrafterConfiguratorBase();
             configurator.Invoke(config);
             EnabledMediaTypes = config.EnabledMediaTypes.ToImmutableList();

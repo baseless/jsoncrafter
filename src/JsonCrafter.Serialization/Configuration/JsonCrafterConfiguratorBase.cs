@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using JsonCrafter.Serialization.Build;
 using JsonCrafter.Shared.Enums;
 using JsonCrafter.Shared.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace JsonCrafter.Serialization.Configuration
 {
     public class JsonCrafterConfiguratorBase : IJsonCrafterConfigurator
     {
         public ICollection<JsonCrafterMediaType> EnabledMediaTypes { get; } = new List<JsonCrafterMediaType>();
-        private IDictionary<Type, IResourceBuilder> _resources = new Dictionary<Type, IResourceBuilder>();
+        private readonly IDictionary<Type, IResourceBuilder> _resources = new Dictionary<Type, IResourceBuilder>();
 
 
         public void EnableMediaType(JsonCrafterMediaType type)
@@ -19,7 +22,7 @@ namespace JsonCrafter.Serialization.Configuration
             EnabledMediaTypes.Add(type);
         }
 
-        public IResourceConfigurator<TResource> For<TResource>(Expression<Func<IUrlHelper, string>> url, params Expression<Func<TResource, object>>[] values) where TResource : class
+        public IResourceConfigurator<TResource> For<TResource>(string url, params Expression<Func<TResource, Type>>[] values) where TResource : class
         {
             if (_resources.ContainsKey(typeof(TResource)))
             {

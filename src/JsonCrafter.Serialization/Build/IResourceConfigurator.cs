@@ -14,6 +14,6 @@ namespace JsonCrafter.Serialization.Build
         //ITypeBuilder<T> HasLink(string name, string templateId, string url, params Func<T, object>[] values);
         //ITypeBuilder<T> HasLink(string name, string templateId, string url, params string[] values);
 
-        IResourceConfigurator<TNew> For<TNew>(Expression<Func<IUrlHelper, string>> url, params Expression<Func<TNew, object>>[] values) where TNew : class;
+        IResourceConfigurator<TNew> For<TNew>(string url, params Expression<Func<TNew, Type>>[] parameterTypes) where TNew : class;
     }
 }

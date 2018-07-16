@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
 using JsonCrafter.Serialization.Converters;
 using JsonCrafter.Shared;
@@ -17,7 +16,7 @@ namespace JsonCrafter.Initialization
         public JsonCrafterOutputFormatter(TConverter converter)
         {
             _converter = Ensure.IsSet(converter);
-            //todo: enable selection of encoding and json name casing strategies (camel, snake, kebab)
+            //todo: IMPLEMENT: Handle casing and encoding correctly
             SupportedEncodings.Add(Encoding.UTF8);
             SupportedEncodings.Add(Encoding.Unicode);
             SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse(converter.MediaTypeHeaderValue));
