@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using JsonCrafter.Serialization.Contracts;
+using JsonCrafter.Serialization.Converters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
@@ -12,6 +13,7 @@ namespace JsonCrafter.Initialization
     public class JsonCrafterOutputFormatter<TConverter> : TextOutputFormatter where TConverter : class, IResourceConverter
     {
         private readonly TConverter _converter;
+        private bool _isBuilt = false;
 
         public JsonCrafterOutputFormatter(TConverter converter)
         {
@@ -24,6 +26,8 @@ namespace JsonCrafter.Initialization
 
         public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
+            
+            // todo: BUILD INDEX HERE IF NOT BUILT?
             var token = _converter.Convert(context.Object);
             return context.HttpContext.Response.WriteAsync(token.ToString(Formatting.None));
         }

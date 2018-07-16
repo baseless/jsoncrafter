@@ -29,7 +29,7 @@ namespace JsonCrafter
         {
             using (var scope = app.ApplicationServices.CreateScope())
             {
-                var r = scope.ServiceProvider.GetRequiredService<IJsonCrafterConfiguratorBuilder>();
+                var r = scope.ServiceProvider.GetRequiredService<IJsonCrafterConfiguratorFactory>();
                 //todo: IMPLEMENT: configuration build and prepare contracts and so forth.
             }
 

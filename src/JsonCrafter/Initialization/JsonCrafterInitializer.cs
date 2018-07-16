@@ -32,7 +32,8 @@ namespace JsonCrafter.Initialization
         
         private static void AddHalFormatter(this IServiceCollection services)
         {
-            services.AddTransient<IJsonCrafterConfiguratorBuilder, HalConfigurationBuilder>();
+            services.AddSingleton<IHalConfigurationFactory, HalConfigurationFactory>();
+            services.AddTransient<IJsonCrafterConfiguratorFactory, HalConfigurationFactory>();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace JsonCrafter.Serialization.Contracts
         /// <summary>
         /// List of all public properties, fields, objects and collections contained by the type.
         /// </summary>
-        IImmutableList<IResourceMember> Members { get; }
+        IImmutableList<IContractMember> Members { get; }
         /// <summary>
         /// The C# type on which the contract is built.
         /// </summary>

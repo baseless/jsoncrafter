@@ -6,7 +6,7 @@ namespace JsonCrafter.Build
 {
     public interface IResourceTemplate
     {
-        JObject NewResource(IResourceMember member, IResourceContract contract);
+        JObject NewResource(IContractMember member, IResourceContract contract);
         JObject NewRoot(object obj);
         JObject NewObject(object obj);
     }

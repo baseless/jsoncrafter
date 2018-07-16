@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using JsonCrafter.Build;
+using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter.Serialization.Contracts
+namespace JsonCrafter.Serialization.Converters
 {
     public interface IResourceConverter
     {
@@ -8,5 +9,6 @@ namespace JsonCrafter.Serialization.Contracts
         string MediaTypeHeaderValue { get; }
 
         JToken Convert(object obj);
+        IJsonCrafterConfiguratorFactory ConfigurationFactory { get; }
     }
 }

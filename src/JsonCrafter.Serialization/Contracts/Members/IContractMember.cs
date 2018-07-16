@@ -1,6 +1,6 @@
 ﻿namespace JsonCrafter.Serialization.Contracts.Members
 {
-    public interface IResourceMember
+    public interface IContractMember
     {
         bool IsRelatedResource { get; }
         bool IsValue { get; }
