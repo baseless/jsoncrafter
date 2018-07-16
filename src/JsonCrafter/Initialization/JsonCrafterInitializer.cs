@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Linq;
-using JsonCrafter.Build;
-using JsonCrafter.Build.Hal;
-using JsonCrafter.Configuration;
+using JsonCrafter.Serialization.Build;
+using JsonCrafter.Serialization.Build.Hal;
+using JsonCrafter.Serialization.Configuration;
 using JsonCrafter.Shared.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -32,8 +32,8 @@ namespace JsonCrafter.Initialization
         
         private static void AddHalFormatter(this IServiceCollection services)
         {
-            services.AddSingleton<IHalConfigurationFactory, HalConfigurationFactory>();
-            services.AddTransient<IJsonCrafterConfiguratorFactory, HalConfigurationFactory>();
+            services.AddSingleton<IHalResolverFactory, HalResolverFactory>();
+            services.AddTransient<IJsonCrafterResolverFactory, HalResolverFactory>();
         }
     }
 }

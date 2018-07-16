@@ -1,4 +1,4 @@
-﻿namespace JsonCrafter.Configuration
+﻿namespace JsonCrafter.Serialization.Configuration
 {
     public interface IJsonCrafterConfiguratorAction
     {

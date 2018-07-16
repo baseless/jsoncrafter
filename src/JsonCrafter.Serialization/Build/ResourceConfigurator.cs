@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using JsonCrafter.Configuration;
+using JsonCrafter.Serialization.Configuration;
 using JsonCrafter.Shared;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JsonCrafter.Build
+namespace JsonCrafter.Serialization.Build
 {
     public class ResourceConfigurator<TResource> : IResourceBuilder, IResourceConfigurator<TResource> where TResource: class
     {

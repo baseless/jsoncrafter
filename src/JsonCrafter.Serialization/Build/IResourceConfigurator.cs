@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using JsonCrafter.Configuration;
-using JsonCrafter.Shared;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JsonCrafter.Build
+namespace JsonCrafter.Serialization.Build
 {
     public interface IResourceConfigurator<TResource> where TResource : class
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using JsonCrafter.Build;
+using JsonCrafter.Serialization.Build;
 using JsonCrafter.Shared.Enums;
 using JsonCrafter.Shared.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JsonCrafter.Configuration
+namespace JsonCrafter.Serialization.Configuration
 {
     public class JsonCrafterConfiguratorBase : IJsonCrafterConfigurator
     {

@@ -4,7 +4,7 @@ using JsonCrafter.Shared;
 using JsonCrafter.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JsonCrafter.Build
+namespace JsonCrafter.Serialization.Build
 {
     public enum LinkSettingsType
     {

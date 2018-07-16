@@ -1,5 +1,5 @@
-﻿using JsonCrafter.Build;
-using JsonCrafter.Build.Hal;
+﻿using JsonCrafter.Serialization.Build;
+using JsonCrafter.Serialization.Build.Hal;
 using JsonCrafter.Shared;
 using Newtonsoft.Json.Linq;
 
@@ -7,8 +7,8 @@ namespace JsonCrafter.Serialization.Converters.Hal
 {
     public class HalConverter : IResourceConverter, IHalConverter
     {
-        private readonly IHalConfigurationFactory _factory;
-        public HalConverter(IHalConfigurationFactory factory)
+        private readonly IHalResolverFactory _factory;
+        public HalConverter(IHalResolverFactory factory)
         {
             _factory = Ensure.IsSet(factory);
         }
@@ -17,7 +17,7 @@ namespace JsonCrafter.Serialization.Converters.Hal
 
         public string MediaTypeHeaderValue => JsonCrafterConstants.Hal.MediaTypeHeaderValue;
 
-        public IJsonCrafterConfiguratorFactory ConfigurationFactory => _factory;
+        public IJsonCrafterResolverFactory ConfigurationFactory => _factory;
 
         public JToken Convert(object obj)
         {

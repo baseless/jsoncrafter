@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace JsonCrafter.Build
+namespace JsonCrafter.Serialization.Build
 {
     public interface IResourceBuilder
     {

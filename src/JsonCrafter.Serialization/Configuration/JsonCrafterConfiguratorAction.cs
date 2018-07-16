@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JsonCrafter.Configuration
+namespace JsonCrafter.Serialization.Configuration
 {
     public class JsonCrafterConfiguratorAction : IJsonCrafterConfiguratorAction
     {

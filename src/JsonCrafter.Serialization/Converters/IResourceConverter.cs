@@ -1,4 +1,4 @@
-﻿using JsonCrafter.Build;
+﻿using JsonCrafter.Serialization.Build;
 using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Serialization.Converters
@@ -9,6 +9,6 @@ namespace JsonCrafter.Serialization.Converters
         string MediaTypeHeaderValue { get; }
 
         JToken Convert(object obj);
-        IJsonCrafterConfiguratorFactory ConfigurationFactory { get; }
+        IJsonCrafterResolverFactory ConfigurationFactory { get; }
     }
 }

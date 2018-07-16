@@ -1,7 +1,7 @@
 ﻿using System;
 using JsonCrafter.Shared.Enums;
 
-namespace JsonCrafter.Build
+namespace JsonCrafter.Serialization.Build
 {
     public interface IResourceSetting
     {

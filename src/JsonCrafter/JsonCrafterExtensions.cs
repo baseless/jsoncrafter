@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using JsonCrafter.Build;
-using JsonCrafter.Configuration;
 using JsonCrafter.Initialization;
+using JsonCrafter.Serialization.Build;
+using JsonCrafter.Serialization.Configuration;
 using JsonCrafter.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -29,7 +29,7 @@ namespace JsonCrafter
         {
             using (var scope = app.ApplicationServices.CreateScope())
             {
-                var r = scope.ServiceProvider.GetRequiredService<IJsonCrafterConfiguratorFactory>();
+                var r = scope.ServiceProvider.GetRequiredService<IJsonCrafterResolverFactory>();
                 //todo: IMPLEMENT: configuration build and prepare contracts and so forth.
             }
 

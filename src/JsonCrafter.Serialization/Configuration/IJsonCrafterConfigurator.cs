@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq.Expressions;
-using JsonCrafter.Build;
+using JsonCrafter.Serialization.Build;
 using JsonCrafter.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JsonCrafter.Configuration
+namespace JsonCrafter.Serialization.Configuration
 {
     public interface IJsonCrafterConfigurator
     {

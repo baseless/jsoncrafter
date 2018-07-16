@@ -2,7 +2,7 @@
 using JsonCrafter.Serialization.Contracts.Members;
 using Newtonsoft.Json.Linq;
 
-namespace JsonCrafter.Build
+namespace JsonCrafter.Serialization.Build
 {
     public interface IResourceTemplate
     {
