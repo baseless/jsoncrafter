@@ -21,16 +21,5 @@ namespace JsonCrafter
             services.AddEnabledJsonCrafterAssets(configurator);
             return mvcBuilder;
         }
-
-        public static IApplicationBuilder UseJsonCrafter(this IApplicationBuilder app)
-        {
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var r = scope.ServiceProvider.GetRequiredService<IJsonCrafterResolverFactory>();
-                //todo: IMPLEMENT: configuration build and prepare contracts and so forth.
-            }
-
-            return app;
-        }
     }
 }

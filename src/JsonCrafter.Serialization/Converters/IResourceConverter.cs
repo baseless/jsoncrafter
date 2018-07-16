@@ -9,6 +9,5 @@ namespace JsonCrafter.Serialization.Converters
         string MediaTypeHeaderValue { get; }
 
         JToken Convert(object obj);
-        IJsonCrafterResolverFactory ConfigurationFactory { get; }
     }
 }

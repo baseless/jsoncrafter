@@ -2,22 +2,22 @@
 using JsonCrafter.Serialization.Build.Hal;
 using JsonCrafter.Shared;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace JsonCrafter.Serialization.Converters.Hal
 {
     public class HalConverter : IResourceConverter, IHalConverter
     {
-        private readonly IHalResolverFactory _factory;
+        private readonly IContractResolver _resolver;
+
         public HalConverter(IHalResolverFactory factory)
         {
-            _factory = Ensure.IsSet(factory);
+            _resolver = Ensure.IsSet(factory).Create();
         }
 
         public string FormatName => JsonCrafterConstants.Hal.FormatName;
 
         public string MediaTypeHeaderValue => JsonCrafterConstants.Hal.MediaTypeHeaderValue;
-
-        public IJsonCrafterResolverFactory ConfigurationFactory => _factory;
 
         public JToken Convert(object obj)
         {
