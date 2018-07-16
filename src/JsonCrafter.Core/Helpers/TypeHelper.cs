@@ -9,6 +9,8 @@ namespace JsonCrafter.Shared.Helpers
 {
     public static class TypeHelper
     {
+        private const BindingFlags NonStaticPublicFlags = BindingFlags.Public | BindingFlags.Instance;
+
         public static bool IsClass(Type type)
         {
             return type.IsClass;

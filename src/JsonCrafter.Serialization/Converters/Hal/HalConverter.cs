@@ -1,7 +1,6 @@
 ﻿using System;
 using JsonCrafter.Serialization.Build.Hal;
 using JsonCrafter.Serialization.Contracts;
-using JsonCrafter.Shared;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
@@ -13,9 +12,9 @@ namespace JsonCrafter.Serialization.Converters.Hal
         {
         }
 
-        public override string FormatName => JsonCrafterConstants.Hal.FormatName;
+        public override string FormatName => HalSpecification.FormatName;
 
-        public override string MediaTypeHeaderValue => JsonCrafterConstants.Hal.MediaTypeHeaderValue;
+        public override string MediaTypeHeaderValue => HalSpecification.MediaTypeHeaderValue;
 
         protected override JToken ConvertBase(JObject target, Type type, object obj, IResourceContract contract, bool isRoot = false)
         {
