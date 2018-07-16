@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Immutable;
+using System.Linq;
 using JsonCrafter.Build;
+using JsonCrafter.Build.Hal;
 using JsonCrafter.Configuration;
 using JsonCrafter.Shared.Enums;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,16 +12,19 @@ namespace JsonCrafter.Initialization
 {
     internal static class JsonCrafterInitializer
     {
+        internal static IImmutableList<JsonCrafterMediaType> EnabledMediaTypes;
+
         internal static void AddEnabledJsonCrafterAssets(this IServiceCollection services, Action<IJsonCrafterConfigurator> configurator)
         {
             // Add global dependencis
             services.TryAddSingleton<IJsonCrafterConfiguratorAction>(new JsonCrafterConfiguratorAction(configurator));
 
             // Process applicable configurationsettings
-            var config = new JsonCrafterConfigurationFetcher();
+            var config = new JsonCrafterConfiguratorBase();
             configurator.Invoke(config);
+            EnabledMediaTypes = config.EnabledMediaTypes.ToImmutableList();
 
-            if (config.EnabledMediaTypes.Contains(JsonCrafterMediaType.Hal))
+            if (EnabledMediaTypes.Contains(JsonCrafterMediaType.Hal))
             {
                 services.AddHalFormatter();
             }
@@ -26,7 +32,7 @@ namespace JsonCrafter.Initialization
         
         private static void AddHalFormatter(this IServiceCollection services)
         {
-
+            services.AddTransient<IJsonCrafterConfiguratorBuilder, HalConfigurationBuilder>();
         }
     }
 }

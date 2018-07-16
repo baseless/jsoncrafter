@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using JsonCrafterOld.Configuration.Interfaces;
 using JsonCrafterOld.Settings;
 
-namespace JsonCrafterOld.Configuration
+namespace JsonCrafterOld.Configuration // todo: IMPLEMENT: Option to flag property to not be mapped if jsonignore
 {
     public class ResourceMemberEntry<TResource> : IResourceMemberEntry
     {

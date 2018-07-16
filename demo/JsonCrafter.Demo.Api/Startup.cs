@@ -1,4 +1,5 @@
-﻿using JsonCrafter.Shared.Enums;
+﻿using JsonCrafter.Demo.Api.Controllers;
+using JsonCrafter.Shared.Enums;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,8 @@ namespace JsonCrafter.Demo.Api
                 .AddJsonCrafter((builder) =>
                 {
                     builder.EnableMediaType(JsonCrafterMediaType.Hal);
-                    //builder.For<GetValuesOutputModel>("http://fluffa.se/models/{0}", t => t.Tests.ToString()).ContainsResource(r => r.Tests);
+                    builder.For<GetValuesOutputModel>(c => c.Action(nameof(ValuesController.Get), "Values", new { id = "{id}" }), t => t.ModelId)
+                        .ContainsResource(r => r.Tests);
                     //builder.For<Test>("/v1/fefewgfef/{0}", o => o.Id.ToString());
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -45,8 +47,8 @@ namespace JsonCrafter.Demo.Api
             }
 
             app.UseJsonCrafter();
-            app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc()
+                .UseHttpsRedirection();
         }
     }
 }

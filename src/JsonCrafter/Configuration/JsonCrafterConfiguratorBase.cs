@@ -1,13 +1,13 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using JsonCrafter.Configuration;
+using JsonCrafter.Build;
 using JsonCrafter.Shared.Enums;
+using Microsoft.AspNetCore.Mvc;
 
-namespace JsonCrafter.Build
+namespace JsonCrafter.Configuration
 {
-    public class JsonCrafterConfigurationFetcher : IJsonCrafterConfigurator
+    public class JsonCrafterConfiguratorBase : IJsonCrafterConfigurator
     {
         public ICollection<JsonCrafterMediaType> EnabledMediaTypes { get; } = new List<JsonCrafterMediaType>();
 
@@ -16,7 +16,7 @@ namespace JsonCrafter.Build
             EnabledMediaTypes.Add(type);
         }
 
-        public IResourceConfigurator<TResource> For<TResource>(string url, params Expression<Func<TResource, object>>[] values) where TResource : class
+        public IResourceConfigurator<TResource> For<TResource>(Expression<Func<IUrlHelper, string>> url, params Expression<Func<TResource, object>>[] values) where TResource : class
         {
             return null;
         }
