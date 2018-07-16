@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using JsonCrafter.Serialization.Configuration;
+using JsonCrafter.Serialization.Contracts;
 using JsonCrafter.Shared;
-using Newtonsoft.Json.Serialization;
 
 namespace JsonCrafter.Serialization.Build.Hal
 {
@@ -16,7 +16,7 @@ namespace JsonCrafter.Serialization.Build.Hal
         
 
         [MethodImpl(MethodImplOptions.Synchronized)] // todo: needed?
-        public IContractResolver Create()
+        public IResourceContractResolver Create()
         {
             return null;
         }

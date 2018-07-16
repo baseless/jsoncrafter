@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Linq;
-using JsonCrafter.Serialization.Build;
 using JsonCrafter.Serialization.Build.Hal;
 using JsonCrafter.Serialization.Configuration;
 using JsonCrafter.Serialization.Converters.Hal;

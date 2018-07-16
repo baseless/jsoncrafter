@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using JsonCrafter.Serialization.Contracts;
 
 namespace JsonCrafter.Serialization.Build
 {
     public interface IJsonCrafterResolverFactory
     {
-        IContractResolver Create();
+        IResourceContractResolver Create();
     }
 }

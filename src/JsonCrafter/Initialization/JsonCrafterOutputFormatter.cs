@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using JsonCrafter.Serialization.Contracts;
 using JsonCrafter.Serialization.Converters;
 using JsonCrafter.Shared;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +26,7 @@ namespace JsonCrafter.Initialization
         public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
             var token = _converter.Convert(context.Object);
-            return context.HttpContext.Response.WriteAsync(token.ToString(Formatting.None));
+            return context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(token));
         }
     }
 }

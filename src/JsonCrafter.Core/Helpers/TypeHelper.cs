@@ -8,6 +8,11 @@ namespace JsonCrafter.Shared.Helpers
 {
     public static class TypeHelper
     {
+        public static bool IsClass(Type type)
+        {
+            return type.IsClass;
+        }
+
         public static bool IsValue(Type type)
         {
             return IsString(type) || IsPrimitive(type);

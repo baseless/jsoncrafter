@@ -1,27 +1,27 @@
-﻿using JsonCrafter.Serialization.Build;
+﻿using System;
 using JsonCrafter.Serialization.Build.Hal;
+using JsonCrafter.Serialization.Contracts;
 using JsonCrafter.Shared;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 
 namespace JsonCrafter.Serialization.Converters.Hal
 {
-    public class HalConverter : IResourceConverter, IHalConverter
+    public class HalConverter : ResourceConverterBase<HalConverter>, IHalConverter
     {
-        private readonly IContractResolver _resolver;
-
-        public HalConverter(IHalResolverFactory factory)
+        public HalConverter(IHalResolverFactory factory, ILogger<HalConverter> logger) : base(factory, logger)
         {
-            _resolver = Ensure.IsSet(factory).Create();
         }
 
-        public string FormatName => JsonCrafterConstants.Hal.FormatName;
+        public override string FormatName => JsonCrafterConstants.Hal.FormatName;
 
-        public string MediaTypeHeaderValue => JsonCrafterConstants.Hal.MediaTypeHeaderValue;
+        public override string MediaTypeHeaderValue => JsonCrafterConstants.Hal.MediaTypeHeaderValue;
 
-        public JToken Convert(object obj)
+        protected override JToken ConvertBase(JObject target, Type type, object obj, IResourceContract contract, bool isRoot = false)
         {
-            throw new System.NotImplementedException();
+            return JToken.FromObject(obj);
         }
+
+        protected override JToken PostProcessResult(JToken token) => token;
     }
 }
