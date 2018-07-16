@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 
-namespace JsonCrafter
+namespace JsonCrafter.Initialization
 {
     public class JsonCrafterOutputFormatter<TConverter> : TextOutputFormatter where TConverter : class, IResourceConverter
     {

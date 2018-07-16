@@ -1,37 +1,37 @@
 ﻿using System;
+using System.Linq.Expressions;
 using JsonCrafter.Configuration;
+using JsonCrafter.Initialization;
+using JsonCrafter.Shared;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace JsonCrafter
 {
     public static class JsonCrafterExtensions
     {
-        public static IMvcBuilder AddJsonCrafterFormatters(this IMvcBuilder mvcBuilder, Action<IJsonCrafterConfigurator> configurator)
+        public static IMvcBuilder AddJsonCrafter(this IMvcBuilder mvcBuilder, Action<IJsonCrafterConfigurator> configurator)
         {
-            if (mvcBuilder == default(IMvcBuilder))
-            {
-                throw new ArgumentNullException(nameof(mvcBuilder));
-            }
-
-            if (configurator == default(Action<IJsonCrafterConfigurator>))
-            {
-                throw new ArgumentNullException(nameof(configurator));
-            }
+            Ensure.IsSet(mvcBuilder);
+            Ensure.IsSet(configurator);
 
             var services = mvcBuilder.Services;
-
-            services.AddEnabledFormatters();
-
+            services.AddHttpContextAccessor(); // todo: VERIFY: do endproduct need this?
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>(); // todo: VERIFY: do endproduct need this?
+            services.AddEnabledJsonCrafterAssets(configurator);
             return mvcBuilder;
         }
 
-        private static void AddEnabledFormatters(this IServiceCollection services)
+        public static IApplicationBuilder UseJsonCrafter(this IApplicationBuilder app)
         {
-            services.AddHalFormatter();
-        }
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                //todo: IMPLEMENT: configuration build and prepare contracts and so forth.
+            }
 
-        private static void AddHalFormatter(this IServiceCollection services)
-        {
+            return app;
         }
     }
 }

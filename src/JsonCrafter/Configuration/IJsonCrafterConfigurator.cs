@@ -1,10 +1,13 @@
-﻿using JsonCrafter.Shared.Enums;
+﻿using System;
+using System.Linq.Expressions;
+using JsonCrafter.Build;
+using JsonCrafter.Shared.Enums;
 
 namespace JsonCrafter.Configuration
 {
     public interface IJsonCrafterConfigurator
     {
         void EnableMediaType(JsonCrafterMediaType type);
-        //IResourceConfiguration<TResource> For<TResource>(string url, params Expression<Func<TResource, object>>[] values) where TResource : class;
+        IResourceConfigurator<TResource> For<TResource>(string url, params Expression<Func<TResource, object>>[] values) where TResource : class;
     }
 }
