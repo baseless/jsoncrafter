@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
-using JsonCrafter.Shared.Exceptions;
-using JsonCrafter.Shared.Helpers;
+using JsonCrafter.Core.Exceptions;
+using JsonCrafter.Core.Helpers;
 
-namespace JsonCrafter.Shared
+namespace JsonCrafter.Core
 {
     public static class Ensure
     {

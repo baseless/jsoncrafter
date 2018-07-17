@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
 using System.Text.RegularExpressions;
-using JsonCrafter.Shared.Exceptions;
+using JsonCrafter.Core.Exceptions;
 
-namespace JsonCrafter.Shared.Helpers
+namespace JsonCrafter.Core.Helpers
 {
     public static class PathHelper
     {

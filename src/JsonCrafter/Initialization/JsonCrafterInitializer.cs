@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Linq;
-using JsonCrafter.Serialization.Build.Hal;
-using JsonCrafter.Serialization.Configuration;
-using JsonCrafter.Serialization.Converters.Hal;
-using JsonCrafter.Shared.Enums;
+using JsonCrafter.Core.Enums;
+using JsonCrafter.Core.Exceptions;
+using JsonCrafter.Processing.Compilation;
+using JsonCrafter.Processing.Compilation.Hal;
+using JsonCrafter.Processing.Configuration;
+using JsonCrafter.Processing.Naming;
+using JsonCrafter.Processing.Serialization.Hal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -15,14 +18,16 @@ namespace JsonCrafter.Initialization
     internal static class JsonCrafterInitializer
     {
         internal static IImmutableList<JsonCrafterMediaType> EnabledMediaTypes;
-
-        internal static void AddEnabledJsonCrafterAssets(this IServiceCollection services, Action<IJsonCrafterConfigurator> configurator)
+        internal static JsonCrafterCasing EnabledCasing;
+        internal static void AddEnabledJsonCrafterAssets(this IServiceCollection services, Action<IConfigurationBuilder> configurator)
         {
-            services.TryAddSingleton<IJsonCrafterConfiguratorAction>(new JsonCrafterConfiguratorAction(configurator));
+            services.TryAddSingleton<ISettingsCompilerAction>(new SettingsCompilerAction(configurator));
             
-            var config = new JsonCrafterConfiguratorBase();
+            var config = new ConfigurationBuilderBase();
             configurator.Invoke(config);
             EnabledMediaTypes = config.EnabledMediaTypes.ToImmutableList();
+
+            services.AddCasingStrategy(config.GetCasing());
 
             if (EnabledMediaTypes.Contains(JsonCrafterMediaType.Hal))
             {
@@ -32,9 +37,27 @@ namespace JsonCrafter.Initialization
         
         private static void AddHalFormatter(this IServiceCollection services)
         {
-            services.AddTransient<IHalResolverFactory, HalResolverFactory>();
-            services.AddTransient<IHalConverter, HalConverter>();
-            services.AddTransient<IConfigureOptions<MvcOptions>, JsonCrafterOptionsSetup<IHalConverter>>();
+            services.AddTransient<IHalSettingsCompiler, HalSettingsCompiler>();
+            services.AddTransient<IHalSerializer, HalSerializer>();
+            services.AddTransient<IConfigureOptions<MvcOptions>, JsonCrafterOptionsSetup<IHalSerializer>>();
+        }
+
+        private static void AddCasingStrategy(this IServiceCollection services, JsonCrafterCasing casing)
+        {
+            switch (EnabledCasing)
+            {
+                case JsonCrafterCasing.CamelCase:
+                    services.AddSingleton<ICaseFormatter, CamelCaseFormatter>();
+                    break;
+                case JsonCrafterCasing.PascalCase:
+                    services.AddSingleton<ICaseFormatter, PascalCaseFormatter>();
+                    break;
+                case JsonCrafterCasing.SnakeCase:
+                    services.AddSingleton<ICaseFormatter, SnakeCaseFormatter>();
+                    break;
+                default:
+                    throw new JsonCrafterException($"Could not activate casing strategy '{casing.ToString()}' (not supported)");
+            }
         }
     }
 }

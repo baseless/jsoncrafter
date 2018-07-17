@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
-using JsonCrafter.Serialization.Converters;
-using JsonCrafter.Shared;
+using JsonCrafter.Core;
+using JsonCrafter.Processing.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace JsonCrafter.Initialization
 {
-    public class JsonCrafterOutputFormatter<TConverter> : TextOutputFormatter where TConverter : class, IResourceConverter
+    public class JsonCrafterOutputFormatter<TConverter> : TextOutputFormatter where TConverter : class, IResourceSerializer
     {
         private readonly TConverter _converter;
 

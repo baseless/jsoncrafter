@@ -1,4 +1,4 @@
-﻿namespace JsonCrafter.Shared.Enums
+﻿namespace JsonCrafter.Core.Enums
 {
     public enum ResourceSettingsType
     {

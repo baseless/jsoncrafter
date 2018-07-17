@@ -1,5 +1,5 @@
-﻿using JsonCrafter.Demo.Api.Controllers;
-using JsonCrafter.Shared.Enums;
+﻿using JsonCrafter.Core.Enums;
+using JsonCrafter.Demo.Api.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +28,7 @@ namespace JsonCrafter.Demo.Api
                 .AddJsonCrafter((builder) =>
                 {
                     builder.EnableMediaType(JsonCrafterMediaType.Hal);
+                    builder.For<Test>();
                     //    builder.For<GetValuesOutputModel>(
                     //        "/v1/users/{0}", t => t.ModelId));
                     //    //.ContainsResource(r => r.Tests);

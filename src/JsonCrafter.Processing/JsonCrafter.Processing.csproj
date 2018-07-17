@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\solution.props" />
+
+  <PropertyGroup>
+    <TargetFramework>$(PackageFramework)</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="$(AspNetCoreVersion)" />
+    <PackageReference Include="Soltys.ChangeCase" Version="1.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JsonCrafter.Core\JsonCrafter.Core.csproj" />
+  </ItemGroup>
+
+</Project>

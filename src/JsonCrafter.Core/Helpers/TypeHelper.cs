@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace JsonCrafter.Shared.Helpers
+namespace JsonCrafter.Core.Helpers
 {
     public static class TypeHelper
     {
@@ -64,7 +64,7 @@ namespace JsonCrafter.Shared.Helpers
 
         public static  IEnumerable<MemberInfo> GetMembers(Type type)
         {
-            return type.GetMembers(JsonCrafterConstants.Reflection.NonStaticPublicFlags)
+            return type.GetMembers(NonStaticPublicFlags)
                 .Where(m => m.MemberType.Equals(MemberTypes.Field) || m.MemberType.Equals(MemberTypes.Property));
         }
 

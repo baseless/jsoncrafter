@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JsonCrafter.Core\JsonCrafter.Shared.csproj" />
-    <ProjectReference Include="..\JsonCrafter.Serialization\JsonCrafter.Serialization.csproj" />
+    <ProjectReference Include="..\JsonCrafter.Core\JsonCrafter.Core.csproj" />
+    <ProjectReference Include="..\JsonCrafter.Processing\JsonCrafter.Processing.csproj" />
   </ItemGroup>
 
 </Project>
