@@ -10,15 +10,16 @@ namespace JsonCrafter.Processing.Configuration
     /// Assembles the configuration for one specific resource type.
     /// </summary>
     /// <typeparam name="TResource">The type of resource to be configured.</typeparam>
-    public class ConfigurationBuilder<TResource> : IResourceConfiguration, IResourceBuilder<TResource> where TResource: class
+    public class ResourceBuilder<TResource> : IResourceConfiguration, IResourceBuilder<TResource> where TResource: class
     {
         private readonly IConfigurationBuilder _parent;
+
         /// <summary>
         /// All settings build for this resource type.
         /// </summary>
         public IDictionary<Type, ICollection<IResourceSetting>> Settings { get; } = new Dictionary<Type, ICollection<IResourceSetting>>();
 
-        public ConfigurationBuilder(IConfigurationBuilder parent, IResourceSetting setting = default(IResourceSetting))
+        public ResourceBuilder(IConfigurationBuilder parent, IResourceSetting setting = default(IResourceSetting))
         {
             _parent = Ensure.IsSet(parent);
 
@@ -27,7 +28,7 @@ namespace JsonCrafter.Processing.Configuration
                 Settings[typeof(TResource)].Add(setting);
             }
         }
-
+        
         /// <inheritdoc />
         public IResourceBuilder<TNew> For<TNew>() where TNew : class => _parent.For<TNew>();
 

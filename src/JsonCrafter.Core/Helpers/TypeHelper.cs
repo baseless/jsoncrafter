@@ -67,18 +67,5 @@ namespace JsonCrafter.Core.Helpers
             return type.GetMembers(NonStaticPublicFlags)
                 .Where(m => m.MemberType.Equals(MemberTypes.Field) || m.MemberType.Equals(MemberTypes.Property));
         }
-
-        public static bool ContainOnlyValueTypes<TResource>(Expression<Func<TResource, Type>>[] typeExpressions, out Type failedType)
-        {
-            foreach (var body in typeExpressions)
-            {
-                if (TypeHelper.IsValue(body.Type)) continue;
-                failedType = body.Type;
-                return false;
-            }
-
-            failedType = null;
-            return true;
-        }
     }
 }

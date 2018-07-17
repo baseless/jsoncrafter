@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using JsonCrafter.Core.Enums;
 using JsonCrafter.Core.Exceptions;
-using JsonCrafter.Processing.Configuration.Settings;
 
 namespace JsonCrafter.Processing.Configuration
 {
@@ -25,22 +23,11 @@ namespace JsonCrafter.Processing.Configuration
         {
             EnabledMediaTypes.Add(type);
         }
-
+        
         public IResourceBuilder<TResource> For<TResource>() where TResource : class
         {
             EnsureResourceNotAlreadyAdded(typeof(TResource));
-
-            var resource = new ConfigurationBuilder<TResource>(this);
-            _resources.Add(typeof(TResource), resource);
-            return resource;
-        }
-
-        public IResourceBuilder<TResource> For<TResource>(string urlToSelf, params Expression<Func<TResource, Type>>[] urlParameters) where TResource : class
-        {
-            EnsureResourceNotAlreadyAdded(typeof(TResource));
-
-            var setting = new LinkSettings<TResource>(typeof(TResource), LinkSettingsType.ToSelf, null, urlToSelf, urlParameters);
-            var resource = new ConfigurationBuilder<TResource>(this, setting);
+            var resource = new ResourceBuilder<TResource>(this);
             _resources.Add(typeof(TResource), resource);
             return resource;
         }

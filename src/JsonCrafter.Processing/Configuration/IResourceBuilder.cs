@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace JsonCrafter.Processing.Configuration
 {
-    public interface IResourceBuilder<TResource> where TResource : class
+    public interface IResourceBuilder<TResource> : IForBuilder where TResource : class
     {
         /// <summary>
         /// Registers a new serialization-contract for a specific resource type.
@@ -26,7 +26,7 @@ namespace JsonCrafter.Processing.Configuration
         /// Configures the id for this resource.
         /// NOTE: Not used by all HATEOAS formats (JsonAPI uses if but not HAL for example).
         /// </summary>
-        /// <param name="idParameters"></param>
+        /// <param name="idProperties"></param>
         /// <returns></returns>
         IResourceBuilder<TResource> HasId(params Expression<Func<TResource, Type>>[] idProperties);
 
@@ -34,8 +34,9 @@ namespace JsonCrafter.Processing.Configuration
         /// Provides a link template (kown as for example CURIE).
         /// NOTE: Not used by all HATEOAS formats (HAL uses it but not JsonAPI for example).
         /// </summary>
-        /// <param name="url">The template url</param>
         /// <param name="templateIdentifier"></param>
+        /// <param name="url">The template url</param>
+        /// <param name="additionalParameters"></param>
         /// <returns></returns>
         IResourceBuilder<TResource> HasTemplate(string templateIdentifier, string url, params Expression<Func<TResource, Type>>[] additionalParameters);
 

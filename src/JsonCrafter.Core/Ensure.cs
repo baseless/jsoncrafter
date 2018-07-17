@@ -42,16 +42,28 @@ namespace JsonCrafter.Core
             return obj;
         }
 
-        public static Expression<Func<TResource, Type>>[] ContainsOnlyValidParameterTypes<TResource>(Expression<Func<TResource, Type>>[] values)
+        public static Expression<Func<TResource, Type>> IsValidParameterType<TResource>(Expression<Func<TResource, Type>> expression)
         {
-            IsSet(values);
-
-            if (!TypeHelper.ContainOnlyValueTypes(values, out var failedType))
+            IsSet(expression);
+            
+            if (!TypeHelper.IsValue(expression.Body.Type))
             {
-                throw new JsonCrafterException($"'{failedType.Name}' is not a valid parameter type (only strings and primitive types are allowed).");
+                throw new JsonCrafterException($"'{expression.Body.Type.Name}' is not a valid parameter type (only strings and primitive types are allowed).");
             }
 
-            return values;
+            return expression;
+        }
+
+        public static Expression<Func<TResource, Type>>[] ContainsOnlyValidParameterTypes<TResource>(Expression<Func<TResource, Type>>[] valuesExpressions)
+        {
+            IsSet(valuesExpressions);
+
+            foreach (var exp in valuesExpressions)
+            {
+                IsValidParameterType(exp);
+            }
+
+            return valuesExpressions;
         }
     }
 }
