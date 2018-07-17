@@ -7,6 +7,7 @@
     {
         SnakeCase,
         CamelCase,
-        PascalCase
+        PascalCase,
+        ParamCase
     }
 }

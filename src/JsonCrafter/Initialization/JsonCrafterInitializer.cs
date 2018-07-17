@@ -18,7 +18,7 @@ namespace JsonCrafter.Initialization
     internal static class JsonCrafterInitializer
     {
         internal static IImmutableList<JsonCrafterMediaType> EnabledMediaTypes;
-        internal static JsonCrafterCasing EnabledCasing;
+
         internal static void AddEnabledJsonCrafterAssets(this IServiceCollection services, Action<IConfigurationBuilder> configurator)
         {
             services.TryAddSingleton<ISettingsCompilerAction>(new SettingsCompilerAction(configurator));
@@ -44,7 +44,7 @@ namespace JsonCrafter.Initialization
 
         private static void AddCasingStrategy(this IServiceCollection services, JsonCrafterCasing casing)
         {
-            switch (EnabledCasing)
+            switch (casing)
             {
                 case JsonCrafterCasing.CamelCase:
                     services.AddSingleton<ICaseFormatter, CamelCaseFormatter>();
@@ -54,6 +54,9 @@ namespace JsonCrafter.Initialization
                     break;
                 case JsonCrafterCasing.SnakeCase:
                     services.AddSingleton<ICaseFormatter, SnakeCaseFormatter>();
+                    break;
+                case JsonCrafterCasing.ParamCase:
+                    services.AddSingleton<ICaseFormatter, ParamCaseFormatter>();
                     break;
                 default:
                     throw new JsonCrafterException($"Could not activate casing strategy '{casing.ToString()}' (not supported)");

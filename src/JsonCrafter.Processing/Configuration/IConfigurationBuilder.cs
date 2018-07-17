@@ -8,6 +8,11 @@ namespace JsonCrafter.Processing.Configuration
     {
         /// <summary>
         /// Sets what casing should be used by JsonCrafter.
+        ///
+        /// CamelCase => 'camelCase' (default)
+        /// PascalCase => 'PascalCase'
+        /// SnakeCase => 'snake_case'
+        /// ParamCase => 'param-case'
         /// </summary>
         /// <param name="format">The desired casing format.</param>
         void SetCasing(JsonCrafterCasing format);
