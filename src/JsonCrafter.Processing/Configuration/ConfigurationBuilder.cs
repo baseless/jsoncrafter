@@ -35,11 +35,13 @@ namespace JsonCrafter.Processing.Configuration
         public IResourceBuilder<TNew> For<TNew>(string urlToSelf, params Expression<Func<TNew, Type>>[] urlParameters) where TNew : class 
             => _parent.For(urlToSelf, urlParameters);
 
+        /// <inheritdoc />
         public IResourceBuilder<TResource> HasId(params Expression<Func<TResource, Type>>[] idProperties)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public IResourceBuilder<TResource> HasTemplate(string templateIdentifier, string url, params Expression<Func<TResource, Type>>[] additionalParameters)
         {
             throw new NotImplementedException();

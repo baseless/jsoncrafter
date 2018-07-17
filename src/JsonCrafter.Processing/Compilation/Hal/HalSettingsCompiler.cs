@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using JsonCrafter.Core;
+using JsonCrafter.Processing.Configuration;
 using JsonCrafter.Processing.Contracts;
 using JsonCrafter.Processing.Naming;
 

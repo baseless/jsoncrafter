@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using JsonCrafter.Core.Enums;
 using JsonCrafter.Core.Exceptions;
-using JsonCrafter.Processing.Configuration;
 using JsonCrafter.Processing.Configuration.Settings;
 
-namespace JsonCrafter.Processing.Compilation
+namespace JsonCrafter.Processing.Configuration
 {
     public class ConfigurationBuilderBase : IConfigurationBuilder
     {
