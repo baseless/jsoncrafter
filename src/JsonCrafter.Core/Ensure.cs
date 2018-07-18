@@ -34,7 +34,7 @@ namespace JsonCrafter.Core
             IsSet(obj);
             IsSet(objType);
 
-            if (!TypeHelper.IsClass(objType))
+            if (!objType.IsClass)
             {
                 throw new JsonCrafterException($"Recieved object was not a valid resource object (must be class, recieved type was '{objType.FullName}')");
             }
@@ -42,11 +42,11 @@ namespace JsonCrafter.Core
             return obj;
         }
 
-        public static Expression<Func<TResource, Type>> IsValidParameterType<TResource>(Expression<Func<TResource, Type>> expression)
+        public static Expression<Func<TResource, Type>> IsValidUrlParameterType<TResource>(Expression<Func<TResource, Type>> expression)
         {
             IsSet(expression);
             
-            if (!TypeHelper.IsValue(expression.Body.Type))
+            if (!expression.Body.Type.IsValidUrlParameterType())
             {
                 throw new JsonCrafterException($"'{expression.Body.Type.Name}' is not a valid parameter type (only strings and primitive types are allowed).");
             }
@@ -60,7 +60,7 @@ namespace JsonCrafter.Core
 
             foreach (var exp in valuesExpressions)
             {
-                IsValidParameterType(exp);
+                IsValidUrlParameterType(exp);
             }
 
             return valuesExpressions;

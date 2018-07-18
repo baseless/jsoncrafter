@@ -32,18 +32,23 @@ namespace JsonCrafter.Processing.Configuration.Settings
             _name = name ?? string.Empty;
         }
 
-        public ILinkSettingBuilder<TResource> WithParam<TProp>(string key, Expression<Func<TResource, TProp>> exp) // https://stackoverflow.com/questions/671968/retrieving-property-name-from-lambda-expression
+        public ILinkSettingBuilder<TResource> WithParam<TProp>(string key, Expression<Func<TResource, TProp>> exp)
         {
             Ensure.IsSet(key);
             Ensure.IsSet(exp);
 
-            var summary = exp.GetMemberSummary(); // todo: check if membersummary is null => throw exception that expression is invalid
-            
+            if (!typeof(TProp).IsValidUrlParameterType())
+            {
+                throw new JsonCrafterException($"The parameter '{typeof(TProp)}' is not a valid parameter type.");
+            }
+
             if (_parameters.ContainsKey(key))
             {
                 throw new JsonCrafterException($"Adding the same key ({key}) for same link ({_url}) for same resource twice is not allowed.");
             }
 
+            var summary = exp.GetMemberSummary();
+            
             _parameters.Add(new KeyValuePair<string, IMemberSummary>(key, summary));
 
             return this;

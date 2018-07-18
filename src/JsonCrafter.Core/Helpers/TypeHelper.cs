@@ -14,37 +14,29 @@ namespace JsonCrafter.Core.Helpers
     {
         private const BindingFlags NonStaticPublicFlags = BindingFlags.Public | BindingFlags.Instance;
 
-        public static bool IsClass(Type type)
+        public static bool IsValidUrlParameterType(this Type type) => IsStringOrPrimitive(type);
+
+        public static bool IsStringOrPrimitive(this Type type)
         {
-            return type.IsClass;
+            return type.IsString() || type.IsPrimitive;
         }
 
-        public static bool IsValue(Type type)
+        public static bool IsAnyCollection(this Type type)
         {
-            return IsString(type) || IsPrimitive(type);
+            return !type.IsString() && (type.IsArray || typeof(IEnumerable).IsAssignableFrom(type));
         }
 
-        public static bool IsPrimitive(Type type)
-        {
-            return type.IsPrimitive;
-        }
-
-        public static bool IsCollection(Type type)
-        {
-            return !IsString(type) && (type.IsArray || typeof(IEnumerable).IsAssignableFrom(type));
-        }
-
-        public static bool IsBoolean(Type type)
+        public static bool IsBoolean(this Type type)
         {
             return Type.GetTypeCode(type).Equals(TypeCode.Boolean);
         }
 
-        public static bool IsString(Type type)
+        public static bool IsString(this Type type)
         {
             return Type.GetTypeCode(type).Equals(TypeCode.String);
         }
 
-        public static bool IsNumeric(Type type)
+        public static bool IsNumeric(this Type type)
         {
             switch (Type.GetTypeCode(type))
             {
@@ -65,7 +57,7 @@ namespace JsonCrafter.Core.Helpers
             }
         }
 
-        public static  IEnumerable<MemberInfo> GetMembers(Type type)
+        public static  IEnumerable<MemberInfo> GetMembers(this Type type)
         {
             return type.GetMembers(NonStaticPublicFlags)
                 .Where(m => m.MemberType.Equals(MemberTypes.Field) || m.MemberType.Equals(MemberTypes.Property));
