@@ -5,7 +5,6 @@ using JsonCrafter.Core;
 using JsonCrafter.Processing.Configuration;
 using JsonCrafter.Processing.Contracts;
 using JsonCrafter.Processing.Naming;
-using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Processing.Compilation.Hal
 {
@@ -19,7 +18,7 @@ namespace JsonCrafter.Processing.Compilation.Hal
         }
         
 
-        [MethodImpl(MethodImplOptions.Synchronized)] // todo: needed?
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IResourceContractResolver Compile()
         {
             Ensure.IsSet(Resources);
@@ -29,7 +28,7 @@ namespace JsonCrafter.Processing.Compilation.Hal
             {
                 ValidateResource(typeResources.Key, typeResources.Value);
                 
-                // Build contract parts
+                // todo: BUILD - contract assembly
                 
                 contracts.Add(typeResources.Key, new ResourceContract());
             }
@@ -39,7 +38,11 @@ namespace JsonCrafter.Processing.Compilation.Hal
 
         private void ValidateResource(Type type, IResource resource)
         {
-            
+            //todo: VALIDATE - that the number of params, and the param names matches the param list for links.
+            // todo: VALIDATE - that the formatspecific parts are entered. For example JsonAPI requires ID.
+            // todo: VALIDATE - that embedded resources are actually contracted with For<>() temselves.
+            // todo: VALIDATE - how to handle if a selected parameter property turns out to be null?
+
         }
 
         private void BuildLinksObject()

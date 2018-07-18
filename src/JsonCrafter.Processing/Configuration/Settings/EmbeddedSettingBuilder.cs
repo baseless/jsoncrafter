@@ -8,7 +8,7 @@ namespace JsonCrafter.Processing.Configuration.Settings
     /// Specifies what embedded relationship the resource has
     /// </summary>
     /// <typeparam name="TResource">The type of resource this setting applies to</typeparam>
-    public sealed class EmbeddedSettingBuilder<TResource> : ResourceSettingBase<TResource>, IResourceSetting, IEmbeddedSettingBuilder where TResource: class
+    public sealed class EmbeddedSettingBuilder<TResource> : ResourceSettingBase<TResource>, IResourceSetting where TResource: class
     {
         private readonly IMemberSummary _summary;
 
