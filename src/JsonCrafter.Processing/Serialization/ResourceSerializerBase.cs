@@ -41,7 +41,10 @@ namespace JsonCrafter.Processing.Serialization
                 throw new JsonCrafterException($"The type of response ({type.FullName}) is not allowed for this json format.");
             }
 
-            var contract = Resolver.Resolve(type) ?? throw new JsonCrafterException($"Contract for top-level type '{type.FullName}' does not exist. Ensure that 'For<{type.Name}>()' is set.");
+            if (!Resolver.Contracts.TryGetValue(type, out var contract))
+            {
+                throw new JsonCrafterException($"Contract for top-level type '{type.FullName}' does not exist. Ensure that 'For<{type.Name}>()' is set.");
+            }
 
             return ConvertResource(new JObject(), type, obj, contract, true).ToString(Formatting.None);
         }

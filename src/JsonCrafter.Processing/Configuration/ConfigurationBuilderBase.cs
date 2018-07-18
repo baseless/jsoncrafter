@@ -8,7 +8,7 @@ namespace JsonCrafter.Processing.Configuration
     public class ConfigurationBuilderBase : IConfigurationBuilder
     {
         public ICollection<JsonCrafterMediaType> EnabledMediaTypes { get; } = new List<JsonCrafterMediaType>();
-        public IDictionary<Type, IResource> Resources { get; }  = new Dictionary<Type, IResource>();
+        protected readonly IDictionary<Type, IResource> Resources  = new Dictionary<Type, IResource>();
 
         private JsonCrafterCasing _casingFormat = JsonCrafterCasing.CamelCase;
 

@@ -25,7 +25,7 @@ namespace JsonCrafter.Demo.Api
                     o.ReturnHttpNotAcceptable = true;
                     o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 })
-                .AddJsonCrafter((builder) =>
+                .AddJsonCrafter(builder =>
                 {
                     builder.EnableMediaType(JsonCrafterMediaType.Hal);
                     builder.For<Test>()

@@ -1,12 +1,15 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using JsonCrafter.Core;
 using JsonCrafter.Processing.Configuration;
 using JsonCrafter.Processing.Contracts;
 using JsonCrafter.Processing.Naming;
+using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Processing.Compilation.Hal
 {
-    public class HalConfigurationCompiler : ConfigurationBuilderBase, IHalConfigurationCompiler
+    public sealed class HalConfigurationCompiler : ConfigurationBuilderBase, IHalConfigurationCompiler
     {
         private readonly ICaseFormatter _caseFormatter;
 
@@ -19,11 +22,34 @@ namespace JsonCrafter.Processing.Compilation.Hal
         [MethodImpl(MethodImplOptions.Synchronized)] // todo: needed?
         public IResourceContractResolver Compile()
         {
-            var test = _caseFormatter.Format("HalleDUDANeMej");
-            // 1. Validate all resource setting based on hal rules
-            // 2. Build all related
-            // 3. Build and return resolver
-            return new ResourceContractResolver();
+            Ensure.IsSet(Resources);
+            var contracts = new Dictionary<Type, IResourceContract>();
+
+            foreach (var typeResources in Resources)
+            {
+                ValidateResource(typeResources.Key, typeResources.Value);
+                
+                // Build contract parts
+                
+                contracts.Add(typeResources.Key, new ResourceContract());
+            }
+            
+            return new ResourceContractResolver(contracts);
+        }
+
+        private void ValidateResource(Type type, IResource resource)
+        {
+            
+        }
+
+        private void BuildLinksObject()
+        {
+
+        }
+
+        private void BuildDataObject()
+        {
+
         }
     }
 }

@@ -23,15 +23,8 @@ namespace JsonCrafter.Initialization
         {
             services.TryAddSingleton<IConfigurationAction>(new ConfigurationAction(configurator));
             
-            var config = new HalConfigurationCompiler(new SnakeCaseFormatter());
+            var config = new ConfigurationBuilderBase();
             configurator.Invoke(config);
-
-            foreach (var settingsColl in config.Resources)
-            {
-                var typeName = settingsColl.Key.Name;
-                var settings = settingsColl.Value.Settings.ToList();
-            }
-
             EnabledMediaTypes = config.EnabledMediaTypes.ToImmutableList();
 
             services.AddCasingStrategy(config.GetCasing());

@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace JsonCrafter.Processing.Contracts
 {
     public class ResourceContractResolver : IResourceContractResolver
     {
-        public IResourceContract Resolve(Type type)
+        public IImmutableDictionary<Type, IResourceContract> Contracts { get; }
+
+        public ResourceContractResolver(IDictionary<Type, IResourceContract> contracts)
         {
-            return new ResourceContract();
+            Contracts = contracts.ToImmutableDictionary();
         }
     }
 }
