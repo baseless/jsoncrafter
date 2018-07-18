@@ -17,13 +17,13 @@ namespace JsonCrafter.Processing.Configuration
         /// <summary>
         /// All settings build for this resource type.
         /// </summary>
-        public IDictionary<Type, ICollection<IResourceSetting>> Settings { get; } = new Dictionary<Type, ICollection<IResourceSetting>>();
+        public IDictionary<Type, ICollection<IResourceSettingConfiguration>> Settings { get; } = new Dictionary<Type, ICollection<IResourceSettingConfiguration>>();
 
-        public ResourceBuilder(IConfigurationBuilder parent, IResourceSetting setting = default(IResourceSetting))
+        public ResourceBuilder(IConfigurationBuilder parent, IResourceSettingConfiguration setting = default(IResourceSettingConfiguration))
         {
             _parent = Ensure.IsSet(parent);
 
-            if (setting != default(IResourceSetting) && !Settings.TryAdd(typeof(TResource), new List<IResourceSetting> { setting }))
+            if (setting != default(IResourceSettingConfiguration) && !Settings.TryAdd(typeof(TResource), new List<IResourceSettingConfiguration> { setting }))
             {
                 Settings[typeof(TResource)].Add(setting);
             }
@@ -33,19 +33,15 @@ namespace JsonCrafter.Processing.Configuration
         public IResourceBuilder<TNew> For<TNew>() where TNew : class => _parent.For<TNew>();
 
         /// <inheritdoc />
-        public IResourceBuilder<TNew> For<TNew>(string urlToSelf, params Expression<Func<TNew, Type>>[] urlParameters) where TNew : class 
-            => _parent.For(urlToSelf, urlParameters);
-
-        /// <inheritdoc />
         public IResourceBuilder<TResource> HasId(params Expression<Func<TResource, Type>>[] idProperties)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public IResourceBuilder<TResource> HasTemplate(string templateIdentifier, string url, params Expression<Func<TResource, Type>>[] additionalParameters)
+        public ILinkSettingBuilder<TResource> HasTemplate(string name, string url)
         {
-            throw new NotImplementedException();
+            return new LinkSetting<TResource>(_parent, this, LinkSettingsType.Template, name, url);
         }
     }
 }

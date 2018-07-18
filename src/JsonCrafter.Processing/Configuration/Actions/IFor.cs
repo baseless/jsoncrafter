@@ -1,6 +1,6 @@
 ﻿namespace JsonCrafter.Processing.Configuration
 {
-    public interface IForBuilder
+    public interface IFor
     {
         /// <summary>
         /// Registers a new serialization-contract for a specific resource type.

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq.Expressions;
-using JsonCrafter.Core.Enums;
+﻿using JsonCrafter.Core.Enums;
 
 namespace JsonCrafter.Processing.Configuration
 {
-    public interface IConfigurationBuilder : IForBuilder
+    public interface IConfigurationBuilder : IFor
     {
         /// <summary>
         /// Sets what casing should be used by JsonCrafter.

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using JsonCrafter.Core.Exceptions;
+using JsonCrafter.Core.Summary;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace JsonCrafter.Core.Helpers
 {
@@ -66,6 +69,39 @@ namespace JsonCrafter.Core.Helpers
         {
             return type.GetMembers(NonStaticPublicFlags)
                 .Where(m => m.MemberType.Equals(MemberTypes.Field) || m.MemberType.Equals(MemberTypes.Property));
+        }
+
+        public static IMemberSummary GetMemberSummary<T, TProp>(this Expression<Func<T, TProp>> expr)
+        {
+            if (expr.Body is MemberExpression member)
+            {
+                if (member.Member is PropertyInfo propInfo)
+                {
+                    return new PropertySummary(propInfo);
+                }
+
+                if (member.Member is FieldInfo fieldInfo)
+                {
+                    return new FieldSummary(fieldInfo);
+                }
+            }
+
+            return null;
+        }
+
+        public static Type GetUnaryType<T>(this Expression<Func<T, object>> expr)
+        {
+            if (expr.Body.NodeType != ExpressionType.Convert && expr.Body.NodeType != ExpressionType.ConvertChecked)
+            {
+                return expr.Body.Type;
+            }
+
+            if (expr.Body is UnaryExpression unary)
+            {
+                return unary.Operand.Type;
+            }
+
+            return null;
         }
     }
 }
