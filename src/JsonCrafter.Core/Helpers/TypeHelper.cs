@@ -14,6 +14,7 @@ namespace JsonCrafter.Core.Helpers
     {
         private const BindingFlags NonStaticPublicFlags = BindingFlags.Public | BindingFlags.Instance;
 
+        public static bool IsValidResourceType(this Type type) => type.IsClass;
         public static bool IsValidUrlParameterType(this Type type) => IsStringOrPrimitive(type);
 
         public static bool IsStringOrPrimitive(this Type type)

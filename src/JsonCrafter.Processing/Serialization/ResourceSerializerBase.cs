@@ -1,6 +1,7 @@
 ﻿using System;
 using JsonCrafter.Core;
 using JsonCrafter.Core.Exceptions;
+using JsonCrafter.Core.Helpers;
 using JsonCrafter.Processing.Compilation.Hal;
 using JsonCrafter.Processing.Contracts;
 using Microsoft.Extensions.Logging;
@@ -33,8 +34,13 @@ namespace JsonCrafter.Processing.Serialization
         /// <returns></returns>
         public string Serialize(object obj)
         {
-            var type = obj.GetType();
-            Ensure.IsValidResource(type, obj);
+            Ensure.IsSet(obj);
+            var type = obj.GetType(); // todo: EVALUATE: What should be allowed here? only class? collections?
+
+            if (!type.IsValidResourceType()) // todo: return an http response here instead?
+            { 
+                throw new JsonCrafterException($"The type of response ({type.FullName}) is not allowed for this json format.");
+            }
 
             var contract = Resolver.Resolve(type) 
                            ?? throw new JsonCrafterException($"Contract for type '{type.FullName}' does not exist (top-level object MUST be a configured resource). Ensure that 'For<{type.Name}>()' is set.");
