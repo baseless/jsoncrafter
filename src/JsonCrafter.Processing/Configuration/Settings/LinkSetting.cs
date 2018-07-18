@@ -39,12 +39,12 @@ namespace JsonCrafter.Processing.Configuration.Settings
 
             if (!typeof(TProp).IsValidUrlParameterType())
             {
-                throw new JsonCrafterException($"The parameter '{typeof(TProp)}' is not a valid parameter type.");
+                throw new JsonCrafterException($"The parameter '{typeof(TProp)}' is not a valid link-parameter type (only strings and primitive types allowed since they will be parsed into strings).");
             }
 
             if (_parameters.ContainsKey(key))
             {
-                throw new JsonCrafterException($"Adding the same key ({key}) for same link ({_url}) for same resource twice is not allowed.");
+                throw new JsonCrafterException($"Adding the same parameter-key ({key}) for same link ({_url}), for same resource, twice is not allowed. Ensure that 'WithParam(\"{key}\", \"..\")' is set only once for link '{_name}'");
             }
 
             var summary = exp.GetMemberSummary();

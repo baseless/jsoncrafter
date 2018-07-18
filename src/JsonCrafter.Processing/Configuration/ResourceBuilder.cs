@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using JsonCrafter.Core;
+using JsonCrafter.Core.Exceptions;
+using JsonCrafter.Core.Helpers;
 using JsonCrafter.Processing.Configuration.Settings;
 
 namespace JsonCrafter.Processing.Configuration
@@ -41,6 +43,12 @@ namespace JsonCrafter.Processing.Configuration
         /// <inheritdoc />
         public ILinkSettingBuilder<TResource> HasTemplate(string name, string url)
         {
+            if (!url.IsValidTemplateUrl())
+            {
+                throw new JsonCrafterException($"The entered url '{url}' (for template with name '{name}') is not valid.");
+            }
+
+
             return new LinkSetting<TResource>(_parent, this, LinkSettingsType.Template, name, url);
         }
     }

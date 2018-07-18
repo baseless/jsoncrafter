@@ -6,21 +6,29 @@ using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Processing.Serialization.Hal
 {
+    /// <summary>
+    /// Responsible for serializing response objects into HAL Json.
+    /// </summary>
     public class HalSerializer : ResourceSerializerBase<HalSerializer>, IHalSerializer
     {
         public HalSerializer(IHalSettingsCompiler factory, ILogger<HalSerializer> logger) : base(factory, logger)
         {
         }
 
+        /// <inheritdoc />
         public override string FormatName => HalSpecification.FormatName;
 
+
+        /// <inheritdoc />
         public override string MediaTypeHeaderValue => HalSpecification.MediaTypeHeaderValue;
 
-        protected override JToken ConvertBase(JObject target, Type type, object obj, IResourceContract contract, bool isRoot = false)
+        /// <inheritdoc />
+        protected override JToken ConvertResource(JObject target, Type type, object obj, IResourceContract contract, bool isRoot = false)
         {
             return JToken.FromObject(obj);
         }
 
-        protected override JToken PostProcessResult(JToken token) => token;
+        /// <inheritdoc />
+        protected override JToken PostProcessResponseToken(JToken token) => token;
     }
 }

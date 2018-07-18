@@ -5,27 +5,26 @@ using JsonCrafter.Processing.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json;
 
 namespace JsonCrafter.Initialization
 {
-    public class JsonCrafterOutputFormatter<TConverter> : TextOutputFormatter where TConverter : class, IResourceSerializer
+    public class JsonCrafterOutputFormatter<TSerializer> : TextOutputFormatter where TSerializer : class, IResourceSerializer
     {
-        private readonly TConverter _converter;
+        private readonly TSerializer _serializer;
 
-        public JsonCrafterOutputFormatter(TConverter converter)
+        public JsonCrafterOutputFormatter(TSerializer serializer)
         {
-            _converter = Ensure.IsSet(converter);
-            //todo: IMPLEMENT: Handle casing and encoding correctly
+            _serializer = Ensure.IsSet(serializer);
+            //todo: IMPLEMENT: Handle encoding amd content / mediatyp correctly
             SupportedEncodings.Add(Encoding.UTF8);
             SupportedEncodings.Add(Encoding.Unicode);
-            SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse(converter.MediaTypeHeaderValue));
+            SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse(serializer.MediaTypeHeaderValue));
         }
 
         public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
-            var token = _converter.Convert(context.Object);
-            return context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(token));
+            var response = _serializer.Serialize(context.Object);
+            return context.HttpContext.Response.WriteAsync(response);
         }
     }
 }

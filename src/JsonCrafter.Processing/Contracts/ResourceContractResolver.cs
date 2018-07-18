@@ -6,7 +6,7 @@ namespace JsonCrafter.Processing.Contracts
     {
         public IResourceContract Resolve(Type type)
         {
-            throw new NotImplementedException("Resolving contracts is not implemented yet!");
+            return new ResourceContract();
         }
     }
 }

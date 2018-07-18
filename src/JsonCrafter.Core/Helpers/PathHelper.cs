@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Net;
 using System.Text.RegularExpressions;
-using JsonCrafter.Core.Exceptions;
 
 namespace JsonCrafter.Core.Helpers
 {
     public static class PathHelper
     {
-        public static void EnsurePathIsValid<T>(string url)
+        public static bool IsValidTemplateUrl(this string url)
         {
-            if (!Uri.IsWellFormedUriString(ReplaceParameterPlaceholders(url), UriKind.RelativeOrAbsolute))
-            {
-                throw new JsonCrafterException($"Template could not be created for type '{typeof(T).FullName}' (reason: '{url}' is not a valid url).");
-            }
+            var escaped = ReplaceParameterPlaceholders(url);
+            return Uri.IsWellFormedUriString(escaped, UriKind.RelativeOrAbsolute);
         }
 
         public static string ReplaceParameterPlaceholders(string url)

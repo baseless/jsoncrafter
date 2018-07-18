@@ -15,4 +15,10 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\JsonCrafter.Core\JsonCrafter.Core.csproj" />
+    <ProjectReference Include="..\..\src\JsonCrafter\JsonCrafter.csproj" />
+    <ProjectReference Include="..\JsonCrafter.Benchmarking\JsonCrafter.Benchmarking.csproj" />
+  </ItemGroup>
+
 </Project>
