@@ -1,4 +1,4 @@
-﻿namespace JsonCrafter.Processing.Compilation
+﻿namespace JsonCrafter.Processing.Contracts
 {
     public interface IContractTemplate
     {

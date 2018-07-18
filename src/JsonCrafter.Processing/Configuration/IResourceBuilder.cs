@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using JsonCrafter.Processing.Configuration.Actions;
 using JsonCrafter.Processing.Configuration.Settings;
 
 namespace JsonCrafter.Processing.Configuration

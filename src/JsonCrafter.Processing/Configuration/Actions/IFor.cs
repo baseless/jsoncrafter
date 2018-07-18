@@ -1,4 +1,4 @@
-﻿namespace JsonCrafter.Processing.Configuration
+﻿namespace JsonCrafter.Processing.Configuration.Actions
 {
     public interface IFor
     {
