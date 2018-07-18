@@ -32,8 +32,11 @@ namespace JsonCrafter.Demo.Api
                         .HasId(z => z.Id)
                         .HasEmbedded(e => e.TestTests)
                         .HasTemplate("doc", "http://docs.com/{someId}/{rel}")
-                        .WithParam("someId", x => x.Id2)
-                        .For<GetValuesOutputModel>().HasId(e => e.ModelId);
+                            .WithParam("someId", x => x.Id2)
+                        .HasLinkToSelf("https://feghre/grehgrte/{baba}")
+                            .WithParam("baba", e => e.Id2)
+                    .For<GetValuesOutputModel>()
+                        .HasId(e => e.ModelId);
                     
                     //    builder.For<GetValuesOutputModel>(
                     //        "/v1/users/{0}", t => t.ModelId));
