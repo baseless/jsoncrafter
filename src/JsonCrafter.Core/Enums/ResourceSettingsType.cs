@@ -3,6 +3,7 @@
     public enum ResourceSettingsType
     {
         Link,
-        ContainedResource
+        Embedded,
+        Identifier
     }
 }

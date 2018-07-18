@@ -29,8 +29,12 @@ namespace JsonCrafter.Demo.Api
                 {
                     builder.EnableMediaType(JsonCrafterMediaType.Hal);
                     builder.For<Test>()
+                        .HasId(z => z.Id)
+                        .HasEmbedded(e => e.TestTests)
                         .HasTemplate("doc", "http://docs.com/{someId}/{rel}")
-                        .WithParam("someId", x => x.Id2);
+                        .WithParam("someId", x => x.Id2)
+                        .For<GetValuesOutputModel>().HasId(e => e.ModelId);
+                    
                     //    builder.For<GetValuesOutputModel>(
                     //        "/v1/users/{0}", t => t.ModelId));
                     //    //.ContainsResource(r => r.Tests);

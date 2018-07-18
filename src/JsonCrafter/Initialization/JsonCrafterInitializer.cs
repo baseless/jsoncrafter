@@ -21,10 +21,17 @@ namespace JsonCrafter.Initialization
 
         internal static void AddEnabledJsonCrafterAssets(this IServiceCollection services, Action<IConfigurationBuilder> configurator)
         {
-            services.TryAddSingleton<ISettingsCompilerAction>(new SettingsCompilerAction(configurator));
+            services.TryAddSingleton<IConfigurationAction>(new ConfigurationAction(configurator));
             
-            var config = new ConfigurationBuilderBase();
+            var config = new HalConfigurationCompiler(new SnakeCaseFormatter());
             configurator.Invoke(config);
+
+            foreach (var settingsColl in config.Resources)
+            {
+                var typeName = settingsColl.Key.Name;
+                var settings = settingsColl.Value.Settings.ToList();
+            }
+
             EnabledMediaTypes = config.EnabledMediaTypes.ToImmutableList();
 
             services.AddCasingStrategy(config.GetCasing());
@@ -37,7 +44,7 @@ namespace JsonCrafter.Initialization
         
         private static void AddHalFormatter(this IServiceCollection services)
         {
-            services.AddTransient<IHalSettingsCompiler, HalSettingsCompiler>();
+            services.AddTransient<IHalConfigurationCompiler, HalConfigurationCompiler>();
             services.AddTransient<IHalSerializer, HalSerializer>();
             services.AddTransient<IConfigureOptions<MvcOptions>, JsonCrafterOptionsSetup<IHalSerializer>>();
         }

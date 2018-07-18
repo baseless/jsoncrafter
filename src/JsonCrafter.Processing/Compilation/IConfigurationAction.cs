@@ -2,7 +2,7 @@
 
 namespace JsonCrafter.Processing.Compilation
 {
-    public interface ISettingsCompilerAction
+    public interface IConfigurationAction
     {
         void Invoke(IConfigurationBuilder configurator);
     }

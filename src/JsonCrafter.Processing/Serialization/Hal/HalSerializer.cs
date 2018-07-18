@@ -11,7 +11,7 @@ namespace JsonCrafter.Processing.Serialization.Hal
     /// </summary>
     public class HalSerializer : ResourceSerializerBase<HalSerializer>, IHalSerializer
     {
-        public HalSerializer(IHalSettingsCompiler factory, ILogger<HalSerializer> logger) : base(factory, logger)
+        public HalSerializer(IHalConfigurationCompiler factory, ILogger<HalSerializer> logger) : base(factory, logger)
         {
         }
 

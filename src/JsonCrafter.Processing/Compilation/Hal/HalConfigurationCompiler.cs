@@ -6,14 +6,12 @@ using JsonCrafter.Processing.Naming;
 
 namespace JsonCrafter.Processing.Compilation.Hal
 {
-    public class HalSettingsCompiler : ConfigurationBuilderBase, IHalSettingsCompiler
+    public class HalConfigurationCompiler : ConfigurationBuilderBase, IHalConfigurationCompiler
     {
-        private readonly ISettingsCompilerAction _configAction;
         private readonly ICaseFormatter _caseFormatter;
 
-        public HalSettingsCompiler(ISettingsCompilerAction configAction, ICaseFormatter caseFormatter)
+        public HalConfigurationCompiler(ICaseFormatter caseFormatter)
         {
-            _configAction = Ensure.IsSet(configAction);
             _caseFormatter = Ensure.IsSet(caseFormatter);
         }
         

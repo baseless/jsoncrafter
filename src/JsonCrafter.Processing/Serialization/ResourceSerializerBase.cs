@@ -18,7 +18,7 @@ namespace JsonCrafter.Processing.Serialization
         protected readonly IResourceContractResolver Resolver;
         protected readonly ILogger<TConverter> Logger;
 
-        protected ResourceSerializerBase(IHalSettingsCompiler compiler, ILogger<TConverter> logger)
+        protected ResourceSerializerBase(IHalConfigurationCompiler compiler, ILogger<TConverter> logger)
         {
             Resolver = Ensure.IsSet(compiler).Compile();
             Logger = Ensure.IsSet(logger);

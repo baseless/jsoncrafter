@@ -2,7 +2,7 @@
 
 namespace JsonCrafter.Processing.Compilation
 {
-    public interface ISettingsCompiler
+    public interface IConfigurationCompiler
     {
         IResourceContractResolver Compile();
     }

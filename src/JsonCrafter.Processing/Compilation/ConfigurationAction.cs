@@ -3,11 +3,11 @@ using JsonCrafter.Processing.Configuration;
 
 namespace JsonCrafter.Processing.Compilation
 {
-    public class SettingsCompilerAction : ISettingsCompilerAction
+    public class ConfigurationAction : IConfigurationAction
     {
         private readonly Action<IConfigurationBuilder> _configBuilder;
 
-        public SettingsCompilerAction(Action<IConfigurationBuilder> configBuilder)
+        public ConfigurationAction(Action<IConfigurationBuilder> configBuilder)
         {
             _configBuilder = configBuilder ?? throw new ArgumentNullException(nameof(configBuilder));
         }

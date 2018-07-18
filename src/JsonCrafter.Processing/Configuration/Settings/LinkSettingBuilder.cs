@@ -9,14 +9,11 @@ using JsonCrafter.Core.Summary;
 
 namespace JsonCrafter.Processing.Configuration.Settings
 {
-    public enum LinkSettingsType
-    {
-        ToSelf,
-        Template,
-        Custom
-    }
-
-    public class LinkSetting<TResource> : ResourceSettingBase<TResource>, ILinkSettingBuilder<TResource>, IResourceSettingConfiguration where TResource: class
+    /// <summary>
+    /// Specifies a link object for a specific resource
+    /// </summary>
+    /// <typeparam name="TResource">The type of resource this setting applies to</typeparam>
+    public class LinkSettingBuilder<TResource> : ResourceSettingBase<TResource>, ILinkSettingBuilder<TResource>, IResourceSetting where TResource: class
     {
         private readonly string _url; 
         private readonly string _name;
@@ -25,17 +22,17 @@ namespace JsonCrafter.Processing.Configuration.Settings
         public LinkSettingsType LinkType { get; }
         public ResourceSettingsType SettingsType { get; } = ResourceSettingsType.Link;
 
-        public LinkSetting(IConfigurationBuilder parentConfigBuilder, IResourceBuilder<TResource> parentResourceBuilder, LinkSettingsType linkType, string name, string url) : base(parentConfigBuilder, parentResourceBuilder)
+        public LinkSettingBuilder(IConfigurationBuilder parentConfigBuilder, IResourceBuilder<TResource> parentResourceBuilder, LinkSettingsType linkType, string name, string url) : base(parentConfigBuilder, parentResourceBuilder)
         {
             _url = Ensure.IsSet(url);
             LinkType = linkType;
             _name = name ?? string.Empty;
         }
 
-        public ILinkSettingBuilder<TResource> WithParam<TProp>(string key, Expression<Func<TResource, TProp>> exp)
+        public ILinkSettingBuilder<TResource> WithParam<TProp>(string key, Expression<Func<TResource, TProp>> parameterExpression)
         {
             Ensure.IsSet(key);
-            Ensure.IsSet(exp);
+            Ensure.IsSet(parameterExpression);
 
             if (!typeof(TProp).IsValidUrlParameterType())
             {
@@ -47,7 +44,7 @@ namespace JsonCrafter.Processing.Configuration.Settings
                 throw new JsonCrafterException($"Adding the same parameter-key ({key}) for same link ({_url}), for same resource, twice is not allowed. Ensure that 'WithParam(\"{key}\", \"..\")' is set only once for link '{_name}'");
             }
 
-            var summary = exp.GetMemberSummary();
+            var summary = parameterExpression.GetMemberSummary();
             
             _parameters.Add(new KeyValuePair<string, IMemberSummary>(key, summary));
 

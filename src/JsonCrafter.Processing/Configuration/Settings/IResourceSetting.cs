@@ -1,9 +1,8 @@
-﻿using System;
-using JsonCrafter.Core.Enums;
+﻿using JsonCrafter.Core.Enums;
 
 namespace JsonCrafter.Processing.Configuration.Settings
 {
-    public interface IResourceSettingConfiguration
+    public interface IResourceSetting
     {
         ResourceSettingsType SettingsType { get; }
     }

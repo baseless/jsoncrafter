@@ -26,5 +26,5 @@ namespace JsonCrafter.Core.Helpers
         {
             return WebUtility.UrlDecode(encodedUrl);
         }
-        }
     }
+}

@@ -7,23 +7,23 @@ namespace JsonCrafter.Core
 {
     public static class Ensure
     {
-        public static T IsSet<T>(T obj) where T: class
+        public static T IsSet<T>(T obj, string errorMessage = null) where T: class
         {
             IsNotNull(obj);
 
             if (obj == default(T))
             {
-                throw new ArgumentException(typeof(T).FullName);
+                throw new ArgumentException(errorMessage ?? typeof(T).FullName);
             }
 
             return obj;
         }
 
-        public static T IsNotNull<T>(T obj)
+        public static T IsNotNull<T>(T obj, string errorMessage = null)
         {
             if (obj == null)
             {
-                throw new ArgumentNullException(typeof(T).FullName);
+                throw new ArgumentNullException(errorMessage ?? typeof(T).FullName);
             }
 
             return obj;

@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using JsonCrafter.Core.Exceptions;
 using JsonCrafter.Core.Summary;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace JsonCrafter.Core.Helpers
 {
@@ -14,30 +12,68 @@ namespace JsonCrafter.Core.Helpers
     {
         private const BindingFlags NonStaticPublicFlags = BindingFlags.Public | BindingFlags.Instance;
 
+        /// <summary>
+        /// Checks if the specified type is an allowed resourceobject type.
+        /// </summary>
+        /// <param name="type">The type to validate.</param>
+        /// <returns>True or false wether or not the typs is valid.</returns>
         public static bool IsValidResourceType(this Type type) => type.IsClass;
-        public static bool IsValidUrlParameterType(this Type type) => IsStringOrPrimitive(type);
 
-        public static bool IsStringOrPrimitive(this Type type)
+        /// <summary>
+        /// Checks if the specified type is an allowed urlparameter type.
+        /// </summary>
+        /// <param name="type">The type to validate.</param>
+        /// <returns>True or false wether or not the typs is valid.</returns>
+        public static bool IsValidUrlParameterType(this Type type) => IsStringOrValue(type);
+
+        /// <summary>
+        /// Checks if the provided type is a string or any form of primitive / numeric type.
+        /// Checks if it is string, primitive or decimal.
+        /// </summary>
+        /// <param name="type">The type to evaluate.</param>
+        /// <returns>True or false whether or not the type was a string, primitive or decimal.</returns>
+        public static bool IsStringOrValue(this Type type)
         {
-            return type.IsString() || type.IsPrimitive;
+            return type.IsString() || type.IsPrimitive || type.IsDecimal();
         }
 
+        /// <summary>
+        /// Checks if the provided type is a collection OR array.
+        /// </summary>
+        /// <param name="type">The type to evaluate.</param>
+        /// <returns>True or false whether or not the type was a collection or array.</returns>
         public static bool IsAnyCollection(this Type type)
         {
             return !type.IsString() && (type.IsArray || typeof(IEnumerable).IsAssignableFrom(type));
         }
-
-        public static bool IsBoolean(this Type type)
-        {
-            return Type.GetTypeCode(type).Equals(TypeCode.Boolean);
-        }
-
+        
+        /// <summary>
+        /// Checks if the provided type is a string.
+        /// </summary>
+        /// <param name="type">The type to evaluate.</param>
+        /// <returns>True or false whether or not the type was a string.</returns>
         public static bool IsString(this Type type)
         {
             return Type.GetTypeCode(type).Equals(TypeCode.String);
         }
 
-        public static bool IsNumeric(this Type type)
+        /// <summary>
+        /// Checks if the provided type is a decimal type.
+        /// </summary>
+        /// <param name="type">The type to evaluate.</param>
+        /// <returns>True or false whether or not the type was decimal.</returns>
+        public static bool IsDecimal(this Type type)
+        {
+            return Type.GetTypeCode(type).Equals(TypeCode.Decimal);
+        }
+
+        /// <summary>
+        /// Checks if the provided type is a numeric type.
+        /// Note: All types resides as primitives except for decimal.
+        /// </summary>
+        /// <param name="type">The type to evaluate.</param>
+        /// <returns>True or false whether or not the type was numeric.</returns>
+        public static bool IsNumeric(this Type type) // in practise these are containd in primitive + decimal
         {
             switch (Type.GetTypeCode(type))
             {
@@ -58,13 +94,25 @@ namespace JsonCrafter.Core.Helpers
             }
         }
 
+        /// <summary>
+        /// Gets all public fields and properties from a specific type.
+        /// </summary>
+        /// <param name="type">The type to extract members from.</param>
+        /// <returns>A list of all public properties and fields.</returns>
         public static  IEnumerable<MemberInfo> GetMembers(this Type type)
         {
             return type.GetMembers(NonStaticPublicFlags)
                 .Where(m => m.MemberType.Equals(MemberTypes.Field) || m.MemberType.Equals(MemberTypes.Property));
         }
 
-        public static IMemberSummary GetMemberSummary<T, TProp>(this Expression<Func<T, TProp>> expr)
+        /// <summary>
+        /// Extracts the fieldinfo or propertyinfo from an expression target (depending on the expression bodies type).
+        /// </summary>
+        /// <typeparam name="T">The type to generate the expression from.</typeparam>
+        /// <typeparam name="TMember">The member specified in the method call.</typeparam>
+        /// <param name="expr">The complete expression from the method call.</param>
+        /// <returns>A facade containing the fieldinfo or propertyinfo (depending on the type of the TMember).</returns>
+        public static IMemberSummary GetMemberSummary<T, TMember>(this Expression<Func<T, TMember>> expr)
         {
             if (expr.Body is MemberExpression member)
             {
@@ -77,21 +125,6 @@ namespace JsonCrafter.Core.Helpers
                 {
                     return new FieldSummary(fieldInfo);
                 }
-            }
-
-            return null;
-        }
-
-        public static Type GetUnaryType<T>(this Expression<Func<T, object>> expr)
-        {
-            if (expr.Body.NodeType != ExpressionType.Convert && expr.Body.NodeType != ExpressionType.ConvertChecked)
-            {
-                return expr.Body.Type;
-            }
-
-            if (expr.Body is UnaryExpression unary)
-            {
-                return unary.Operand.Type;
             }
 
             return null;

@@ -8,7 +8,7 @@ namespace JsonCrafter.Processing.Configuration
     public class ConfigurationBuilderBase : IConfigurationBuilder
     {
         public ICollection<JsonCrafterMediaType> EnabledMediaTypes { get; } = new List<JsonCrafterMediaType>();
-        private readonly IDictionary<Type, IResourceConfiguration> _resources = new Dictionary<Type, IResourceConfiguration>();
+        public IDictionary<Type, IResource> Resources { get; }  = new Dictionary<Type, IResource>();
 
         private JsonCrafterCasing _casingFormat = JsonCrafterCasing.CamelCase;
 
@@ -28,13 +28,13 @@ namespace JsonCrafter.Processing.Configuration
         {
             EnsureResourceNotAlreadyAdded(typeof(TResource));
             var resource = new ResourceBuilder<TResource>(this);
-            _resources.Add(typeof(TResource), resource);
+            Resources.Add(typeof(TResource), resource);
             return resource;
         }
 
         private void EnsureResourceNotAlreadyAdded(Type type)
         {
-            if (_resources.ContainsKey(type))
+            if (Resources.ContainsKey(type))
             {
                 throw new JsonCrafterException($"Configuration for '{type.FullName}' can not be initialized more than once. Ensure that only one 'For<{type.Name}>()' call occurs in your configuration.");
             }
