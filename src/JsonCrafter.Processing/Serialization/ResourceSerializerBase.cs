@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using JsonCrafter.Core;
 using JsonCrafter.Core.Enums;
 using JsonCrafter.Core.Exceptions;
@@ -35,7 +36,7 @@ namespace JsonCrafter.Processing.Serialization
         public abstract string MediaTypeHeaderValue { get; }
 
         /// <inheritdoc />
-        public string Serialize(OutputFormatterWriteContext context, Encoding selectedEncoding)
+        public async Task<string> SerializeAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
             var type = context?.ObjectType;
             var statusCode = context?.HttpContext.Response.StatusCode;
@@ -60,16 +61,16 @@ namespace JsonCrafter.Processing.Serialization
 
                     if (responseType.Equals(ResourceResponseType.Collection))
                     {
-                        WriteTopLevelArray(writer, type, context.Object, contract);
+                       await WriteTopLevelArray(writer, type, context.Object, contract);
                     }
                     else
                     {
-                        WriteTopLevelObject(writer, type, context.Object, contract);
+                        await WriteTopLevelObject(writer, type, context.Object, contract);
                     }
                 }
                 else
                 {
-                    WriteErrorResponse(writer, type, context.Object);
+                    await WriteErrorResponse(writer, type, context.Object);
                 }
             }
 
@@ -83,7 +84,7 @@ namespace JsonCrafter.Processing.Serialization
         /// <param name="type">The recieved objects type</param>
         /// <param name="instance">The C# object instance that are being converted.</param>
         /// <param name="contract">The objects TypeContract</param>
-        protected abstract void WriteTopLevelObject(JsonTextWriter writer, Type type, object instance, IResourceContract contract);
+        protected abstract Task WriteTopLevelObject(JsonTextWriter writer, Type type, object instance, IResourceContract contract);
 
         /// <summary>
         /// Writes the top level array.
@@ -92,7 +93,7 @@ namespace JsonCrafter.Processing.Serialization
         /// <param name="type">The type.</param>
         /// <param name="instance">The instance.</param>
         /// <param name="contract">The contract.</param>
-        protected abstract void WriteTopLevelArray(JsonTextWriter writer, Type type, object instance, IResourceContract contract);
+        protected abstract Task WriteTopLevelArray(JsonTextWriter writer, Type type, object instance, IResourceContract contract);
 
         /// <summary>
         /// Writes the error response.
@@ -100,6 +101,6 @@ namespace JsonCrafter.Processing.Serialization
         /// <param name="writer">The writer.</param>
         /// <param name="type">The type.</param>
         /// <param name="instance">The instance.</param>
-        protected abstract void WriteErrorResponse(JsonTextWriter writer, Type type, object instance);
+        protected abstract Task WriteErrorResponse(JsonTextWriter writer, Type type, object instance);
     }
 }

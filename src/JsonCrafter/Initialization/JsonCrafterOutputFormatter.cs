@@ -21,10 +21,10 @@ namespace JsonCrafter.Initialization
             SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse(serializer.MediaTypeHeaderValue));
         }
 
-        public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+        public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
-            var response = _serializer.Serialize(context, selectedEncoding);
-            return context.HttpContext.Response.WriteAsync(response);
+            var response = await _serializer.SerializeAsync(context, selectedEncoding);
+            await context.HttpContext.Response.WriteAsync(response);
         }
     }
 }

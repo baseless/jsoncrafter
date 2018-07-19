@@ -1,6 +1,6 @@
 ﻿using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Processing.Serialization
 {
@@ -22,6 +22,6 @@ namespace JsonCrafter.Processing.Serialization
         /// <param name="context">The context of the formatter request</param>
         /// <param name="selectedEncoding">The requested encoding</param>
         /// <returns></returns>
-        string Serialize(OutputFormatterWriteContext context, Encoding selectedEncoding);
+        Task<string> SerializeAsync(OutputFormatterWriteContext context, Encoding selectedEncoding);
     }
 }

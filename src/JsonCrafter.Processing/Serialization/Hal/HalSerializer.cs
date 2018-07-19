@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using JsonCrafter.Processing.Compilation.Hal;
 using JsonCrafter.Processing.Contracts;
 using Microsoft.Extensions.Logging;
@@ -23,19 +24,25 @@ namespace JsonCrafter.Processing.Serialization.Hal
         public override string MediaTypeHeaderValue => HalSpecification.MediaTypeHeaderValue;
 
         /// <inheritdoc />
-        protected override void WriteTopLevelObject(JsonTextWriter writer, Type type, object instance, IResourceContract contract)
+        protected override async Task WriteTopLevelObject(JsonTextWriter writer, Type type, object instance, IResourceContract contract)
+        {
+            await writer.WriteStartObjectAsync();
+
+            // Write contract
+            // Write members
+            //Write resources
+
+            await writer.WriteEndObjectAsync();
+        }
+
+        /// <inheritdoc />
+        protected override async Task WriteTopLevelArray(JsonTextWriter writer, Type type, object instance, IResourceContract contract)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        protected override void WriteTopLevelArray(JsonTextWriter writer, Type type, object instance, IResourceContract contract)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        protected override void WriteErrorResponse(JsonTextWriter writer, Type type, object instance)
+        protected override async Task WriteErrorResponse(JsonTextWriter writer, Type type, object instance)
         {
             throw new NotImplementedException();
         }
