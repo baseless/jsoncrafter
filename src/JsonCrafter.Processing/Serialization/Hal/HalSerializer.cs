@@ -2,7 +2,7 @@
 using JsonCrafter.Processing.Compilation.Hal;
 using JsonCrafter.Processing.Contracts;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace JsonCrafter.Processing.Serialization.Hal
 {
@@ -23,12 +23,21 @@ namespace JsonCrafter.Processing.Serialization.Hal
         public override string MediaTypeHeaderValue => HalSpecification.MediaTypeHeaderValue;
 
         /// <inheritdoc />
-        protected override JToken ConvertResource(JObject target, Type type, object obj, IResourceContract contract, bool isRoot = false)
+        protected override void WriteTopLevelObject(JsonTextWriter writer, Type type, object instance, IResourceContract contract)
         {
-            return JToken.FromObject(obj);
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        protected override JToken PostProcessResponseToken(JToken token) => token;
+        protected override void WriteTopLevelArray(JsonTextWriter writer, Type type, object instance, IResourceContract contract)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        protected override void WriteErrorResponse(JsonTextWriter writer, Type type, object instance)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace JsonCrafter.Initialization
 
         public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
-            var response = _serializer.Serialize(context.Object);
+            var response = _serializer.Serialize(context, selectedEncoding);
             return context.HttpContext.Response.WriteAsync(response);
         }
     }

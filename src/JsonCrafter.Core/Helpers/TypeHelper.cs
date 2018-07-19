@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using JsonCrafter.Core.Enums;
 using JsonCrafter.Core.Summary;
 
 namespace JsonCrafter.Core.Helpers
@@ -11,6 +12,21 @@ namespace JsonCrafter.Core.Helpers
     public static class TypeHelper
     {
         private const BindingFlags NonStaticPublicFlags = BindingFlags.Public | BindingFlags.Instance;
+
+        public static ResourceResponseType GetResponseType(this Type type)
+        {
+            if (type.IsAnyCollection())
+            {
+                return ResourceResponseType.Collection;
+            }
+
+            if (type.IsClass)
+            {
+                return ResourceResponseType.Object;
+            }
+
+            return ResourceResponseType.Invalid;
+        }
 
         /// <summary>
         /// Checks if the specified type is an allowed resourceobject type.

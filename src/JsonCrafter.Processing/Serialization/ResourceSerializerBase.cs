@@ -1,10 +1,15 @@
 ﻿using System;
+using System.IO;
+using System.Net;
+using System.Text;
 using Jil;
 using JsonCrafter.Core;
+using JsonCrafter.Core.Enums;
 using JsonCrafter.Core.Exceptions;
 using JsonCrafter.Core.Helpers;
 using JsonCrafter.Processing.Compilation.Hal;
 using JsonCrafter.Processing.Contracts;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -32,41 +37,76 @@ namespace JsonCrafter.Processing.Serialization
         public abstract string MediaTypeHeaderValue { get; }
 
         /// <inheritdoc />
-        public string Serialize(object obj)
+        public string Serialize(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
-            return JSON.Serialize(obj);
-            Ensure.IsSet(obj);
-            var type = obj.GetType(); // todo: EVALUATE: What should be allowed here? only class? collections?
+            Ensure.IsSet(context.Object);
+            var type = context.ObjectType;
+            var statusCode = context.HttpContext.Response.StatusCode;
 
-            if (!type.IsValidResourceType()) // todo: return an http response here instead?
-            { 
-                throw new JsonCrafterException($"The type of response ({type.FullName}) is not allowed for this json format.");
-            }
-
-            if (!Resolver.Contracts.TryGetValue(type, out var contract))
+            var stringBuilder = new StringBuilder();
+            var stringWriter = new StringWriter(stringBuilder);
+            using (var writer = new JsonTextWriter(stringWriter))
             {
-                throw new JsonCrafterException($"Contract for top-level type '{type.FullName}' does not exist. Ensure that 'For<{type.Name}>()' is set.");
+                if ( // Statuses that do not return content
+                statusCode.Equals(HttpStatusCode.NoContent) || 
+                statusCode.Equals(HttpStatusCode.ResetContent))
+                {
+                    return string.Empty;
+                }
+
+                var responseType = type.GetResponseType();
+
+                if (statusCode > 199 && statusCode < 300) // all success statues
+                {
+                    if (!Resolver.Contracts.TryGetValue(type, out var contract))
+                    {
+                        throw new JsonCrafterException($"Contract for top-level type '{type.FullName}' does not exist. Ensure that 'For<{type.Name}>()' is set.");
+                    }
+
+                    if (responseType.Equals(ResourceResponseType.Collection))
+                    {
+                        WriteTopLevelArray(writer, type, context.Object, contract);
+                    }
+                    else
+                    {
+                        WriteTopLevelObject(writer, type, context.Object, contract);
+                    }
+                }
+                else
+                {
+                    WriteErrorResponse(writer, type, context.Object);
+                }
+                
             }
 
-            return ConvertResource(new JObject(), type, obj, contract, true).ToString(Formatting.None);
+            return stringBuilder.ToString();
         }
 
         /// <summary>
         /// The underlying Converter method, responsible for converting a C# object into a JToken.
         /// </summary>
-        /// <param name="target">The json object that the C# object will be mapped into</param>
+        /// <param name="writer">The json textwriter instance</param>
         /// <param name="type">The recieved objects type</param>
-        /// <param name="obj">The C# object instance that are being converted.</param>
+        /// <param name="instance">The C# object instance that are being converted.</param>
         /// <param name="contract">The objects TypeContract</param>
         /// <param name="isRoot">If the objectBase is the root element of the response</param>
-        /// <returns>The converted JToken objects</returns>
-        protected abstract JToken ConvertResource(JObject target, Type type, object obj, IResourceContract contract, bool isRoot = false);
+        protected abstract void WriteTopLevelObject(JsonTextWriter writer, Type type, object instance, IResourceContract contract);
 
         /// <summary>
-        /// Hooks in post-prossecing for the resulting JToken object after it has been construted.
+        /// Writes the top level array.
         /// </summary>
-        /// <param name="token">The assembled token.</param>
-        /// <returns>The post-processed token.</returns>
-        protected abstract JToken PostProcessResponseToken(JToken token);
+        /// <param name="writer">The writer.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="instance">The instance.</param>
+        /// <param name="contract">The contract.</param>
+        protected abstract void WriteTopLevelArray(JsonTextWriter writer, Type type, object instance, IResourceContract contract);
+
+        /// <summary>
+        /// Writes the error response.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="instance">The instance.</param>
+        protected abstract void WriteErrorResponse(JsonTextWriter writer, Type type, object instance);
     }
 }

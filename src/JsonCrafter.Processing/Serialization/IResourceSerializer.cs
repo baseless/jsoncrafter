@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Processing.Serialization
 {
@@ -17,8 +19,9 @@ namespace JsonCrafter.Processing.Serialization
         /// <summary>
         /// Initializes the serialization chain using the recieved object.
         /// </summary>
-        /// <param name="obj">The C# object that is about to be presented as a response to the consumer.</param>
+        /// <param name="context">The context of the formatter request</param>
+        /// <param name="selectedEncoding">The requested encoding</param>
         /// <returns></returns>
-        string Serialize(object obj);
+        string Serialize(OutputFormatterWriteContext context, Encoding selectedEncoding);
     }
 }
