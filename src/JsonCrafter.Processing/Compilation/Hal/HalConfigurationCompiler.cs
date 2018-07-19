@@ -12,8 +12,10 @@ namespace JsonCrafter.Processing.Compilation.Hal
     {
         private readonly ICaseFormatter _caseFormatter;
 
-        public HalConfigurationCompiler(ICaseFormatter caseFormatter)
+        public HalConfigurationCompiler(ICaseFormatter caseFormatter, IConfigurationAction action)
         {
+            Ensure.IsSet(action);
+            action.Invoke(this);
             _caseFormatter = Ensure.IsSet(caseFormatter);
         }
         

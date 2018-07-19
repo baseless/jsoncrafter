@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Text;
-using Jil;
 using JsonCrafter.Core;
 using JsonCrafter.Core.Enums;
 using JsonCrafter.Core.Exceptions;
@@ -12,7 +11,6 @@ using JsonCrafter.Processing.Contracts;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace JsonCrafter.Processing.Serialization
 {
