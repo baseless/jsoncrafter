@@ -39,21 +39,18 @@ namespace JsonCrafter.Processing.Serialization
         /// <inheritdoc />
         public string Serialize(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
-            Ensure.IsSet(context.Object);
-            var type = context.ObjectType;
-            var statusCode = context.HttpContext.Response.StatusCode;
+            var type = context?.ObjectType;
+            var statusCode = context?.HttpContext.Response.StatusCode;
+
+            if (context?.Object == null || statusCode.Equals(HttpStatusCode.NoContent) || statusCode.Equals(HttpStatusCode.ResetContent))
+            {
+                return string.Empty;
+            }
 
             var stringBuilder = new StringBuilder();
             var stringWriter = new StringWriter(stringBuilder);
             using (var writer = new JsonTextWriter(stringWriter))
             {
-                if ( // Statuses that do not return content
-                statusCode.Equals(HttpStatusCode.NoContent) || 
-                statusCode.Equals(HttpStatusCode.ResetContent))
-                {
-                    return string.Empty;
-                }
-
                 var responseType = type.GetResponseType();
 
                 if (statusCode > 199 && statusCode < 300) // all success statues
@@ -76,7 +73,6 @@ namespace JsonCrafter.Processing.Serialization
                 {
                     WriteErrorResponse(writer, type, context.Object);
                 }
-                
             }
 
             return stringBuilder.ToString();
@@ -89,7 +85,6 @@ namespace JsonCrafter.Processing.Serialization
         /// <param name="type">The recieved objects type</param>
         /// <param name="instance">The C# object instance that are being converted.</param>
         /// <param name="contract">The objects TypeContract</param>
-        /// <param name="isRoot">If the objectBase is the root element of the response</param>
         protected abstract void WriteTopLevelObject(JsonTextWriter writer, Type type, object instance, IResourceContract contract);
 
         /// <summary>
