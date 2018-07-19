@@ -1,4 +1,5 @@
 ﻿using System;
+using Jil;
 using JsonCrafter.Core;
 using JsonCrafter.Core.Exceptions;
 using JsonCrafter.Core.Helpers;
@@ -33,6 +34,7 @@ namespace JsonCrafter.Processing.Serialization
         /// <inheritdoc />
         public string Serialize(object obj)
         {
+            return JSON.Serialize(obj);
             Ensure.IsSet(obj);
             var type = obj.GetType(); // todo: EVALUATE: What should be allowed here? only class? collections?
 

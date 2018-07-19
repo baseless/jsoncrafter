@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Jil" Version="2.16.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Soltys.ChangeCase" Version="1.6.0" />
   </ItemGroup>
