@@ -29,28 +29,33 @@ namespace JsonCrafter.Core.Helpers
         }
 
         /// <summary>
-        /// Checks if the specified type is an allowed resourceobject type.
-        /// </summary>
-        /// <param name="type">The type to validate.</param>
-        /// <returns>True or false wether or not the typs is valid.</returns>
-        public static bool IsValidResourceType(this Type type) => type.IsClass;
-
-        /// <summary>
         /// Checks if the specified type is an allowed urlparameter type.
         /// </summary>
         /// <param name="type">The type to validate.</param>
         /// <returns>True or false wether or not the typs is valid.</returns>
-        public static bool IsValidUrlParameterType(this Type type) => IsStringOrValue(type);
+        public static bool IsValidUrlParameterType(this Type type) => IsSimple(type);
 
         /// <summary>
-        /// Checks if the provided type is a string or any form of primitive / numeric type.
+        /// Checks if the provided type is parseable value (one which is acceptable as a jsonwriter value).
         /// Checks if it is string, primitive or decimal.
         /// </summary>
         /// <param name="type">The type to evaluate.</param>
         /// <returns>True or false whether or not the type was a string, primitive or decimal.</returns>
-        public static bool IsStringOrValue(this Type type)
+        public static bool IsSimple(this Type type)
         {
-            return type.IsString() || type.IsPrimitive || type.IsDecimal();
+            return type.IsString() || 
+                   type.IsPrimitive || 
+                   type.IsDecimal() ||
+                   type.IsEnum ||
+                   typeof(Guid).IsAssignableFrom(type) ||
+                   typeof(DateTime).IsAssignableFrom(type) ||
+                   typeof(DateTimeOffset).IsAssignableFrom(type) ||
+                   typeof(StringComparison).IsAssignableFrom(type);
+        }
+
+        public static bool IsSingleObject(this Type type)
+        {
+            return !type.IsAnyCollection() && !type.IsSimple();
         }
 
         /// <summary>
@@ -60,7 +65,7 @@ namespace JsonCrafter.Core.Helpers
         /// <returns>True or false whether or not the type was a collection or array.</returns>
         public static bool IsAnyCollection(this Type type)
         {
-            return !type.IsString() && (type.IsArray || typeof(IEnumerable).IsAssignableFrom(type));
+            return !type.IsString() && typeof(IEnumerable).IsAssignableFrom(type);
         }
         
         /// <summary>
@@ -89,33 +94,33 @@ namespace JsonCrafter.Core.Helpers
         /// </summary>
         /// <param name="type">The type to evaluate.</param>
         /// <returns>True or false whether or not the type was numeric.</returns>
-        public static bool IsNumeric(this Type type) // in practise these are containd in primitive + decimal
-        {
-            switch (Type.GetTypeCode(type))
-            {
-                case TypeCode.Byte:
-                case TypeCode.SByte:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                case TypeCode.Decimal:
-                case TypeCode.Double:
-                case TypeCode.Single:
-                    return true;
-                default:
-                    return false;
-            }
-        }
+        public static bool IsNumeric(this Type type) => type.IsValueType;
+        //{
+        //    switch (Type.GetTypeCode(type))
+        //    {
+        //        case TypeCode.Byte:
+        //        case TypeCode.SByte:
+        //        case TypeCode.UInt16:
+        //        case TypeCode.UInt32:
+        //        case TypeCode.UInt64:
+        //        case TypeCode.Int16:
+        //        case TypeCode.Int32:
+        //        case TypeCode.Int64:
+        //        case TypeCode.Decimal:
+        //        case TypeCode.Double:
+        //        case TypeCode.Single:
+        //            return true;
+        //        default:
+        //            return false;
+        //    }
+        //}
 
         /// <summary>
         /// Gets all public fields and properties from a specific type.
         /// </summary>
         /// <param name="type">The type to extract members from.</param>
         /// <returns>A list of all public properties and fields.</returns>
-        public static  IEnumerable<MemberInfo> GetMembers(this Type type)
+        public static  IEnumerable<MemberInfo> GetPublicMembers(this Type type)
         {
             return type.GetMembers(NonStaticPublicFlags)
                 .Where(m => m.MemberType.Equals(MemberTypes.Field) || m.MemberType.Equals(MemberTypes.Property));

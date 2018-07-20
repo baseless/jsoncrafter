@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Linq.Expressions;
 using JsonCrafter.Core.Helpers;
 using Xunit;
@@ -26,27 +28,30 @@ namespace JsonCrafter.Tests.Core
             public ICollection<string> ListOfStringsProp { get; set; } = new List<string>();
             public ICollection<string> ListOfStringsField = new List<string>();
 
-            public int[] IntArrayProp { get; set; }  = new[] { 1 };
+            public int[] IntArrayProp { get; set; } = new[] { 1 };
             public int[] IntArrayField { get; set; } = new[] { 2 };
         }
 
         [Theory]
         [InlineData(typeof(string))]
         [InlineData(typeof(int))]
-        [InlineData(typeof(Int16))]
-        [InlineData(typeof(Int64))]
-        [InlineData(typeof(UInt16))]
-        [InlineData(typeof(UInt32))]
-        [InlineData(typeof(UInt64))]
+        [InlineData(typeof(short))]
+        [InlineData(typeof(long))]
+        [InlineData(typeof(ushort))]
+        [InlineData(typeof(uint))]
+        [InlineData(typeof(ulong))]
         [InlineData(typeof(byte))]
         [InlineData(typeof(bool))]
         [InlineData(typeof(sbyte))]
         [InlineData(typeof(decimal))]
-        [InlineData(typeof(Double))]
-        [InlineData(typeof(Single))]
-        public void TypeHelper_IsStringOrValue_ShouldReturnTrue(Type type)
+        [InlineData(typeof(double))]
+        [InlineData(typeof(float))]
+        [InlineData(typeof(DateTime))]
+        [InlineData(typeof(DateTimeOffset))]
+        [InlineData(typeof(DateTimeKind))]
+        public void TypeHelper_IsSimple_ShouldReturnTrue(Type type)
         {
-            Assert.True(type.IsStringOrValue());
+            Assert.True(type.IsSimple());
         }
 
         [Theory]
@@ -55,65 +60,53 @@ namespace JsonCrafter.Tests.Core
         [InlineData(typeof(Dictionary<string, string>))]
         [InlineData(typeof(bool[]))]
         [InlineData(typeof(TypeHelperTestsClass))]
-        public void TypeHelper_IsStringOrValue_ShouldReturnFalse(Type type)
+        public void TypeHelper_IsSimple_ShouldReturnFalse(Type type)
         {
-            Assert.False(type.IsStringOrValue());
+            Assert.False(type.IsSimple());
         }
 
-        //[Fact]
-        //public void TypeHelper_GetMemberSummary_ShouldReturnPropertyInfo()
-        //{
-        //}
+        [Theory]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(short))]
+        [InlineData(typeof(long))]
+        [InlineData(typeof(ushort))]
+        [InlineData(typeof(uint))]
+        [InlineData(typeof(ulong))]
+        [InlineData(typeof(byte))]
+        [InlineData(typeof(bool))]
+        [InlineData(typeof(sbyte))]
+        [InlineData(typeof(decimal))]
+        [InlineData(typeof(double))]
+        [InlineData(typeof(float))]
+        [InlineData(typeof(DateTime))]
+        [InlineData(typeof(DateTimeOffset))]
+        [InlineData(typeof(DateTimeKind))]
+        [InlineData(typeof(TypeHelperTestsClass))]
+        public void TypeHelper_IsAnyCollection_ShouldReturnFalse(Type type)
+        {
+            Assert.False(type.IsAnyCollection());
+        }
 
-        //[Fact]
-        //public void TypeHelper_GetMemberSummary_ShouldReturnFieldInfo()
-        //{
-
-        //}
-
-        //[Theory]
-        //public void TypeHelper_GetMemberSummary_ShouldReturnNull()
-        //{
-
-        //}
-
-        //[Theory]
-        //public void TypeHelper_GetMembers_ShouldReturnMembers()
-        //{
-
-        //}
-
-
-        //[Theory]
-        //public void TypeHelper_IsDecimal_ShouldReturnTrue()
-        //{
-
-        //}
-
-
-        //[Theory]
-        //public void TypeHelper_IsDecimal_ShouldReturnFalse()
-        //{
-
-        //}
-
-        //[Theory]
-        //public void TypeHelper_IsDecimal_ShouldReturnTrue()
-        //{
-
-        //}
-
-
-        //[Theory]
-        //public void TypeHelper_IsNumeric_ShouldReturnTru()
-        //{
-
-        //}
-
-        //[Theory]
-        //public void TypeHelper_IsNumeric_ShouldReturnFalse()
-        //{
-
-        //}
+        [Theory]
+        [InlineData(typeof(string[]))]
+        [InlineData(typeof(List<string>))]
+        [InlineData(typeof(Dictionary<string, string>))]
+        [InlineData(typeof(Lookup<string, string>))]
+        [InlineData(typeof(Stack<string>))]
+        [InlineData(typeof(HashSet<string>))]
+        [InlineData(typeof(bool[]))]
+        [InlineData(typeof(IEnumerable<string>))]
+        [InlineData(typeof(ICollection<string>))]
+        [InlineData(typeof(IDictionary<string, string>))]
+        [InlineData(typeof(IImmutableList<string>))]
+        [InlineData(typeof(IImmutableDictionary<string, string>))]
+        [InlineData(typeof(IImmutableQueue<string>))]
+        [InlineData(typeof(IImmutableSet<string>))]
+        [InlineData(typeof(IImmutableStack<string>))]
+        public void TypeHelper_IsAnyCollection_ShouldReturnTrue(Type type)
+        {
+            Assert.True(type.IsAnyCollection());
+        }
     }
 }

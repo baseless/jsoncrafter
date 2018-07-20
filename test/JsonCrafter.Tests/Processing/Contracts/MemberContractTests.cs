@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using JsonCrafter.Processing.Contracts.Members;
-using JsonCrafter.Processing.Contracts.Members.Info;
+using JsonCrafter.Core.Info;
 using Newtonsoft.Json.Linq;
 using Xunit;
 

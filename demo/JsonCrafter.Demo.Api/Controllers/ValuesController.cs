@@ -22,7 +22,7 @@ namespace JsonCrafter.Demo.Api.Controllers
         {
             for (int i = 0; i < 400; i++)
             {
-                model.Tests.Add(new Test { Name = "ChildTest" + i });
+                //model.Tests.Add(new Test { Name = "ChildTest" + i });
             }
         }
     }
@@ -30,6 +30,10 @@ namespace JsonCrafter.Demo.Api.Controllers
     public class GetValuesOutputModel
     {
         public Guid ModelId { get; set; } = Guid.NewGuid();
+        public Baba MyBaba = new Baba();
+        public string Desc { get; set; } = "jtyj tj rjtyyrtjytr";
+
+        public DateTime Timer { get; set; } = DateTime.Now;
         public IList<Test> Tests { get; set; } = new List<Test>();
     }
 
@@ -41,9 +45,9 @@ namespace JsonCrafter.Demo.Api.Controllers
         public string Name { get; set; } = "MyName";
         public DateTime CurrentTime { get; set; } = DateTime.Now;
 
-        public ICollection<Test> TestTests { get; set; } = new List<Test>();
+        //public ICollection<Test> TestTests { get; set; } = new List<Test>();
 
-        public Baba MyBaba = new Baba();
+        //public Baba MyBaba = new Baba();
     }
 
     public class Baba

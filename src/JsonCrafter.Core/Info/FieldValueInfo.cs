@@ -1,6 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
-namespace JsonCrafter.Processing.Contracts.Members.Info
+namespace JsonCrafter.Core.Info
 {
     public sealed class FieldValueInfo : IValueInfo
     {
@@ -12,5 +13,9 @@ namespace JsonCrafter.Processing.Contracts.Members.Info
         }
 
         public object GetValue(object obj) => _info.GetValue(obj);
+
+        public Type MemberType => _info.FieldType;
+
+        public string Name => _info.Name;
     }
 }

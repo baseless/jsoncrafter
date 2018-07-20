@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using JsonCrafter.Processing.Compilation.Hal;
 using JsonCrafter.Processing.Contracts;
@@ -18,33 +19,8 @@ namespace JsonCrafter.Processing.Serialization.Hal
 
         /// <inheritdoc />
         public override string FormatName => HalSpecification.FormatName;
-
-
+        
         /// <inheritdoc />
         public override string MediaTypeHeaderValue => HalSpecification.MediaTypeHeaderValue;
-
-        /// <inheritdoc />
-        protected override async Task WriteTopLevelObject(JsonTextWriter writer, Type type, object instance, IResourceContract contract)
-        {
-            await writer.WriteStartObjectAsync();
-
-            // Write contract
-            // Write members
-            //Write resources
-
-            await writer.WriteEndObjectAsync();
-        }
-
-        /// <inheritdoc />
-        protected override async Task WriteTopLevelArray(JsonTextWriter writer, Type type, object instance, IResourceContract contract)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        protected override async Task WriteErrorResponse(JsonTextWriter writer, Type type, object instance)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

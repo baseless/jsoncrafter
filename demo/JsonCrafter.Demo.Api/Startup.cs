@@ -30,7 +30,7 @@ namespace JsonCrafter.Demo.Api
                     builder.EnableMediaType(JsonCrafterMediaType.Hal);
                     builder.For<Test>()
                         .HasId(z => z.Id)
-                        .HasEmbedded(e => e.TestTests)
+                        //.HasEmbedded(e => e.TestTests)
                         .HasTemplate("doc", "http://docs.com/{someId}/{rel}")
                             .WithParam("someId", x => x.Id2)
                         .HasLinkToSelf("https://feghre/grehgrte/{baba}")

@@ -4,6 +4,6 @@ namespace JsonCrafter.Processing.Compilation
 {
     public interface IConfigurationCompiler
     {
-        IResourceContractResolver Compile();
+        ITypeContractResolver Compile();
     }
 }

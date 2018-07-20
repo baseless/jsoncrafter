@@ -4,9 +4,6 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using JsonCrafter.Core;
-using JsonCrafter.Core.Enums;
-using JsonCrafter.Core.Exceptions;
-using JsonCrafter.Core.Helpers;
 using JsonCrafter.Processing.Compilation.Hal;
 using JsonCrafter.Processing.Contracts;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -20,7 +17,7 @@ namespace JsonCrafter.Processing.Serialization
     /// </summary>
     public abstract class ResourceSerializerBase<TConverter> : IResourceSerializer where TConverter : class, IResourceSerializer
     {
-        protected readonly IResourceContractResolver Resolver;
+        protected readonly ITypeContractResolver Resolver;
         protected readonly ILogger<TConverter> Logger;
 
         protected ResourceSerializerBase(IHalConfigurationCompiler compiler, ILogger<TConverter> logger)
@@ -38,69 +35,34 @@ namespace JsonCrafter.Processing.Serialization
         /// <inheritdoc />
         public async Task<string> SerializeAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
         {
-            var type = context?.ObjectType;
             var statusCode = context?.HttpContext.Response.StatusCode;
 
             if (context?.Object == null || statusCode.Equals(HttpStatusCode.NoContent) || statusCode.Equals(HttpStatusCode.ResetContent))
             {
                 return string.Empty;
             }
-
+            
             var stringBuilder = new StringBuilder();
             var stringWriter = new StringWriter(stringBuilder);
             using (var writer = new JsonTextWriter(stringWriter))
             {
-                var responseType = type.GetResponseType();
-
                 if (statusCode > 199 && statusCode < 300) // all success statues
                 {
-                    if (!Resolver.Contracts.TryGetValue(type, out var contract))
+                    if (!Resolver.Contracts.TryGetValue(context.ObjectType, out var contract))
                     {
-                        throw new JsonCrafterException($"Contract for top-level type '{type.FullName}' does not exist. Ensure that 'For<{type.Name}>()' is set.");
+                        context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NotAcceptable;
+                        return string.Empty;
                     }
 
-                    if (responseType.Equals(ResourceResponseType.Collection))
-                    {
-                       await WriteTopLevelArray(writer, type, context.Object, contract);
-                    }
-                    else
-                    {
-                        await WriteTopLevelObject(writer, type, context.Object, contract);
-                    }
+                    await contract.WriteAsync(context.Object, writer);
                 }
                 else
                 {
-                    await WriteErrorResponse(writer, type, context.Object);
+                    throw new NotImplementedException("Error responses not supported (yet)");
                 }
             }
 
             return stringBuilder.ToString();
         }
-
-        /// <summary>
-        /// The underlying Converter method, responsible for converting a C# object into a JToken.
-        /// </summary>
-        /// <param name="writer">The json textwriter instance</param>
-        /// <param name="type">The recieved objects type</param>
-        /// <param name="instance">The C# object instance that are being converted.</param>
-        /// <param name="contract">The objects TypeContract</param>
-        protected abstract Task WriteTopLevelObject(JsonTextWriter writer, Type type, object instance, IResourceContract contract);
-
-        /// <summary>
-        /// Writes the top level array.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        /// <param name="type">The type.</param>
-        /// <param name="instance">The instance.</param>
-        /// <param name="contract">The contract.</param>
-        protected abstract Task WriteTopLevelArray(JsonTextWriter writer, Type type, object instance, IResourceContract contract);
-
-        /// <summary>
-        /// Writes the error response.
-        /// </summary>
-        /// <param name="writer">The writer.</param>
-        /// <param name="type">The type.</param>
-        /// <param name="instance">The instance.</param>
-        protected abstract Task WriteErrorResponse(JsonTextWriter writer, Type type, object instance);
     }
 }

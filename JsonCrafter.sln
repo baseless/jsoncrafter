@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonCrafter.Core", "src\Jso
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonCrafter.Processing", "src\JsonCrafter.Processing\JsonCrafter.Processing.csproj", "{5C07FCCF-B685-448E-A8B8-4938BFE8BFCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonCrafter.Benchmarking", "test\JsonCrafter.Benchmarking\JsonCrafter.Benchmarking.csproj", "{F11370C5-A64A-41C9-A1F0-760648C2350A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonCrafter.Benchmarking", "test\JsonCrafter.Benchmarking\JsonCrafter.Benchmarking.csproj", "{F11370C5-A64A-41C9-A1F0-760648C2350A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
