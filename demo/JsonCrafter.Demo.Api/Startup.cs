@@ -28,6 +28,7 @@ namespace JsonCrafter.Demo.Api
                 .AddJsonCrafter(builder =>
                 {
                     builder.EnableMediaType(JsonCrafterMediaType.Hal);
+                    builder.SetCasing(JsonCrafterCasing.ParamCase);
                     builder.For<Test>()
                         .HasId(z => z.Id)
                         //.HasEmbedded(e => e.TestTests)
